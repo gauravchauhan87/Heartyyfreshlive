@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/individual_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:paddingBottom="10dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true">
+
+            <ImageView
+                android:id="@+id/image_time"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/order_icon" />
+
+            <TextView
+                android:id="@+id/text_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/image_time"
+                android:text="Patel Grocery"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/text_store_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="$0.00"
+            android:textColor="@color/promotionblacktext"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_date_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_store"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/hearty_green" />
+
+        <com.heartyy.heartyyfresh.utils.HorizontalListView
+            android:id="@+id/list_dates"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/view1"
+            android:layout_weight="1"
+            android:divider="@color/hearty_green"
+            android:visibility="visible"
+            app:dividerWidth="1dp" />
+
+        <ImageView
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/list_dates"
+            android:background="@color/hearty_green" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_delivery_slots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_date_view"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <com.heartyy.heartyyfresh.utils.HorizontalListView
+            android:id="@+id/list_delivery_slots"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1">
+
+        </com.heartyy.heartyyfresh.utils.HorizontalListView>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

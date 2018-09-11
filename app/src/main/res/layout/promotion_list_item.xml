@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_promotion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView_line1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="15% Discount"
+        android:textColor="@color/edit_hint_zip"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_weekendstarted"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_promotion"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Apply a 15% discount to your order. Offer valid till 31 Dec, 2015"
+        android:textColor="@color/promotionblacktext"
+        android:textSize="10sp" />
+
+
+    <TextView
+        android:id="@+id/text_promotionauto"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_weekendstarted"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Apply code Hearty15 during checkout"
+        android:textColor="@color/promotionblacktext"
+        android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/imageView_line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/text_promotionauto"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/profile" />
+
+</RelativeLayout>

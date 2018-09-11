@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:id="@+id/search_main"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.heartyy.heartyyfresh.SearchAddressActivity">
+
+    <RelativeLayout
+        android:id="@+id/edit_search_address"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" >
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dip"
+            android:drawableLeft="@drawable/search_icon_black"
+            android:drawablePadding="10dip"
+            android:dropDownWidth="match_parent"
+            android:completionThreshold="1"
+            android:ems="10"
+            android:capitalize="words"
+            android:hint="Start typing your address"
+            android:inputType="textCapWords"
+            android:textColor="@color/edit_hint_zip"
+            android:textColorHint="@color/edit_line_zip"
+            android:textSize="16sp" >
+        </AutoCompleteTextView>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_warn_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sorry no address found.\nPlease try again"
+        android:layout_below="@+id/edit_search_address"
+        android:textColor="@color/Red"
+        android:visibility="gone"
+        android:gravity="center_horizontal"/>
+    <ImageView
+        android:id="@+id/imageview_marker"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:src="@drawable/marker_icon"
+        android:layout_below="@+id/text_warn_address"/>
+
+
+</RelativeLayout>

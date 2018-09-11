@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/credits_item_main"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/text_credit_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="$15"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:textColor="@color/hearty_green"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@+id/text_credit_amt">
+
+
+        <TextView
+            android:id="@+id/text_credit_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/edit_hint_zip"
+            android:text="Credit Description1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_credit_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_credit_title"
+            android:layout_marginTop="5dp"
+            android:text="Credit Description2"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

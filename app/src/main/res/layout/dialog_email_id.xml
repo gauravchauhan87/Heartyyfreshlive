@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+
+    <RelativeLayout
+        android:id="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White">
+
+        <TextView
+            android:id="@+id/text_title_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="20dp"
+            android:text="We are not in 95031 just yet\nWe are expanding fast. Provider your email and we will keep you informed "
+            android:textColor="@color/Black"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/text_title_msg"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/white"
+            android:hint="Email address"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/edit_hint_zip"
+            android:textColorHint="@color/hearty_hint"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/imageView_line_email"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/edit_email"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/edit_line_zip" />
+
+        <TextView
+            android:id="@+id/text_code_warn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Invalid code. Please try another"
+            android:textColor="@color/Red"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:visibility="gone"
+            android:layout_below="@+id/imageView_line_email"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_head"
+        android:layout_marginTop="70dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_close"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@color/LightGrey"
+            android:text="Close"
+            android:textAllCaps="false"
+            android:textColor="@color/Black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/button_keep_me_infored"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/button_green"
+            android:text="Keep me informed"
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:textColor="@color/Black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</RelativeLayout>

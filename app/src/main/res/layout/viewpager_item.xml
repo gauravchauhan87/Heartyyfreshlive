@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/image_packets"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/heartyy_placeholder" />
+
+
+    <TextView
+        android:id="@+id/textView_on_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="On Sale"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:background="@color/red"
+        android:layout_below="@+id/image_packets"
+        android:layout_alignParentLeft="true" />
+
+</RelativeLayout>

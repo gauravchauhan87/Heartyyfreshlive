@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+
+    <TextView
+        android:id="@+id/text_thanks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Thank you for ordering from \nHeartyy Fresh"
+        android:textColor="@color/edit_hint_zip"
+        android:textSize="16sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_thanks"
+        android:layout_above="@+id/linear_rate_button">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="Rate your previous order from "
+                android:textColor="@color/edit_hint_zip"
+                android:textSize="14sp" />
+
+            <ListView
+                android:id="@+id/list_stores_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_rate"
+                android:divider="@color/hearty_hint"
+                android:dividerHeight="2dp"
+                android:paddingTop="20dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_rate_staff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list_stores_rating"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Rate our delivery staff "
+                android:textColor="@color/edit_hint_zip"
+                android:textSize="14sp" />
+
+            <com.heartyy.heartyyfresh.utils.RoundedImageView
+                android:id="@+id/image_user"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@+id/text_rate_staff"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle_shape"
+                android:src="@drawable/user_icon" />
+
+            <RelativeLayout
+                android:id="@+id/layout_store_experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_user"
+                android:layout_marginTop="10dp"
+                android:background="@color/White">
+
+                <TextView
+                    android:id="@+id/text_driver_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="John Doe"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="14sp" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_driver_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:numStars="5"
+                    android:paddingBottom="20dp"
+                    android:rating="2.0"
+                    android:stepSize="1.0" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linear_rate_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_not_now"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_not_now"
+            android:text="Not Now"
+            android:textAllCaps="false"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/button_rate_us"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_green"
+            android:text="Rate Us"
+            android:textAllCaps="false"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

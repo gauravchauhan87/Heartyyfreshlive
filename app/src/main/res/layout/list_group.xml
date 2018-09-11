@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/White">
+
+    <ImageView
+        android:id="@+id/image_category"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:visibility="invisible"
+        android:src="@drawable/aisle_popular_icon"/>
+
+
+    <TextView
+        android:id="@+id/lblListHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:textSize="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="produce"
+        android:textColor="@color/DimGrey" />
+
+    <RelativeLayout
+        android:id="@+id/button_expand"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/text_plus_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:layout_marginTop="-15dp"
+            android:textSize="32sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/hearty_green"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+</RelativeLayout>

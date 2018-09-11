@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.heartyy.heartyyfresh.OrderDetailActivity">
+    <item
+        android:id="@+id/action_order_reciept"
+        android:orderInCategory="100"
+        android:title="Order Receipt"
+        app:showAsAction="never" />
+</menu>

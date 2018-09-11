@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/edit_hint_zip">
+
+        <ImageView
+            android:id="@+id/image_popular"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/store_icon" />
+
+        <TextView
+            android:id="@+id/section_text"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_toRightOf="@+id/image_popular"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:singleLine="true"
+            android:text="Patel grocery"
+            android:textColor="@color/hearty_green"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/layout_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp">
+
+           <TextView
+               android:id="@+id/text_items_count"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="3 items"
+               android:layout_centerVertical="true"
+               android:textColor="@color/White"
+               android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/view2"
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/text_items_count"
+                android:background="@color/White"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/text_items_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$4.45"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/view2"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/White"
+                android:textSize="16sp"/>
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_minimum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Orange"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/text_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="$40"
+                android:visibility="gone"
+                android:textColor="@color/White"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/text_minimum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/text_price"
+                android:text="Minimum"
+                android:textColor="@color/White"
+                android:textSize="10sp" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="CONTINUE SHOPPING"
+            android:textColor="@color/White"
+            android:visibility="gone"
+            android:textSize="10sp" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_save_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_white"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:padding="10dp">
+
+
+            <ImageView
+                android:id="@+id/image_like"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/unlike_icon"
+                android:textColor="@color/White" />
+
+            <TextView
+                android:id="@+id/text_save_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/image_like"
+                android:text="Save all items"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="10sp" />
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/id"
+            android:background="@color/black"
+            android:textColor="@color/White" />
+    </RelativeLayout>
+</RelativeLayout>

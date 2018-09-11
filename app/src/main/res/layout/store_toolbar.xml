@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/hearty_green"
+    android:elevation="2dp"
+    android:gravity="bottom"
+    android:theme="@style/ToolBarStyle">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toolbar Title" />
+
+        <TextView
+            android:id="@+id/text_shopping_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shopping In"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_zip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/text_shopping_in"
+            android:text="95051"
+            android:textColor="@color/White" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.Toolbar>

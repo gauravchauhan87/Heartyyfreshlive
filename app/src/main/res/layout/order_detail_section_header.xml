@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    >
+    <RelativeLayout
+        android:id="@+id/layout_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@color/profile">
+
+        <TextView
+            android:id="@+id/text_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patel Grocery"
+            android:textColor="@color/edit_hint_zip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_deliver_on"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/layout_black">
+
+        <ImageView
+            android:id="@+id/image_location"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/deliver_by_icon" />
+
+        <TextView
+            android:id="@+id/text_deliver_on"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/image_location"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="To deliver on"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/button_cancel_order"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:text="Cancel Order"
+            android:textAllCaps="false"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp"
+            android:textColor="@drawable/button_text_change_password"
+            android:background="@null"
+            />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="date"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/image_location"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/image_location"
+            android:textColor="@color/edit_hint_zip"/>
+
+        <TextView
+            android:id="@+id/view0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/text_date"
+            android:text="by"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/image_location"/>
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="date"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/view0"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/image_location"
+            android:textColor="@color/edit_hint_zip"/>
+
+
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/layout_deliver_on"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/view1">
+        <RelativeLayout
+            android:id="@+id/layout_save_all"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:paddingLeft="30dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_white"
+            android:layout_weight="1">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal">
+            <ImageView
+                android:id="@+id/image_like"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/check"
+                android:src="@drawable/hearty_icon"
+                android:gravity="center_horizontal"
+                android:textOff=""
+                android:textOn="" />
+            <TextView
+                android:id="@+id/text_save_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/image_like"
+                android:text="Save all Items"
+                android:textColor="@color/edit_hint_zip"
+                android:textSize="16sp"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey"
+            android:layout_weight="0"
+            android:layout_marginRight="15dp"
+            />
+
+        <RelativeLayout
+            android:id="@+id/layout_reorder"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/button_white"
+            android:paddingRight="10dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_reorder"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/cart_bag_icon" />
+            <TextView
+                android:id="@+id/text_reorder_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/edit_hint_zip"
+                android:layout_toRightOf="@+id/image_reorder"
+                android:text="Re-Order all"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@+id/layout_options"
+        />
+
+
+</RelativeLayout>

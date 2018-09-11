@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.heartyy.heartyyfresh">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <!-- Permission to vibrate - recommended, allows vibration feedback on scan -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.radiansys.heartyfresh.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <!-- Camera features - recommended -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <application
+        android:name="com.heartyy.heartyyfresh.utils.AppController"
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="listcallback"
+                    android:scheme="x-oauthflow-register-linkedin" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SignInActivity"
+            android:label="@string/title_activity_sign_in"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="callback"
+                    android:scheme="x-oauthflow-linkedin" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="@string/title_activity_forgot_password"
+            android:parentActivityName=".SignInActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:label="@string/title_activity_reset_password"
+            android:parentActivityName=".SignInActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ZipCodeActivity"
+            android:label="@string/title_activity_zip_code"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".ChangeZipActivity"
+            android:label="@string/title_activity_change_zip"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CreditsActivity"
+            android:label="@string/title_activity_credits"
+            android:parentActivityName=".ProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:parentActivityName=".ProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".PaymentActivity"
+            android:label="@string/title_activity_payment"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AddPaymentActivity"
+            android:label="@string/title_activity_add_payment"
+            android:parentActivityName=".PaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".PaypalActivity"
+            android:label="@string/title_activity_paypal"
+            android:parentActivityName=".AddPaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".DeliveryLocationActivity"
+            android:label="@string/title_activity_delivery_location"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".SearchAddressActivity"
+            android:label="@string/title_activity_search_address"
+            android:parentActivityName=".DeliveryLocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AddDeliveryLocationActivity"
+            android:label="@string/title_activity_add_delivery_location"
+            android:parentActivityName=".SearchAddressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".StayWithUsActivity"
+            android:label="@string/title_activity_stay_with_us"
+            android:parentActivityName=".ZipCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".EditDeliveryLocationActivity"
+            android:label="@string/title_activity_edit_delivery_location"
+            android:parentActivityName=".DeliveryLocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider258604777807289"
+            android:exported="true" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAqTbp0AoADh0l_32RvFit1yeFfENck6i4" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".LegalTermsActivity"
+            android:label="@string/title_activity_legal_terms"
+            android:parentActivityName=".SignUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".SavedItemsActivity"
+            android:label="@string/title_activity_saved_items"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".OrdersActivity"
+            android:label="@string/title_activity_orders"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".RateUsActivity"
+            android:label="@string/title_activity_rate_us"
+            android:parentActivityName=".OrdersActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".TrackOrderActivity"
+            android:label="@string/title_activity_track_order"
+            android:parentActivityName=".OrdersActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".SavedDetailActivity"
+            android:label="@string/title_activity_saved_detail"
+            android:parentActivityName=".SavedDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".StoreDetailActivity"
+            android:label="@string/title_activity_store_detail"
+            android:launchMode="singleTask"
+            android:parentActivityName=".SavedDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CheckoutActivity"
+            android:label="@string/title_activity_checkout"
+            android:parentActivityName=".StoreDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ItemDetailActivity"
+            android:label="@string/title_activity_item_detail"
+            android:parentActivityName=".StoreDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".StoreDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".DeliveryTimesActivity"
+            android:label="@string/title_activity_delivery_times"
+            android:parentActivityName=".CompleteOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CompleteOrderActivity"
+            android:label="@string/title_activity_complete_order"
+            android:parentActivityName=".CheckoutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".OrderRecieptActivity"
+            android:label="@string/title_activity_order_reciept"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".OrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".OrderPlacedActivity"
+            android:label="@string/title_activity_order_placed"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".OrderDetailActivity"
+            android:label="Order Detail"
+            android:parentActivityName=".OrdersActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ReturnPolicyActivity"
+            android:label="@string/title_activity_return_policy"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".CompleteOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".DeliveryEstimateActivity"
+            android:label="Delivery Estimate"
+            android:parentActivityName=".StoreDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".EditPaymentActivity"
+            android:label="@string/title_activity_edit_payment"
+            android:parentActivityName=".AddPaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan" />
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.google.android.gcm.demo.app" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GcmIntentService" />
+
+        <activity
+            android:name=".NewPromotionsActivity"
+            android:label="@string/title_activity_promtion"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNew"
+            android:windowSoftInputMode="adjustPan"
+        />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="81743dff51ba76c9062cebc8996ca9db16d69268" />
+    </application>
+
+</manifest>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/hearty_green">
+
+    <RelativeLayout
+        android:id="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_title_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/hearty_green"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Are you sure you want to cancel this order?"
+            android:textColor="@color/White"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_cancel_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/hearty_green"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:layout_below="@+id/text_title_msg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:text=""
+            android:textColor="@color/White"
+            android:textSize="16sp"
+
+
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_ok_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_head"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_close"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@color/LightGrey"
+            android:text="Close"
+            android:textAllCaps="false"
+            android:textColor="@color/Black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/button_cancel_order"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_white"
+            android:text="Cancel Order"
+            android:textAllCaps="false"
+            android:textColor="@color/Black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</RelativeLayout>

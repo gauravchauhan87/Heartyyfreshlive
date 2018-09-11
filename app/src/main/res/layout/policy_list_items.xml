@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:id="@+id/policy_main"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:id="@+id/text_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pioneer Sweet and Spice Cash and Carry"
+            android:textSize="18sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/hearty_green_dark"
+            />
+
+        <TextView
+            android:id="@+id/text_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_heading"
+            android:text="San Ramon"
+            android:textSize="12sp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/termsandcondition"
+            />
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_city"
+            android:text="Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo."
+            android:textSize="12sp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/promotionblacktext"
+            />
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>

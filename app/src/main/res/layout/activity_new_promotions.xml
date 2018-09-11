@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/profile"
+    tools:context="com.heartyy.heartyyfresh.NewPromotionsActivity">
+
+
+    <ImageView
+        android:id="@+id/image_gift"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/gift"
+        />
+
+    <RelativeLayout
+        android:id="@+id/no_promotion_text_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/image_gift"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/no_promotion_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:text="Currently there are no promotions\n available for your location "/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/find_deals_text_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:scrollbarSize="14sp"
+        android:layout_below="@+id/no_promotion_text_layout"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/find_deals_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:text="Meanwhile, you can always find deals and great\n prices available at your neighbourhood stores on HeartyyFresh"/>
+    </RelativeLayout>
+
+
+
+
+
+</RelativeLayout>

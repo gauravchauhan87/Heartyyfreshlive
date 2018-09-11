@@ -1,0 +1,409 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:id="@+id/add_payment_main"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.heartyy.heartyyfresh.AddPaymentActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:id="@+id/layout_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edit_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:capitalize="sentences"
+                android:hint="1234 5678 9012 345"
+                android:inputType="phone"
+                android:maxLength="19"
+                android:textColor="@color/edit_hint_zip"
+                android:textColorHint="@color/edit_line_zip"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/edit_card_number"
+                android:layout_marginTop="10dp"
+                android:background="@color/hearty_hint" />
+
+            <TextView
+                android:id="@+id/text_warn_card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view2"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:text="Card number is required"/>
+
+            <LinearLayout
+                android:id="@+id/layout_card_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_warn_card_number"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="3">
+
+                    <EditText
+                        android:id="@+id/edit_card_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:capitalize="sentences"
+                        android:hint="MM"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textColorHint="@color/edit_line_zip"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/view3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_card_month"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/hearty_hint" />
+
+                    <TextView
+                        android:id="@+id/text_warn_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view3"
+                        android:textColor="@color/red"
+                        android:textSize="12sp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:text="Expiry Month is required"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="3">
+
+                    <EditText
+                        android:id="@+id/edit_card_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:capitalize="sentences"
+                        android:hint="YY"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textColorHint="@color/edit_line_zip"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/view4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_card_year"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/hearty_hint" />
+
+                    <TextView
+                        android:id="@+id/text_warn_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view4"
+                        android:textColor="@color/red"
+                        android:textSize="12sp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:text="Expiry Year is required"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2">
+
+                    <EditText
+                        android:id="@+id/edit_card_cvv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:capitalize="sentences"
+                        android:hint="CVV"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textColorHint="@color/edit_line_zip"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/view5"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_card_cvv"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/hearty_hint" />
+
+                    <TextView
+                        android:id="@+id/text_warn_cvv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view5"
+                        android:textColor="@color/red"
+                        android:textSize="12sp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:text="Cvv is required"/>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edit_zipcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_card_detail"
+                android:layout_marginTop="20dp"
+                android:background="@color/White"
+                android:capitalize="sentences"
+                android:hint="Zip Code"
+                android:inputType="number"
+                android:maxLength="5"
+                android:textColor="@color/edit_hint_zip"
+                android:textColorHint="@color/edit_line_zip"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/edit_zipcode"
+                android:layout_marginTop="10dp"
+                android:background="@color/hearty_hint" />
+
+            <TextView
+                android:id="@+id/text_warn_zip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view6"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:text="Zip code is required"/>
+
+            <EditText
+                android:id="@+id/edit_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_warn_zip"
+                android:layout_marginTop="20dp"
+                android:background="@color/White"
+                android:capitalize="words"
+                android:hint="Label (Ex: my Wells Fargo card)"
+                android:inputType="textCapWords"
+                android:maxLength="100"
+                android:textColor="@color/edit_hint_zip"
+                android:textColorHint="@color/edit_line_zip"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/view15"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/edit_label"
+                android:layout_marginTop="10dp"
+                android:background="@color/hearty_hint" />
+
+            <TextView
+                android:id="@+id/text_warn_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view15"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:text="Name is required"/>
+
+            <RelativeLayout
+                android:id="@+id/layout_scancard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/text_warn_name">
+
+                <ImageView
+                    android:id="@+id/image_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/camera_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/image_camera"
+                    android:text="Scan your card"
+                    android:textColor="@color/hearty_green"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_scancard"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal">
+
+                <CheckBox
+                    android:id="@+id/check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/text_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/check"
+                    android:text="This is my primary card"
+                    android:textColor="@color/promotionblacktext"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_login_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_check"
+                android:layout_marginTop="20dip"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_add_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_green"
+                    android:text="Add Card"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/White"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/text_view_or"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_login_button"
+                android:layout_marginTop="20dip"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_view_or_left"
+                    android:layout_width="70dip"
+                    android:layout_height="1dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/or_line" />
+
+                <TextView
+                    android:id="@+id/text_or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="OR"
+                    android:textColor="@color/or"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/image_view_or_right"
+                    android:layout_width="70dip"
+                    android:layout_height="1dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/or_line" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_add_paypal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_view_or"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:text="Add your Paypal account"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/button_paypal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_add_paypal"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                android:background="@drawable/button_hearty_border"
+                android:src="@drawable/paypal_icon" />
+
+            <TextView
+                android:id="@+id/text_payment_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/promotionblacktext"
+                android:layout_below="@+id/button_paypal"
+                android:layout_marginTop="30dp"
+                android:paddingBottom="30dp"
+                android:gravity="center_horizontal"
+                android:text="This payment method will only be charged \nwhen you place an order"/>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

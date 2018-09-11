@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/getaccount_main"
+    android:background="@color/White"
+    android:paddingLeft="1dp"
+    android:paddingRight="10dp"
+    android:paddingTop="50dp">
+
+    <com.heartyy.heartyyfresh.utils.RoundedImageView
+        android:id="@+id/image_user"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/circle_shape"
+        android:src="@drawable/user_icon" />
+
+    <TextView
+        android:id="@+id/text_create_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/image_user"
+        android:layout_marginTop="50dp"
+        android:textSize="16sp"
+        android:textColor="@color/promotionblacktext"
+        android:text="Create an account to access\nheartyy fresh in your area."/>
+
+    <Button
+        android:id="@+id/button_create_account"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_green"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:layout_below="@+id/text_create_account"
+        android:text="Create an Account"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button_already_member"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@null"
+        android:text="Already a member?"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
+        android:textAllCaps="false"
+        android:layout_below="@+id/button_create_account"
+        android:textColor="@drawable/button_text_color"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

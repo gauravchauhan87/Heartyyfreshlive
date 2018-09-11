@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="@color/hearty_green"
+    android:elevation="2dp"
+    android:theme="@style/ToolBarStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="45dp"
+        android:layout_gravity="left"
+        android:src="@drawable/hamburger_open_icon"
+        android:id="@+id/toolbar_image" />
+
+
+</android.support.v7.widget.Toolbar>

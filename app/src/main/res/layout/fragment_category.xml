@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.widget.ExpandableListView
+        android:id="@+id/list_category"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:background="@color/White"
+        android:paddingTop="20dp"
+        android:divider="@color/LightGrey"
+        android:dividerHeight="0.5dp"
+        android:childDivider="@color/LightGrey"
+        android:scrollbars="none"></android.widget.ExpandableListView>
+
+</RelativeLayout>

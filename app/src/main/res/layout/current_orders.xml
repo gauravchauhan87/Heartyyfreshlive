@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hint_theme"
+    android:orientation="vertical">
+
+
+    <ListView
+        android:id="@+id/list_current_orders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/hearty_hint"
+        android:layout_marginBottom="10dp"
+        android:dividerHeight="5dp"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/layout_no_order"
+        android:layout_width="match_parent"
+        android:paddingTop="40dp"
+        android:visibility="gone"
+        android:background="@color/White"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/image_no_order"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/no_orders_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"/>
+
+        <TextView
+            android:id="@+id/text_no_order_yet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/image_no_order"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:text="You haven't placed any orders yet" />
+
+
+        <Button
+            android:id="@+id/button_start_shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_below="@+id/text_no_order_yet"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/button_green"
+            android:text="Start Shopping"
+            android:textColor="@color/white"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="false"/>
+    </RelativeLayout>
+
+</RelativeLayout>

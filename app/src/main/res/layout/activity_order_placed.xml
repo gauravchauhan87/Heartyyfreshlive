@@ -1,0 +1,165 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.heartyy.heartyyfresh.OrderPlacedActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/White"
+            android:paddingTop="16dp">
+
+            <RelativeLayout
+                android:id="@+id/layout_image_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:paddingBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/image_info"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/orderbag_icon" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_thanks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_image_info"
+                android:layout_marginTop="30dp"
+                android:background="@color/White"
+                android:paddingBottom="20dp"
+                android:paddingTop="10dp">
+
+
+                <TextView
+                    android:id="@+id/text_faq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="Thank you for using Heartyy Fresh"
+                    android:textColor="@color/hearty_green_dark" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_thanks"
+                android:background="@color/White"
+                android:paddingBottom="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/text_order_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Your Order ID"
+                    android:textColor="@color/promotionblacktext" />
+
+                <TextView
+                    android:id="@+id/text_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_order_id"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="H2325255"
+                    android:textColor="@color/hearty_green_dark" />
+
+                <TextView
+                    android:id="@+id/text_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_id"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:text="You items are being packed carefully"
+                    android:textColor="@color/promotionblacktext" />
+
+                <TextView
+                    android:id="@+id/text_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_item"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="We will inform you when the order is on your way*"
+                    android:textColor="@color/promotionblacktext" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_change_password_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="40dip"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_continue_shopping"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_green"
+                    android:text="Continue Shopping"
+                    android:textAllCaps="false"
+                    android:textColor="@color/White"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/text_multiple_promotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="*Turn on notifications to receive delivery updates"
+            android:textColor="@color/termsandcondition"
+            android:textSize="10sp" />
+
+        <CheckBox
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/text_multiple_promotion"
+            android:layout_centerVertical="true"
+            android:scaleX="0.70"
+            android:scaleY="0.70" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

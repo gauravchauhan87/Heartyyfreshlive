@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/location_item_main"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp">
+
+
+    <ImageView
+        android:id="@+id/image_location"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/home_icon" />
+
+    <TextView
+        android:id="@+id/text_location_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/image_location"
+        android:text="Home"
+        android:textColor="@color/edit_hint_zip"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/view1"
+        android:layout_width="1dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/text_location_type"
+        android:background="@color/hearty_hint" />
+
+    <TextView
+        android:id="@+id/text_location_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/view1"
+        android:text="Primary"
+        android:textColor="@color/hearty_green"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_location_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/image_location"
+        android:layout_toLeftOf="@+id/arrow"
+        android:layout_marginRight="10dp"
+        android:text="Home"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/text_location_type"
+        android:textColor="@color/edit_hint_zip"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/text_location_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/image_location"
+        android:layout_toLeftOf="@+id/arrow"
+        android:layout_marginRight="10dp"
+        android:text="Home"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/text_location_name"
+        android:textColor="@color/edit_hint_zip"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrrow" />
+
+</RelativeLayout>

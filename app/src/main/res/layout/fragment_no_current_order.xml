@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/no_current_order_main"
+    android:background="@color/White"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image_order"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/location_icon"/>
+
+    <TextView
+        android:id="@+id/text_no_order_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_below="@+id/image_order"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:text="You haven't placed any orders yet"/>
+
+    <LinearLayout
+        android:id="@+id/linear_start_shopping_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_no_order_place"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="55dp">
+
+        <Button
+            android:id="@+id/button_start_shopping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_green"
+            android:text="Start Shopping"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Heartyy Fresh</string>
+    <string name="facebook_app_id">258604777807289</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_sign_up">Register</string>
+    <string name="title_activity_sign_in">Login</string>
+    <string name="title_activity_forgot_password">Forgot Password</string>
+    <string name="title_activity_reset_password">Reset Password</string>
+    <string name="title_activity_zip_code">Delivery Location</string>
+    <string name="title_activity_home">Heartyy Fresh</string>
+    <string name="delivery_inst_hint"><i>Ring the bell, building no,call box no, etc</i></string>
+    <string name="delivery_phone_hint"><i>Please provider phone no. in case we need to\nreach you to confirm any changes</i></string>
+
+    <string name="drawer_open">Menu opened</string>
+    <string name="drawer_close">Menu closed</string>
+    <string name="title_activity_change_zip">Change Zipcode</string>
+    <string name="title_activity_promtion">Promotions</string>
+    <string name="title_activity_help">How can we help?</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_credits">Credits</string>
+    <string name="title_activity_change_password">Change Password</string>
+    <string name="title_activity_payment">Payment</string>
+    <string name="title_activity_add_payment">Add Payment</string>
+    <string name="title_activity_edit_payment">Update Payment</string>
+    <string name="title_activity_paypal">Paypal</string>
+    <string name="title_activity_delivery_location">Delivery Location</string>
+    <string name="title_activity_search_address">Add Delivery Location</string>
+    <string name="title_activity_add_delivery_location">Add Delivery Location</string>
+    <string name="title_activity_stay_with_us">Stay With Us</string>
+    <string name="title_activity_edit_delivery_location">Edit Delivery Location</string>
+    <string name="title_activity_legal_terms">Terms of Service</string>
+    <string name="title_policy">Privacy Policy</string>
+    <string name="title_activity_saved_items">Saved Items</string>
+    <string name="title_activity_orders">Orders</string>
+    <string name="title_activity_rate_us">Rate Us</string>
+    <string name="title_activity_track_order">Track Order</string>
+    <string name="title_activity_saved_detail">Saved Detail</string>
+    <string name="title_activity_store_detail"></string>
+    <string name="title_activity_checkout">Checkout</string>
+    <string name="title_activity_item_detail">Item Detail</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_delivery_times">Checkout</string>
+    <string name="title_activity_complete_order">Complete Order</string>
+    <string name="title_activity_order_reciept">Order Receipt</string>
+    <string name="title_activity_order_placed">" "</string>
+    <string name="title_activity_order_detail">Order Detail</string>
+    <string name="title_activity_return_policy">Return Policy</string>
+</resources>

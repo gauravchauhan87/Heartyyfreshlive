@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Orange">
+
+       <RelativeLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+           android:padding="10dp"
+           android:gravity="center_horizontal">
+
+
+           <TextView
+               android:id="@+id/text_price"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="$40"
+               android:textSize="10sp"
+               android:layout_centerVertical="true"
+               android:textColor="@color/White"/>
+
+           <TextView
+               android:id="@+id/text_minimum"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_toRightOf="@+id/text_price"
+               android:layout_marginLeft="10dp"
+               android:text="Minimum"
+               android:textSize="10sp"
+               android:textColor="@color/White"/>
+
+
+
+       </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONTINUE SHOPPING"
+            android:layout_alignParentRight="true"
+            android:textSize="10sp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/White"/>
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+
+    <TextView
+        android:id="@+id/text_thank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/promotionblacktext"
+        android:textSize="14sp"
+        android:text="Thank you for your interest in Heartyy Fresh"/>
+
+    <TextView
+        android:id="@+id/text_inform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/text_thank"
+        android:textColor="@color/promotionblacktext"
+        android:textSize="14sp"
+        android:text="We are expanding our area of deliveries pretty fast.\nWe'll email you at dheeraj@radiansys.com as\nsoon as we start delivering in your area."/>
+
+
+    <TextView
+        android:id="@+id/text_browse_another"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/text_inform"
+        android:textColor="@color/promotionblacktext"
+        android:textSize="14sp"
+        android:text="You may browse a different zipcode meanwhile"
+
+        />
+
+
+
+    <LinearLayout
+        android:id="@+id/linear_zip_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_browse_another"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="35dp">
+
+        <Button
+            android:id="@+id/button_try_another"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/imageView_line_email"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/button_green"
+            android:text="Try Another Zip Code"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>

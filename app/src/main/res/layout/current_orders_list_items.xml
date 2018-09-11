@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:descendantFocusability="blocksDescendants"
+    android:id="@+id/current_orders_items_main"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
+
+        <TextView
+            android:id="@+id/text_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order #"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/edit_hint_zip"
+            />
+
+        <TextView
+            android:id="@+id/text_order_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9788"
+            android:layout_toRightOf="@+id/text_order"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/edit_hint_zip"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_price_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/text_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$34.99"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/edit_hint_zip"
+            />
+
+        <ImageView
+            android:id="@+id/view2"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="@color/hearty_hint"
+            android:layout_toRightOf="@+id/text_price"
+            android:layout_marginLeft="7dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/text_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24 item(s)"
+            android:layout_toRightOf="@+id/view2"
+            android:layout_marginLeft="7dp"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/edit_hint_zip"
+            />
+
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/hearty_hint"
+        android:layout_below="@+id/layout_price_items"/>
+    <ListView
+        android:id="@+id/list_current_stores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/hearty_hint"
+        android:layout_below="@+id/view3"
+        android:layout_marginTop="5dp"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/hearty_hint"
+        android:layout_below="@+id/list_current_stores"/>
+    <Button
+        android:id="@+id/button_track_delivery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view4"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:text="Track Delivery"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_text_color"
+        android:textSize="14dp" />
+
+
+
+</RelativeLayout>

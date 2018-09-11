@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/sort_item_main"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="2">
+
+        <ImageView
+            android:id="@+id/image_sort_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/diet_icon"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/text_sort_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="On Sale"
+           android:gravity="left"
+            android:textColor="@color/edit_hint_zip"
+            android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image_tick"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="visible"
+        android:layout_marginRight="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/select_brand_icon"/>
+
+</RelativeLayout>

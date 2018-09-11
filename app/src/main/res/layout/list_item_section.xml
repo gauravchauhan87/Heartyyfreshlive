@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/text_save_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="You saved items from 94105"
+        android:gravity="center_horizontal"
+        android:textSize="14sp"
+        android:textColor="@color/promotionblacktext"
+        android:background="@color/profile"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"/>
+
+
+</LinearLayout>

@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    tools:context="com.heartyy.heartyyfresh.SavedItemsActivity">
+
+    <ListView
+        android:id="@+id/list_saved_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_location_id"
+        android:divider="@color/hearty_hint"
+        android:visibility="visible"
+        android:paddingBottom="20dp"/>
+
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/text_no_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No item has been saved"
+        android:textSize="16sp"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:textColor="@color/promotionblacktext"/>
+
+    <Button
+        android:id="@+id/button_start_shopping"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:background="@drawable/button_green"
+        android:text="Start Shopping"
+        android:textColor="@color/white"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:layout_below="@+id/text_no_save"
+        android:textAllCaps="false"/>
+    </RelativeLayout>
+
+</RelativeLayout>

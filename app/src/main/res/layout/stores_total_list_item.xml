@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:id="@+id/store_total">
+
+    <TextView
+        android:id="@+id/text_store_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Tip"
+        android:textColor="@color/termsandcondition"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/text_store_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:text="$3.00"
+        android:textColor="@color/termsandcondition"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/text_store_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_below="@+id/text_store_name"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/text_store_price"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/hearty_red"
+        android:layout_alignParentLeft="true"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:text="This store doesn't deliver to your delivery address"/>
+
+</RelativeLayout>

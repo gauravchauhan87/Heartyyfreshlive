@@ -1,0 +1,349 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/add_location_main"
+    android:background="@color/White"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.heartyy.heartyyfresh.AddDeliveryLocationActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_home"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="Home"
+                android:textAllCaps="false"
+                android:textColor="@color/White"
+                android:background="@drawable/button_green"/>
+
+            <Button
+                android:id="@+id/button_work"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="Work"
+                android:layout_toRightOf="@+id/button_home"
+                android:layout_marginLeft="20dp"
+                android:textAllCaps="false"
+                android:textColor="@color/edit_hint_zip"
+                android:background="@drawable/edit_border"/>
+
+
+            <EditText
+                android:id="@+id/edit_street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/button_home"
+                android:layout_marginTop="30dp"
+                android:background="@color/White"
+                android:capitalize="sentences"
+                android:hint="Street Address"
+                android:inputType="textCapSentences"
+                android:maxLength="100"
+                android:textColor="@color/edit_hint_zip"
+                android:textColorHint="@color/edit_line_zip"
+                android:textSize="14sp" />
+
+
+            <ImageView
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/edit_street"
+                android:layout_marginTop="10dp"
+                android:background="@color/hearty_hint" />
+
+            <TextView
+                android:id="@+id/text_error_street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view3"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:text="Email address is required."/>
+
+            <LinearLayout
+                android:id="@+id/layout_apt_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_error_street"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edit_apt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:capitalize="sentences"
+                        android:hint="Apt/Suit/Unit"
+                        android:inputType="textCapSentences"
+                        android:maxLength="100"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textColorHint="@color/edit_line_zip"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/view4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_apt"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/hearty_hint" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edit_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:hint="Location name"
+                        android:capitalize="sentences"
+                        android:inputType="textCapSentences"
+                        android:maxLength="50"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textColorHint="@color/edit_line_zip"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/view15"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_city"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/hearty_hint" />
+
+                    <TextView
+                        android:id="@+id/text_error_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view15"
+                        android:textColor="@color/red"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:text="Email address is required."/>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_address2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_apt_main"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edit_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:capitalize="sentences"
+                        android:hint="State"
+                        android:inputType="textCapSentences"
+                        android:maxLength="2"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textColorHint="@color/edit_line_zip"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/view14"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_state"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/hearty_hint" />
+
+                    <TextView
+                        android:id="@+id/text_error_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view14"
+                        android:textColor="@color/red"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:text="Email address is required."/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edit_zipcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:hint="Zip Code"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textColorHint="@color/edit_line_zip"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/view5"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_zipcode"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/hearty_hint" />
+
+                    <TextView
+                        android:id="@+id/text_error_zip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view5"
+                        android:textColor="@color/red"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        android:text="Email address is required."/>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edit_location_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_address2"
+                android:layout_marginTop="20dp"
+                android:background="@color/White"
+                android:capitalize="sentences"
+                android:hint="Label (Eg: my house, office etc.)"
+                android:inputType="textCapSentences"
+                android:maxLength="30"
+                android:singleLine="true"
+                android:textColor="@color/edit_hint_zip"
+                android:textColorHint="@color/edit_line_zip"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/edit_location_name"
+                android:layout_marginTop="10dp"
+                android:background="@color/hearty_hint" />
+
+            <TextView
+                android:id="@+id/text_delivery_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view6"
+                android:layout_marginTop="20dp"
+                android:text="Delivery Instructions"
+                android:textColor="@color/hearty_hint"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edit_delivery_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_below="@+id/text_delivery_instructions"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_border"
+                android:capitalize="sentences"
+                android:gravity="top"
+                android:hint="Leave at door/Leave at receptionist..."
+                android:maxLength="300"
+                android:padding="7dp"
+                android:inputType="textMultiLine"
+                android:textColor="@color/edit_hint_zip"
+                android:textColorHint="@color/edit_line_zip"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_delivery_instructions"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <CheckBox
+                    android:id="@+id/check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/text_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/check"
+                    android:text="This is my primary delivery location"
+                    android:textColor="@color/promotionblacktext"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_login_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_check"
+                android:layout_marginTop="20dip"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_add_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_green"
+                    android:text="Add Location"
+                    android:textColor="@color/White"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

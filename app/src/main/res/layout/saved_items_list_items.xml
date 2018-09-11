@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:id="@+id/save_main"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/img_like"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/hearty_icon" />
+
+    <TextView
+        android:id="@+id/text_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/img_like"
+        android:gravity="center_vertical"
+        android:text="Personal Info"
+        android:textSize="16sp"
+        android:textColor="@color/hearty_green" />
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@+id/img_like"
+        android:layout_below="@+id/text_item"
+        android:gravity="center_vertical"
+        android:text="Personal Info"
+        android:textSize="12sp"
+        android:textColor="@color/termsandcondition" />
+
+    <TextView
+        android:id="@+id/text_items_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@+id/img_like"
+        android:layout_below="@+id/text_location"
+        android:gravity="center_vertical"
+        android:text="(5) Saved Items"
+        android:textColor="@color/edit_hint_zip" />
+
+    <Button
+        android:id="@+id/button_reorder_all"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_green"
+        android:layout_toRightOf="@+id/text_items_save"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/text_location"
+        android:text="Re-order all"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrrow" />
+
+
+</RelativeLayout>

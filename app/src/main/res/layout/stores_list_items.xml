@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/store_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/unchecked_icon" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/check">
+
+        <TextView
+            android:id="@+id/text_store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Pioneer Sweet and Spice Cash and Carry"
+            android:textColor="@color/hearty_green"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_store_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_store_name"
+            android:layout_marginTop="2dp"
+            android:text="Sam Ramson"
+            android:textColor="@color/termsandcondition"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_estimate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_store_city"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/text_estimated_delivery_fees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Est. Delivery"
+                    android:layout_toLeftOf="@+id/image_info"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_add_delivery_fees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Add address for delivery fee"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/image_info"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/i_icon" />
+
+                <ImageView
+                    android:id="@+id/image_info_click"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:layout_marginTop="7dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5">
+
+                <ImageView
+                    android:id="@+id/view1"
+                    android:layout_width="1dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/hearty_hint" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_estimated_delivery_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/view1"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/text_earliest_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Earliest delivery"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/text_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_earliest_delivery"
+                    android:text="today"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/text_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_earliest_delivery"
+                    android:layout_toRightOf="@+id/text_day"
+                    android:text=" by"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/text_estimated_delivery_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_earliest_delivery"
+                    android:layout_toRightOf="@+id/text_by"
+                    android:text=" 12:000pm"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_store_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_estimate"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="Price same as in store"
+            android:textColor="@color/hearty_red"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/text_store_price"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/edit_line_zip" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

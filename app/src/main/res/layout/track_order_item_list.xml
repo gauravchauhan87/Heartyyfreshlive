@@ -1,0 +1,199 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/track_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:paddingBottom="10dp"
+    tools:context="com.heartyy.heartyyfresh.TrackOrderActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_to_deliver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/image_deliver"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/clockdeliver" />
+
+        <TextView
+            android:id="@+id/text_to_deliver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/image_deliver"
+            android:gravity="center_vertical"
+            android:text="To deliver on"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_to_deliver"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/image_deliver"
+            android:text="Oct 15, 2015 "
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_by"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_to_deliver"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/text_date"
+            android:text=" by "
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_to_deliver"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/text_by"
+            android:text="12-1 PM "
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="14sp" />
+        </RelativeLayout>
+
+    <TextView
+        android:id="@+id/store_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="New India Bazar"
+        android:layout_below="@+id/layout_to_deliver"
+        android:textColor="@color/hearty_green_dark"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/image_circular_status"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/store_name"
+        android:src="@drawable/circle_1" />
+
+    <RelativeLayout
+        android:id="@+id/layout_centre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_to_deliver"
+        android:layout_marginTop="110dp">
+
+        <ImageView
+            android:id="@+id/image_track_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/login_lock_lcon" />
+
+        <TextView
+            android:id="@+id/text_track_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_track_icon"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="Order Placed"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_track_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_track_title"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="Thank you for placing your order"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relaitive_time_remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_centre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_value_mins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="36"
+            android:textColor="@color/hearty_green"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/text_mins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/text_value_mins"
+            android:text="mins"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/text_value_secs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/text_mins"
+            android:text="35"
+            android:textColor="@color/hearty_green"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/text_secs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/text_value_secs"
+            android:text="secs"
+            android:textColor="@color/edit_hint_zip"
+            android:textSize="25sp" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_delivered_by"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relaitive_time_remaining"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="Your order will be delivered by"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/image_delivery_user"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/text_delivered_by"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/user_icon"
+        android:visibility="gone" />
+
+</RelativeLayout>

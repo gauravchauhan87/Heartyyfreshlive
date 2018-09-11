@@ -1,0 +1,190 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rate_us_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    tools:context="com.heartyy.heartyyfresh.RateUsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <RelativeLayout
+            android:id="@+id/rate_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
+
+            <RelativeLayout
+                android:id="@+id/layout_your_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    android:paddingBottom="30dp"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:id="@+id/text_your_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Your order for "
+                        android:textColor="@color/edit_hint_zip"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_order_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/text_your_order"
+                        android:text="Oct 20, 2015"
+                        android:textColor="@color/edit_hint_zip"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_overall_experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_your_order"
+                android:layout_marginTop="7dp"
+                android:background="@color/White">
+
+                <TextView
+                    android:id="@+id/text_overall_experience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="20dp"
+                    android:text="How was your overall shoppin experience?"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="14sp" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_overall_experience"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:numStars="5"
+                    android:paddingBottom="20dp"
+                    android:rating="2.0"
+                    android:stepSize="1.0" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_rate_store"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_overall_experience"
+                android:layout_marginTop="7dp"
+                android:background="@color/White">
+
+                <TextView
+                    android:id="@+id/text_rate_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="20dp"
+                    android:text="Rate your grocery store"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/text_rate_store"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/hearty_hint" />
+
+                <ListView
+                    android:id="@+id/list_stores_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view1"
+                    android:divider="@color/hearty_hint"
+                    android:dividerHeight="2dp"
+                    android:paddingTop="20dp"
+                    android:visibility="visible" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_rate_store"
+                android:layout_marginTop="7dp"
+                android:background="@color/White">
+
+                <TextView
+                    android:id="@+id/text_order_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="20dp"
+                    android:text="Anything else about this order?"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edit_experience"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_below="@+id/text_order_review"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edit_border"
+                    android:gravity="top|left"
+                    android:layout_marginBottom="20dp"
+                    android:hint="Tell us about your hearty experience packaging or any other feedback"
+                    android:padding="5dp"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textColorHint="@color/promotionblacktext"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linear_submit_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_green"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

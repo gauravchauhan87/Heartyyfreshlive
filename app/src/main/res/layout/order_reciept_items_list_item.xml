@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:id="@+id/order_items_main">
+    <RelativeLayout
+        android:id="@+id/layout_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_below="@+id/layout_store">
+
+        <RelativeLayout
+            android:id="@+id/layout_item_quant"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/text_quant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="10sp"
+                android:textColor="@color/edit_hint_zip"/>
+            <ImageView
+                android:id="@+id/line2"
+                android:layout_width="12dp"
+                android:layout_height="16dp"
+                android:visibility="visible"
+                android:background="@drawable/line_background"/>
+            <TextView
+                android:id="@+id/text_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$2.59"
+                android:layout_alignParentRight="true"
+                android:textSize="10sp"
+                android:textColor="@color/edit_hint_zip"/>
+            <ImageView
+                android:id="@+id/line3"
+                android:layout_width="22dp"
+                android:layout_height="14dp"
+                android:visibility="visible"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/line_background"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_order_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/layout_item_quant"
+            android:layout_marginRight="20dp"
+            android:paddingBottom="5dp"
+            android:layout_alignParentLeft="true">
+
+            <TextView
+                android:id="@+id/text_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/edit_hint_zip"
+                android:textSize="14sp"
+                android:text="Bikano baked delight crumchy- Cashew"
+              />
+
+            <TextView
+                android:id="@+id/text_item_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_name"
+                android:textColor="@color/edit_hint_zip"
+                android:textSize="10sp"
+                android:layout_marginTop="10dp"
+                android:text="1X200 GMS"/>
+
+            <ImageView
+                android:id="@+id/view1"
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@+id/text_item_weight"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/profile"/>
+
+            <TextView
+                android:id="@+id/text_discounted_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/red"
+                android:layout_toRightOf="@+id/view1"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="$2.50"/>
+
+            <TextView
+                android:id="@+id/text_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/edit_hint_zip"
+                android:layout_toRightOf="@+id/text_discounted_price"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="$2.50"/>
+
+            <ImageView
+                android:id="@+id/line"
+                android:layout_width="22dp"
+                android:layout_height="15dp"
+                android:visibility="visible"
+                android:layout_toRightOf="@+id/text_discounted_price"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/line_background"/>
+
+
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/text_out_of_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_below="@+id/layout_order_detail"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/red"
+            android:text="OUT OF STOCK"/>
+
+        <RelativeLayout
+            android:id="@+id/layout_item_out_of_stock"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_order_detail"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/text_out_quant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="10sp"
+                android:textColor="@color/red"/>
+
+            <TextView
+                android:id="@+id/text_out_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$2.59"
+               android:layout_alignParentRight="true"
+                android:textSize="10sp"
+                android:textColor="@color/red"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_substitution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/text_out_of_stock">
+        <TextView
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/promotionblacktext"
+            android:text="---------------------------------------------" />
+
+        <TextView
+            android:id="@+id/text_substituted_with"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="10sp"
+            android:layout_below="@+id/view2"
+            android:text="SUBSTITUTED WITH"/>
+        <TextView
+            android:id="@+id/view3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/promotionblacktext"
+            android:text="---------------------------------------------"
+            android:layout_below="@+id/text_substituted_with"/>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_subs_item_quant"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view3"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/text_subs_quant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="10sp"
+                android:textColor="@color/red"/>
+
+            <TextView
+                android:id="@+id/text_subs_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$2.59"
+               android:layout_alignParentRight="true"
+                android:textSize="10sp"
+                android:textColor="@color/red"/>
+
+        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/layout_subs_order_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/layout_subs_item_quant"
+                android:layout_marginRight="20dp"
+                android:paddingBottom="5dp"
+                android:layout_below="@+id/view3"
+                android:layout_alignParentLeft="true">
+
+                <TextView
+                    android:id="@+id/text_subs_item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/edit_hint_zip"
+                    android:textSize="14sp"
+                    android:text="Bikano baked delight crumchy- Cashew"
+                    />
+
+                <TextView
+                    android:id="@+id/text_subs_item_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_subs_item_name"
+                    android:textSize="10sp"
+                    android:textColor="@color/edit_hint_zip"
+                    android:layout_marginTop="10dp"
+                    android:text="1X200 GMS"/>
+
+                <ImageView
+                    android:id="@+id/view4"
+                    android:layout_width="1dp"
+                    android:layout_height="15dp"
+                    android:layout_toRightOf="@+id/text_subs_item_weight"
+                    android:layout_below="@+id/text_subs_item_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/profile"/>
+
+                <TextView
+                    android:id="@+id/text_subs_discounted_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="@color/red"
+                    android:layout_toRightOf="@+id/view4"
+                    android:layout_below="@+id/text_subs_item_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="$2.50"/>
+
+                <TextView
+                    android:id="@+id/text_subs_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="@color/edit_hint_zip"
+                    android:layout_toRightOf="@+id/text_subs_discounted_price"
+                    android:layout_below="@+id/text_subs_item_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="$2.50"/>
+
+                <ImageView
+                    android:id="@+id/line4"
+                    android:layout_width="22dp"
+                    android:layout_height="15dp"
+                    android:visibility="visible"
+                    android:layout_toRightOf="@+id/text_subs_discounted_price"
+                    android:layout_below="@+id/text_subs_item_name"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/line_background"/>
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

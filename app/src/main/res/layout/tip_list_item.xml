@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tip_main"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:background="@color/White">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerVertical="true">
+
+        <EditText
+            android:id="@+id/text_other"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:background="@color/White"
+            android:hint="Other tip amount"
+            android:inputType="numberDecimal"
+            android:textColor="@color/Black"
+            android:textColorHint="@color/edit_hint_zip"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="visible"
+            android:layout_below="@+id/text_other">
+
+            <TextView
+                android:id="@+id/text_other1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:textStyle="italic"
+                android:gravity="center_horizontal"
+                android:text="Other tip amount"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="10sp"
+                android:visibility="visible">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/text_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_other1"
+                android:gravity="center_horizontal"
+                android:text="$0.00"
+                android:textColor="@color/edit_hint_zip"
+                android:textSize="12sp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

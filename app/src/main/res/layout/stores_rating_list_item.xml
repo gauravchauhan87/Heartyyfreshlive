@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/store_rating_main"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_store_experience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_your_order"
+        android:layout_marginTop="7dp"
+        android:background="@color/White">
+
+        <TextView
+            android:id="@+id/text_store_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:text="New India Bazar"
+            android:textSize="14sp"
+            android:textColor="@color/edit_hint_zip"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/text_store_name"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            android:numStars="5"
+            android:stepSize="1.0"
+            android:rating="2.0" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_height="48dp"
+              android:layout_width="match_parent">
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:drawablePadding="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:layout_weight="1"
+        android:alpha="0.87"
+        android:text="orders"
+        android:gravity="center_vertical"
+        android:textColor="@color/hearty_green"
+        />
+
+    <RelativeLayout
+        android:id="@+id/layout_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:visibility="visible"
+        android:layout_weight="5">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:background="@drawable/circle_green"/>
+
+        <RelativeLayout
+            android:layout_width="22dp"
+            android:layout_height="22dp">
+
+            <TextView
+                android:id="@+id/text_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:textColor="@color/White"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

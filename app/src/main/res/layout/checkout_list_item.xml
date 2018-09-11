@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:layout_marginTop="0.5dp"
+    android:layout_marginBottom="0.5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
+
+        <ImageButton
+            android:id="@+id/image_like"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/unlike_icon"
+            android:textOff=""
+            android:textOn="" />
+
+        <ImageView
+            android:id="@+id/image_item"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/image_like"
+            android:src="@drawable/heartyy_placeholder" />
+
+        <RelativeLayout
+            android:id="@+id/layout_item_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/image_item">
+
+            <TextView
+                android:id="@+id/text_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bikano aloo bhujia"
+                android:layout_toLeftOf="@+id/layout_count"
+                android:layout_alignParentLeft="true"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginTop="10dp"
+                android:text="1 kg"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/text_weight"
+                android:text="$8"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="12sp" />
+            <ImageView
+                android:id="@+id/view1"
+                android:layout_width="150dp"
+                android:layout_height="1dp"
+                android:background="@color/edit_line_zip"
+                android:layout_below="@+id/text_price"
+                android:layout_marginTop="10dp"/>
+
+
+            <TextView
+                android:id="@+id/text_substitute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view1"
+                android:layout_marginTop="10dp"
+                android:text="Substitution:"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_substitute_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/text_substitute"
+                android:text="Store's Choice:"
+                android:paddingBottom="5dp"
+                android:textColor="@color/hearty_green"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="45dp"
+                android:layout_marginLeft="25dp">
+
+
+                <ImageButton
+                    android:id="@+id/button_minus"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:textColor="@color/black"
+                    android:padding="5dp"
+                    android:background="@drawable/minus_icon_border" />
+
+
+                <TextView
+                    android:id="@+id/text_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/button_minus"
+                    android:textColor="@color/hearty_green"
+                    android:text="1"/>
+
+                <ImageButton
+                    android:id="@+id/button_plus"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:textColor="@color/green"
+                    android:background="@drawable/plus_icon_border"
+                    android:textSize="15sp"
+                    android:layout_toRightOf="@+id/text_quantity"
+                    android:text="+"/>
+
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/text_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:text="$100.0"
+                android:textSize="10sp"
+                android:textColor="@color/promotionblacktext"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

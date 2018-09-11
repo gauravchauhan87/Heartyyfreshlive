@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:id="@+id/delivery_main"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.heartyy.heartyyfresh.DeliveryLocationActivity">
+
+    <ImageView
+        android:id="@+id/image_location_id"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/location_marker" />
+
+    <RelativeLayout
+        android:id="@+id/layout_no_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_below="@+id/image_location_id"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/promotionblacktext"
+            android:text="You haven't added a delivery location yet"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/linear_add_location_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_warning"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="40dip"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_add_location"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_green"
+                android:text="Add Delivery Location"
+                android:textAllCaps="false"
+                android:textColor="@color/White"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/list_delivery_locations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_location_id"
+        android:divider="@color/hearty_hint"
+        android:dividerHeight="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="visible"
+        android:layout_above="@+id/linear_add_delivery_location_button"
+        android:paddingBottom="20dp">
+    </ListView>
+    <LinearLayout
+        android:id="@+id/linear_add_delivery_location_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_add_delivery_location"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_green"
+            android:text="Add Delivery Location"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>
