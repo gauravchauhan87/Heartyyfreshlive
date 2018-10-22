@@ -18,6 +18,7 @@ import com.heartyy.heartyyfresh.adapter.CustomCurrentOrderListAdapter;
 import com.heartyy.heartyyfresh.bean.CurrentOrderBean;
 import com.heartyy.heartyyfresh.bean.CurrentStoresBean;
 import com.heartyy.heartyyfresh.global.Global;
+import com.heartyy.heartyyfresh.utils.AppController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,4 +46,10 @@ public class NoCurrentOrderFragment extends Fragment {
         Global.setFont(root, andBold);
         return v;
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

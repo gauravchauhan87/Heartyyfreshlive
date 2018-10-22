@@ -1,9 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White"
-    tools:context="com.heartyy.heartyyfresh.ItemDetailActivity">
+    android:background="@color/White">
 
     <ScrollView
         android:id="@+id/scroll"
@@ -11,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_bottom"
         android:fillViewport="true">
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -25,7 +23,7 @@
 
             <com.heartyy.heartyyfresh.viewpagerindicator.CirclePageIndicator
                 android:id="@+id/indicator"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pager"
                 android:paddingTop="10dp" />
@@ -41,7 +39,6 @@
                 android:background="@drawable/unlike_icon"
                 android:textOff=""
                 android:textOn="" />
-
 
             <TextView
                 android:id="@+id/text_on_sale"
@@ -66,7 +63,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:maxLength="100"
-                android:text="La Tortilla Factory Burrito Size Original Style Flour\nTortillas - Enriched Wheat "
+                android:text="La Tortilla Factory Burrito Size Original Style Flour Tortillas - Enriched Wheat "
                 android:textColor="@color/edit_hint_zip"
                 android:textSize="14sp" />
 
@@ -96,35 +93,78 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/text_sale_price"
+                android:id="@+id/text_sale_price_dollor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_quantity"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:gravity="top"
-                android:text="$2.49"
+                android:text="$"
                 android:textColor="@color/hearty_green"
-                android:textSize="12sp" />
+                android:textSize="8sp" />
+
+            <TextView
+                android:id="@+id/text_sale_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_quantity"
+                android:layout_marginTop="7.5dp"
+                android:layout_toRightOf="@+id/text_sale_price_dollor"
+                android:gravity="top"
+                android:text="0"
+                android:textColor="@color/hearty_green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_sale_price_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_quantity"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/text_sale_price"
+                android:gravity="top"
+                android:text="00"
+                android:textColor="@color/hearty_green"
+                android:textSize="8sp" />
 
             <RelativeLayout
                 android:id="@+id/layout_price"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_quantity"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="12dp"
                 android:layout_toRightOf="@+id/text_sale_price">
 
                 <TextView
-                    android:id="@+id/text_price"
-                    android:layout_width="match_parent"
+                    android:id="@+id/text_price_dollor"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="$3.40 "
+                    android:layout_marginTop="2dp"
+                    android:layout_toLeftOf="@+id/text_price"
+                    android:text="$"
                     android:textColor="@color/termsandcondition"
-                    android:textSize="10sp" />
+                    android:textSize="6sp" />
+
+                <TextView
+                    android:id="@+id/text_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="0"
+                    android:textColor="@color/termsandcondition"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/text_price_decimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/text_price"
+                    android:text="00"
+                    android:textColor="@color/termsandcondition"
+                    android:textSize="6sp" />
 
                 <ImageView
                     android:id="@+id/image_line"
@@ -183,7 +223,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@color/promotionblacktext"
                 android:paddingBottom="1dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -222,17 +262,17 @@
 
                         <RelativeLayout
                             android:layout_width="30dp"
-                            android:layout_marginLeft="3dp"
-                            android:layout_height="32dp">
+                            android:layout_height="32dp"
+                            android:layout_marginLeft="3dp">
 
                             <ImageView
                                 android:layout_width="19dp"
                                 android:layout_height="19dp"
                                 android:layout_alignParentBottom="true"
-                                android:layout_marginTop="9dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginBottom="3dp"
                                 android:layout_marginRight="2dp"
+                                android:layout_marginTop="9dp"
                                 android:background="@drawable/circle_red" />
 
                             <RelativeLayout
@@ -254,14 +294,9 @@
                                     android:textSize="10sp" />
                             </RelativeLayout>
                         </RelativeLayout>
-
-
                     </RelativeLayout>
                 </RelativeLayout>
-
-
             </RelativeLayout>
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -297,7 +332,6 @@
                             android:layout_below="@+id/text_details"
                             android:layout_marginTop="10dp"
                             android:background="@color/hearty_green" />
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -323,7 +357,6 @@
                             android:layout_below="@+id/text_nutrition"
                             android:layout_marginTop="10dp"
                             android:background="@color/hearty_green" />
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -349,10 +382,7 @@
                             android:layout_below="@+id/text_best"
                             android:layout_marginTop="10dp"
                             android:background="@color/hearty_green" />
-
                     </RelativeLayout>
-
-
                 </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
@@ -387,7 +417,6 @@
                         android:background="@color/profile" />
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:id="@+id/layout_more"
                     android:layout_width="match_parent"
@@ -410,7 +439,6 @@
                             android:layout_marginRight="10dp"
                             android:background="@color/edit_line_zip" />
 
-
                         <TextView
                             android:id="@+id/text_more"
                             android:layout_width="wrap_content"
@@ -419,7 +447,7 @@
                             android:layout_marginLeft="10dp"
                             android:paddingBottom="10dp"
                             android:paddingTop="10dp"
-                            android:text="More from bikano"
+                            android:text="More"
                             android:textColor="@color/promotionblacktext"
                             android:textSize="14sp" />
 
@@ -452,9 +480,9 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/profile"
                         android:visibility="gone" />
+
                 </RelativeLayout>
             </RelativeLayout>
-
         </RelativeLayout>
     </ScrollView>
 
@@ -497,8 +525,6 @@
                 android:text=" $45.05"
                 android:textColor="@color/hearty_green"
                 android:textSize="14sp" />
-
-
         </RelativeLayout>
 
         <ProgressBar
@@ -530,7 +556,6 @@
                 android:textColor="@color/White"
                 android:textSize="9sp" />
         </RelativeLayout>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -553,7 +578,6 @@
             android:layout_height="80dp"
             android:layout_alignParentRight="true">
 
-
             <TextView
                 android:id="@+id/text_total_cart_count"
                 android:layout_width="match_parent"
@@ -563,8 +587,6 @@
                 android:text="20"
                 android:textColor="@color/hearty_green"
                 android:textSize="16sp" />
-
         </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>

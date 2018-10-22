@@ -2,6 +2,7 @@ package com.heartyy.heartyyfresh.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,20 +99,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(final int groupPosition, final boolean isExpanded,
 			View convertView, final ViewGroup parent) {
 
-		andBold = Typeface.createFromAsset(_context.getAssets(),
-				Fonts.ROBOTO_REGULAR);
-		bold = Typeface.createFromAsset(_context.getAssets(),
-				Fonts.ROBOTO_BOLD);
-		italic = Typeface.createFromAsset(_context.getAssets(),
-				Fonts.ROBOTO_ITALIC);
-		light = Typeface.createFromAsset(_context.getAssets(),
-				Fonts.ROBOTO_LIGHT);
+		andBold = Typeface.createFromAsset(_context.getAssets(), Fonts.ROBOTO_REGULAR);
+		bold = Typeface.createFromAsset(_context.getAssets(), Fonts.ROBOTO_BOLD);
+		italic = Typeface.createFromAsset(_context.getAssets(), Fonts.ROBOTO_ITALIC);
+		light = Typeface.createFromAsset(_context.getAssets(), Fonts.ROBOTO_LIGHT);
 
 		TopAisleBean headerTitle = (TopAisleBean) getGroup(groupPosition);
 		if (convertView == null) {
-			LayoutInflater infalInflater = (LayoutInflater) this._context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = infalInflater.inflate(R.layout.list_group, null);
+			LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			if (infalInflater != null) {
+				convertView = infalInflater.inflate(R.layout.list_group, null);
+			}
 		}
 
 		final TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
@@ -136,14 +134,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			public void onClick(View view) {
 				if(isExpanded){
 					((ExpandableListView) parent).collapseGroup(groupPosition);
-					lblListHeader.setTextColor(_context.getResources().getColor(R.color.DimGrey));
+					lblListHeader.setTextColor(ContextCompat.getColor(_context,R.color.DimGrey));
 					textPlusMinus.setText("+");
-					textPlusMinus.setTextColor(_context.getResources().getColor(R.color.hearty_green));
+					textPlusMinus.setTextColor(ContextCompat.getColor(_context,R.color.hearty_green));
 				}else{
 					((ExpandableListView) parent).expandGroup(groupPosition, true);
-					lblListHeader.setTextColor(_context.getResources().getColor(R.color.hearty_green));
+					lblListHeader.setTextColor(ContextCompat.getColor(_context,R.color.hearty_green));
 					textPlusMinus.setText("-");
-					textPlusMinus.setTextColor(_context.getResources().getColor(R.color.grey_dark));
+					textPlusMinus.setTextColor(ContextCompat.getColor(_context,R.color.grey_dark));
 				}
 			}
 		});
@@ -152,15 +150,24 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			catImage.setVisibility(View.VISIBLE);
 			catImage.setImageResource(R.drawable.like_icon);
 			expandButton.setVisibility(View.GONE);
-			lblListHeader.setTextColor(_context.getResources().getColor(R.color.edit_hint_zip));
+			lblListHeader.setTextColor(ContextCompat.getColor(_context,R.color.edit_hint_zip));
 		}else if(groupPosition==1){
 			catImage.setVisibility(View.VISIBLE);
 			expandButton.setVisibility(View.GONE);
 			catImage.setImageResource(R.drawable.aisle_popular_icon);
-			lblListHeader.setTextColor(_context.getResources().getColor(R.color.edit_hint_zip));
+			lblListHeader.setTextColor(ContextCompat.getColor(_context,R.color.edit_hint_zip));
 		}else{
 			catImage.setVisibility(View.INVISIBLE);
 			expandButton.setVisibility(View.VISIBLE);
+			if (isExpanded) {
+				lblListHeader.setTextColor(ContextCompat.getColor(_context,R.color.hearty_green));
+				textPlusMinus.setText("-");
+				textPlusMinus.setTextColor(ContextCompat.getColor(_context,R.color.grey_dark));
+			} else {
+				lblListHeader.setTextColor(ContextCompat.getColor(_context,R.color.DimGrey));
+				textPlusMinus.setText("+");
+				textPlusMinus.setTextColor(ContextCompat.getColor(_context, R.color.hearty_green));
+			}
 		}
 
 		return convertView;

@@ -23,7 +23,8 @@ public class Constants {
 
     public static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     public static final String OUT_JSON = "/json";
-    public static final String API_KEY = "AIzaSyAqLNqp5qinkkr944P2Ii0R4B0gdwqrbqU";
+//    public static final String API_KEY = "AIzaSyAqLNqp5qinkkr944P2Ii0R4B0gdwqrbqU";
+    public static final String API_KEY = "AIzaSyCGaI-DT2ssQ5Ynhj5R8kyciT2IVmcgSM8";
 
 /*
     public static final String URL = "http://192.168.1.29/api/v2/";
@@ -60,6 +61,7 @@ public class Constants {
     public static final String MAX_QUANTITY = "You have already taken maximum quantity for this item";
 
     public static final String FIRST_NAME = "first_name";
+    public static final String GOOGLE_AUTH_TOKEN = "google_auth_token";
     public static final String LAST_NAME = "last_name";
     public static final String EMAIL = "email";
     public static final String USER_ID = "user_id";

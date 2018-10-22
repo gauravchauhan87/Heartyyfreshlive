@@ -2,11 +2,11 @@ package com.heartyy.heartyyfresh.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -47,6 +47,7 @@ import com.heartyy.heartyyfresh.bean.SubAisleItemBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
+import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
@@ -1287,5 +1288,9 @@ public class RefineFragment extends Fragment {
         }
     }
 
-
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

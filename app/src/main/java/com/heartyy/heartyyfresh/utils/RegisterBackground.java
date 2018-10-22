@@ -16,7 +16,7 @@ public class RegisterBackground extends AsyncTask<String, String, String> {
 	GoogleCloudMessaging gcm;
 	Context context;
 	String regid;
-	//String SENDER_ID = "1054933944853";
+//	String SENDER_ID = "1054933944853";
 	String SENDER_ID =   "931761255353";
 	SharedPreferences pref;
 

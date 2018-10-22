@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -99,18 +100,10 @@ public class RateUsActivity extends AppCompatActivity {
 
         PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
 
-        LayerDrawable stars = (LayerDrawable) ratingBar
-                .getProgressDrawable();
-        stars.getDrawable(2)
-                .setColorFilter(
-                        getResources().getColor(
-                        R.color.hearty_star), mMode);
-        stars.getDrawable(1).setColorFilter(
-                getResources().getColor(
-                R.color.hearty_star), mMode);
-        stars.getDrawable(0).setColorFilter(
-                getResources().getColor(
-                R.color.edit_line_zip), mMode);
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(ContextCompat.getColor(this,R.color.hearty_star), mMode);
+        stars.getDrawable(1).setColorFilter(ContextCompat.getColor(this,R.color.hearty_star), mMode);
+        stars.getDrawable(0).setColorFilter(ContextCompat.getColor(this,R.color.edit_line_zip), mMode);
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override

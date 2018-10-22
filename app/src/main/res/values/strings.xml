@@ -48,4 +48,11 @@
     <string name="title_activity_order_placed">" "</string>
     <string name="title_activity_order_detail">Order Detail</string>
     <string name="title_activity_return_policy">Return Policy</string>
+    <string name="first_last_name">First name &amp; Last name is required</string>
+    <string name="valid_zipcode">Enter a valid zipcode</string>
+    <string name="deny_permission">Permission denied, application may not work properly</string>
+    <string name="neighbourhood_store">Choose your neighbourhood store</string>
+    <string name="no_store_avl">No store available, please change your zipcode</string>
+    <string name="free_delivery">FREE DELIVERY</string>
+    <string name="server_client_id">931761255353-lfld16nmkllrms4j1pt44hinks2hcl8m.apps.googleusercontent.com</string>
 </resources>

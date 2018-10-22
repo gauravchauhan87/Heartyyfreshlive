@@ -2,12 +2,12 @@ package com.heartyy.heartyyfresh.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +46,7 @@ import com.heartyy.heartyyfresh.bean.TopAisleBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
+import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
@@ -182,7 +183,7 @@ public class CategoryFragment extends Fragment {
                     editor.putString(Constants.TOP_CATEGORY_ID, topCategoryId);
                     editor.putString(Constants.CATEGORY, "top");
                     editor.putString(Constants.SORT, null);
-                    editor.commit();
+                    editor.apply();
                     ImageView sortImg = (ImageView) getActivity().findViewById(R.id.img_sort_indication);
                     ImageView refineImg = (ImageView) getActivity().findViewById(R.id.img_refine_indication);
 
@@ -239,7 +240,7 @@ public class CategoryFragment extends Fragment {
                     editor.putString(Constants.TOP_CATEGORY_ID, topCategoryId);
                     editor.putString(Constants.CATEGORY, "sub");
                     editor.putString(Constants.SORT, null);
-                    editor.commit();
+                    editor.apply();
 
                     ImageView sortImg = (ImageView) getActivity().findViewById(R.id.img_sort_indication);
                     ImageView refineImg = (ImageView) getActivity().findViewById(R.id.img_refine_indication);
@@ -720,7 +721,7 @@ public class CategoryFragment extends Fragment {
                                         editor.putString(Constants.TOP_CATEGORY_ID, oldTopCategoryId);
                                         editor.putString(Constants.CATEGORY, null);
                                         editor.putString(Constants.SORT, null);
-                                        editor.commit();
+                                        editor.apply();
                                         showAlert("No Result found");
                                         Global.dialog.dismiss();
                                     }
@@ -733,7 +734,7 @@ public class CategoryFragment extends Fragment {
                                     editor.putString(Constants.TOP_CATEGORY_ID, oldTopCategoryId);
                                     editor.putString(Constants.CATEGORY, null);
                                     editor.putString(Constants.SORT, null);
-                                    editor.commit();
+                                    editor.apply();
                                     showAlert("No Result found");
                                     Global.dialog.dismiss();
                                 }
@@ -916,5 +917,11 @@ public class CategoryFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }
 

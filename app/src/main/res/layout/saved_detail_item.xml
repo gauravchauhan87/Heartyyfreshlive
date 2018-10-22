@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_save_main"
     android:layout_width="match_parent"
@@ -8,22 +7,20 @@
     android:background="@color/profile"
     android:descendantFocusability="blocksDescendants">
 
-
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
         style="@style/Widget.CardContent"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
         android:layout_gravity="center"
         android:layout_marginBottom="0.5dp"
         android:layout_marginLeft="0.5dp"
         android:layout_marginRight="0.5dp"
-        app:cardUseCompatPadding="false"
         android:layout_marginTop="0.5dp"
-        card_view:cardBackgroundColor="@color/White"
-        card_view:cardCornerRadius="1dp"
-        card_view:cardElevation="0.1dp">
-
+        app:cardUseCompatPadding="false"
+        app:cardBackgroundColor="@color/White"
+        app:cardCornerRadius="1dp"
+        app:cardElevation="0.1dp">
 
         <ImageButton
             android:id="@+id/image_like"
@@ -67,11 +64,14 @@
                 android:layout_below="@+id/text_onsale"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:maxLength="68"
+                android:layout_marginTop="1dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:maxLength="32"
                 android:text="Reynolds Pastel &amp; White Paper 2.5 inch Baking Cups"
                 android:textColor="@color/edit_hint_zip"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/text_item_brand"
@@ -80,21 +80,20 @@
                 android:layout_below="@+id/text_item_detail"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
                 android:maxLength="68"
                 android:text="(Bikano)"
-                android:textColor="@color/termsandcondition"
+                android:textColor="@color/edit_hint_zip"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/text_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_brand"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:text="2 X 40 oz Packs "
-                android:layout_below="@+id/text_item_brand"
                 android:textColor="@color/termsandcondition"
                 android:textSize="12sp" />
 
@@ -106,15 +105,34 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom">
 
+            <TextView
+                android:id="@+id/text_discounted_price_dollor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="$"
+                android:textColor="@color/hearty_green"
+                android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/text_discounted_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@+id/text_discounted_price_dollor"
+                android:text="2"
+                android:textColor="@color/hearty_green"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_discounted_price_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:text="$2.40 "
+                android:layout_toRightOf="@+id/text_discounted_price"
+                android:text="99"
                 android:textColor="@color/hearty_green"
                 android:textSize="8sp" />
 
@@ -124,18 +142,33 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/text_discounted_price">
+                android:layout_toRightOf="@+id/text_discounted_price_decimal">
+
+                <TextView
+                    android:id="@+id/text_price_dollor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textColor="@color/termsandcondition"
+                    android:textSize="5sp" />
 
                 <TextView
                     android:id="@+id/text_price"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="$3.40 "
+                    android:layout_toRightOf="@+id/text_price_dollor"
+                    android:text="2"
                     android:textColor="@color/termsandcondition"
                     android:textSize="8sp" />
 
+                <TextView
+                    android:id="@+id/text_price_decimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/text_price"
+                    android:text="99"
+                    android:textColor="@color/termsandcondition"
+                    android:textSize="5sp" />
 
                 <ImageView
                     android:id="@+id/image_line"
@@ -144,7 +177,6 @@
                     android:layout_centerInParent="true"
                     android:background="@color/termsandcondition" />
             </RelativeLayout>
-
 
             <ImageView
                 android:layout_width="20dp"
@@ -155,7 +187,6 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/cell_cart_icon" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -164,9 +195,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            android:visibility="gone"
             android:alpha="0.9"
-            android:background="@color/promotionblacktext">
+            android:background="@color/promotionblacktext"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -234,16 +265,16 @@
                                 android:text="0"
                                 android:textColor="@color/White"
                                 android:textSize="10sp" />
+
                         </RelativeLayout>
+
                     </RelativeLayout>
 
-
                 </RelativeLayout>
+
             </RelativeLayout>
 
-
         </RelativeLayout>
-
 
     </android.support.v7.widget.CardView>
 

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -30,14 +31,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -123,25 +127,18 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_profile);
         SpannableString s = new SpannableString(getResources().getString(R.string.title_activity_profile));
-        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
-        andBold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        bold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_BOLD);
-        italic = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_ITALIC);
-        light = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_LIGHT);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        andBold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
+        bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
+        italic = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_ITALIC);
+        light = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_LIGHT);
         ViewGroup root = (ViewGroup) findViewById(R.id.profile_main);
         Global.setFont(root, andBold);
-
 
 
         notificationListView = (ListView) findViewById(R.id.list_meal_notifications);
@@ -210,9 +207,6 @@ public class ProfileActivity extends AppCompatActivity {
         editLastName.clearFocus();
         editEmail.clearFocus();
         editMobile.clearFocus();
-
-
-
 
         editFirstName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -333,7 +327,7 @@ public class ProfileActivity extends AppCompatActivity {
                 LoginManager.getInstance().logOut();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
-                editor.commit();
+                editor.apply();
                 DatabaseHandler db = new DatabaseHandler(ProfileActivity.this);
                 db.deleteDeliveryAddress();
                 db.deleteAllOrders();
@@ -426,19 +420,15 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.d("permission", "not granteed");
                     if (cameraCheck != PackageManager.PERMISSION_GRANTED) {
 
-
                         ActivityCompat.requestPermissions(ProfileActivity.this,
                                 new String[]{Manifest.permission.CAMERA},
                                 MY_PERMISSIONS_REQUEST_READ_CAMERA);
 
-
                     } else if (storageCheck != PackageManager.PERMISSION_GRANTED) {
-
 
                         ActivityCompat.requestPermissions(ProfileActivity.this,
                                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, "camera"},
                                 MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-
 
                     }
 
@@ -472,16 +462,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void saveProfileData(final String fname, final String lname, String email, final String mobile) {
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
-
         JSONObject params = new JSONObject();
         try {
-
 
             params.put("firstname", fname);
             params.put("lastname", lname);
             params.put("email", email);
             params.put("phone", mobile);
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -505,7 +492,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     editor.putString(Constants.PHONE, mobile);
                                     editor.putString(Constants.FIRST_NAME,fname);
                                     editor.putString(Constants.LAST_NAME,lname);
-                                    editor.commit();
+                                    editor.apply();
                                     Global.phoneNo = null;
                                 }
                                 showAlert("Profile has been updated ");
@@ -570,7 +557,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 if (userProfileBean.getPhone() != null) {
                                     if (!userProfileBean.getPhone().equalsIgnoreCase("null")) {
                                         editor.putString(Constants.PHONE, userProfileBean.getPhone());
-                                        editor.commit();
+                                        editor.apply();
                                     }
                                 }
                             } else {
@@ -619,7 +606,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (path == null) {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(Constants.PICTURE,userProfileBean.getPicture());
-                    editor.commit();
+                    editor.apply();
                 }
 
                 Cache cache = AppController.getInstance().getRequestQueue().getCache();
@@ -657,13 +644,12 @@ public class ProfileActivity extends AppCompatActivity {
         if (userProfileBean.getNotification() != null) {
             notificationListView.setVisibility(View.VISIBLE);
             adapter = new ProfileNotificationAdapter(this, userProfileBean.getNotification());
+//            notificationListView.setScrollContainer(false);
             notificationListView.setAdapter(adapter);
-            Global.setListViewHeightBasedOnChildren(notificationListView);
+//            setListViewHeightBasedOnChildren(notificationListView);
         }else{
             notificationListView.setVisibility(View.GONE);
         }
-
-
 
         saveBtn.setVisibility(View.GONE);
         isEdit = false;
@@ -678,7 +664,7 @@ public class ProfileActivity extends AppCompatActivity {
             fnameErrorText.setVisibility(View.VISIBLE);
             emailErrorText.setVisibility(View.VISIBLE);
             mobileErrorText.setVisibility(View.VISIBLE);
-            fnameErrorText.setText("First name & Last name is required");
+            fnameErrorText.setText(R.string.first_last_name);
             emailErrorText.setText(signupError.getEmailRequired());
             mobileErrorText.setText(signupError.getPhoneRequired());
 
@@ -686,7 +672,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (fname.isEmpty() && lname.isEmpty()) {
                 error = true;
                 fnameErrorText.setVisibility(View.VISIBLE);
-                fnameErrorText.setText("First name & Last name is required");
+                fnameErrorText.setText(R.string.first_last_name);
             } else if (fname.isEmpty() || lname.isEmpty()) {
                 error = true;
                 if (fname.isEmpty()) {
@@ -777,7 +763,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg ");
-            Log.d("image path...", mediaFile.getAbsolutePath().toString());
+            Log.d("image path...", mediaFile.getAbsolutePath());
         } else if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "VID_" + timeStamp + ".mp4");
@@ -796,9 +782,14 @@ public class ProfileActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+            Cursor cursor = null;
+            if (selectedImage != null) {
+                cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+            }
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
@@ -905,12 +896,12 @@ public class ProfileActivity extends AppCompatActivity {
                                 userImage.setImageResource(R.drawable.user_icon);
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putString(Constants.PICTURE, null);
-                                editor.commit();
+                                editor.apply();
 
                             }
                         } catch (JSONException e) {
-                            SharedPreferences.Editor editor = pref.edit();
-                           /* editor.putString(Constants.PATH_PICTURE, null);
+                            /*SharedPreferences.Editor editor = pref.edit();
+                            editor.putString(Constants.PATH_PICTURE, null);
                             editor.commit();*/
                             e.printStackTrace();
                         }
@@ -965,12 +956,12 @@ public class ProfileActivity extends AppCompatActivity {
                                 String pic = dataObj.getString("picture");
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putString(Constants.PICTURE, pic);
-                                editor.commit();
+                                editor.apply();
 
                             }
                         } catch (JSONException e) {
-                            SharedPreferences.Editor editor = pref.edit();
-                           /* editor.putString(Constants.PATH_PICTURE, null);
+                            /*SharedPreferences.Editor editor = pref.edit();
+                            editor.putString(Constants.PATH_PICTURE, null);
                             editor.commit();*/
                             e.printStackTrace();
                         }
@@ -1112,8 +1103,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_CAMERA: {
                 if (grantResults.length > 0
@@ -1141,9 +1131,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                     return;
-
-
-                } else {
 
                 }
 
@@ -1180,7 +1167,6 @@ public class ProfileActivity extends AppCompatActivity {
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, per},
                             MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 }
-                return;
             }
 
         }

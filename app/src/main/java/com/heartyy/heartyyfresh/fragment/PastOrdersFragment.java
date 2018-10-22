@@ -24,6 +24,7 @@ import com.heartyy.heartyyfresh.bean.CurrentStoresBean;
 import com.heartyy.heartyyfresh.bean.PastOrderBean;
 import com.heartyy.heartyyfresh.bean.PastStoresBean;
 import com.heartyy.heartyyfresh.global.Global;
+import com.heartyy.heartyyfresh.utils.AppController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,5 +76,11 @@ public class PastOrdersFragment extends Fragment {
 
         return v;
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }
 

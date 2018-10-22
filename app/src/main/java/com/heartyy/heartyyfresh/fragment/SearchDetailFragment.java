@@ -1,8 +1,8 @@
 package com.heartyy.heartyyfresh.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import com.heartyy.heartyyfresh.adapter.SearchSectionGridRecyclerViewAdapter;
 import com.heartyy.heartyyfresh.bean.SearchProductsBean;
 import com.heartyy.heartyyfresh.bean.SubAisleItemBean;
 import com.heartyy.heartyyfresh.global.Global;
+import com.heartyy.heartyyfresh.utils.AppController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,4 +85,10 @@ public class SearchDetailFragment extends Fragment {
         return rootView;
 
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

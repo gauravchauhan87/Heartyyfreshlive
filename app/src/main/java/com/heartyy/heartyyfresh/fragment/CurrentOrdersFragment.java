@@ -25,6 +25,7 @@ import com.heartyy.heartyyfresh.bean.CurrentPastOrdersBean;
 import com.heartyy.heartyyfresh.bean.CurrentStoresBean;
 import com.heartyy.heartyyfresh.bean.SuppliersBean;
 import com.heartyy.heartyyfresh.global.Global;
+import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
 import java.util.ArrayList;
@@ -85,4 +86,9 @@ public class CurrentOrdersFragment extends Fragment {
         return v;
     }
 
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

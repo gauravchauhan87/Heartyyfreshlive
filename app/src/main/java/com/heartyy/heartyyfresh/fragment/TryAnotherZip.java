@@ -1,26 +1,22 @@
 package com.heartyy.heartyyfresh.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.ZipCodeActivity;
-import com.heartyy.heartyyfresh.adapter.CustomPageAdapter;
-import com.heartyy.heartyyfresh.global.Global;
+import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Fonts;
-import com.heartyy.heartyyfresh.viewpagerindicator.CirclePageIndicator;
 
 /**
  * Created by Dheeraj on 1/4/2016.
@@ -86,4 +82,10 @@ public class TryAnotherZip extends Fragment {
         return rootView;
 
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

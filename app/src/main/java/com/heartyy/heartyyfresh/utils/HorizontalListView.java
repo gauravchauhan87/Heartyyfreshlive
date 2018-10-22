@@ -46,6 +46,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EdgeEffect;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -182,12 +183,12 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     /**
      * Tracks the state of the left edge glow.
      */
-    private EdgeEffectCompat mEdgeGlowLeft;
+    private EdgeEffect mEdgeGlowLeft;
 
     /**
      * Tracks the state of the right edge glow.
      */
-    private EdgeEffectCompat mEdgeGlowRight;
+    private EdgeEffect mEdgeGlowRight;
 
     /** The height measure spec for this view, used to help size children views */
     private int mHeightMeasureSpec;
@@ -205,8 +206,8 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
 
     public HorizontalListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mEdgeGlowLeft = new EdgeEffectCompat(context);
-        mEdgeGlowRight = new EdgeEffectCompat(context);
+        mEdgeGlowLeft = new EdgeEffect(context);
+        mEdgeGlowRight = new EdgeEffect(context);
         mGestureDetector = new GestureDetector(context, mGestureListener);
         bindGestureDetector();
         initView();

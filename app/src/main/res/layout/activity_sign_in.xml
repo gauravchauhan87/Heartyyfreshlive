@@ -1,15 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context="com.heartyy.heartyyfresh.SignInActivity">
+    tools:context=".SignInActivity">
 
 
     <RelativeLayout
         android:id="@+id/signin_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -45,6 +44,7 @@
                     android:layout_height="40dp"
                     android:src="@drawable/facebook_icon" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +55,6 @@
                     android:id="@+id/button_google"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/google_plus_icon" />
             </RelativeLayout>
@@ -76,14 +75,13 @@
                 android:layout_width="70dip"
                 android:layout_height="1dip"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:background="@color/or_line" />
 
             <TextView
                 android:id="@+id/text_or"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:text="OR"
                 android:textColor="@color/or"
                 android:textSize="16sp" />
@@ -93,7 +91,7 @@
                 android:layout_width="70dip"
                 android:layout_height="1dip"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/or_line" />
         </LinearLayout>
 
@@ -108,8 +106,8 @@
             android:layout_marginTop="10dp"
             android:background="@color/white"
             android:hint="Email"
-            android:maxLength="50"
             android:inputType="textEmailAddress"
+            android:maxLength="50"
             android:textColor="@color/edit_hint_zip"
             android:textColorHint="@color/edit_line_zip"
             android:textSize="18sp" />
@@ -131,10 +129,10 @@
             android:layout_below="@+id/imageView_line_email"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:text="Email address is required."
             android:textColor="@color/red"
             android:textSize="12sp"
-            android:visibility="gone"
-            android:text="Email address is required."/>
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/edit_password"
@@ -168,10 +166,10 @@
             android:layout_below="@+id/imageView_line_password"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:text="Password is required."
             android:textColor="@color/red"
             android:textSize="12sp"
-            android:visibility="gone"
-            android:text="Password is required."/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/linear_login_button"
@@ -187,7 +185,6 @@
                 android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
                 android:background="@drawable/button_green"
                 android:text="Login"
                 android:textAllCaps="false"
@@ -208,12 +205,11 @@
                 android:id="@+id/button_forgot"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
                 android:background="@null"
                 android:text="Forgot username/password?"
                 android:textAllCaps="false"
                 android:textColor="@color/promotionblacktext"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
 
@@ -226,7 +222,7 @@
             android:layout_marginTop="60dp"
             android:text="By logging in you agree to our"
             android:textColor="@color/termsandcondition"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:id="@+id/layout_terms"
@@ -251,7 +247,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/button_terms"
+                android:layout_toEndOf="@+id/button_terms"
                 android:text=" &amp; "
                 android:textColor="@color/termsandcondition"
                 android:textSize="12sp" />
@@ -260,7 +256,7 @@
                 android:id="@+id/button_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/text_and"
+                android:layout_toEndOf="@+id/text_and"
                 android:background="@null"
                 android:text="privacy policy"
                 android:textAllCaps="false"

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -71,15 +72,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     private CategoryFragment categoryFragment;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, packsItem, price, discountedPrice, onSale, cartCount, brandName;
-        public ImageView lineImage, itemImage;
-        public CardView cardView;
-        public ImageButton  plusBtn, minusBtn;
-        public RelativeLayout cartCountlayout,cartBtn;
+        private TextView title, packsItem, price, discountedPrice, onSale, cartCount, brandName, textDiscountedPriceDecimal, textPriceDecimal, textDiscountedPriceDollor;
+        private ImageView lineImage, itemImage;
+        private CardView cardView;
+        private ImageButton  plusBtn, minusBtn;
+        public RelativeLayout cartCountlayout,cartBtn,layoutPrice;
         public ImageButton likeBtn;
 
 
-        public SimpleViewHolder(View view) {
+        private SimpleViewHolder(View view) {
             super(view);
 
             title = (TextView) view.findViewById(R.id.text_item_detail);
@@ -90,6 +91,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
             lineImage = (ImageView) view.findViewById(R.id.image_line);
             cardView = (CardView) view.findViewById(R.id.card_view);
             cartBtn = (RelativeLayout) view.findViewById(R.id.button_cart);
+            layoutPrice = (RelativeLayout) view.findViewById(R.id.layout_price);
             plusBtn = (ImageButton) view.findViewById(R.id.button_plus);
             minusBtn = (ImageButton) view.findViewById(R.id.button_minus);
             cartCountlayout = (RelativeLayout) view.findViewById(R.id.layout_cart_count);
@@ -97,23 +99,21 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
             itemImage = (ImageView) view.findViewById(R.id.image_item);
             likeBtn = (ImageButton) view.findViewById(R.id.image_like);
             brandName = (TextView) view.findViewById(R.id.text_item_brand);
+            textDiscountedPriceDecimal = (TextView) view.findViewById(R.id.text_discounted_price_decimal);
+            textPriceDecimal = (TextView) view.findViewById(R.id.text_price_decimal);
+            textDiscountedPriceDollor = (TextView) view.findViewById(R.id.text_discounted_price_dollor);
         }
     }
 
     public SimpleAdapter(Context context, List<SubAisleItemBean> subAisleItemBeanList, StoreDetailActivity activity) {
         mContext = context;
         this.activity = activity;
-        robotoLight = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_LIGHT);
-        regular = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        meduimItalic = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_MEDIUM_ITALIC);
-        medium = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_REGULAR);
+        robotoLight = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_LIGHT);
+        regular = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_REGULAR);
+        meduimItalic = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_MEDIUM_ITALIC);
+        medium = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_REGULAR);
 
-        pref = context.getApplicationContext().getSharedPreferences("MyPref",
-                context.MODE_PRIVATE);
+        pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
 
         this.subAisleItemBeanList = subAisleItemBeanList;
 
@@ -126,17 +126,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     public SimpleAdapter(Context context, List<SubAisleItemBean> subAisleItemBeanList, StoreDetailActivity activity, CategoryFragment categoryFragment) {
         mContext = context;
         this.activity = activity;
-        robotoLight = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_LIGHT);
-        regular = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        meduimItalic = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_MEDIUM_ITALIC);
-        medium = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_MEDIUM);
+        robotoLight = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_LIGHT);
+        regular = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_REGULAR);
+        meduimItalic = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_MEDIUM_ITALIC);
+        medium = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_MEDIUM);
 
-        pref = context.getApplicationContext().getSharedPreferences("MyPref",
-                context.MODE_PRIVATE);
+        pref = context.getApplicationContext().getSharedPreferences("MyPref", context.MODE_PRIVATE);
 
         this.subAisleItemBeanList = subAisleItemBeanList;
         this.categoryFragment = categoryFragment;
@@ -148,14 +143,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     }
 
 
-    public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public SimpleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(mContext).inflate(R.layout.saved_detail_item, parent, false);
 
         return new SimpleViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final SimpleViewHolder holder, final int position) {
         // holder.title.setText(mItems.get(position).toString());
         final SubAisleItemBean item = subAisleItemBeanList.get(position);
         holder.onSale.setTypeface(meduimItalic);
@@ -164,6 +160,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
         holder.price.setTypeface(medium);
         holder.discountedPrice.setTypeface(medium);
         holder.brandName.setTypeface(robotoLight);
+        holder.textDiscountedPriceDollor.setTypeface(medium);
+        holder.discountedPrice.setTypeface(medium);
+        holder.textDiscountedPriceDecimal.setTypeface(medium);
 
         setTotalAmount();
 
@@ -172,9 +171,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
 
         String temp[] = item.getPrice().split("\\.");
         if (temp.length > 1) {
-            holder.price.setText(Html.fromHtml("<sup> &nbsp; $</sup><big>" + temp[0] + "</big><sup>" + temp[1] + "</sup>"));
+            holder.price.setText(temp[0]);
+            holder.textPriceDecimal.setText(temp[1]);
         } else {
-            holder.price.setText(Html.fromHtml("<sup> &nbsp; $</sup><big>" + temp[0] + "</big><sup>" + "00" + "</sup>"));
+            holder.price.setText(temp[0]);
+            holder.textPriceDecimal.setText("00");
         }
 
         final DatabaseHandler db = new DatabaseHandler(mContext);
@@ -215,6 +216,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
         String onSale = item.getSale();
         if (onSale == null) {
             holder.price.setVisibility(View.GONE);
+            holder.layoutPrice.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setText(item.getOffer());
             holder.onSale.setVisibility(View.INVISIBLE);
@@ -231,12 +233,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                 if(temp1[1].length()<2){
                     temp1[1] = temp[1]+"0";
                 }
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+//                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp1[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+//                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+                holder.discountedPrice.setText(temp1[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
         } else if (onSale.equalsIgnoreCase("null")) {
             holder.price.setVisibility(View.GONE);
+            holder.layoutPrice.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setText(item.getOffer());
             holder.onSale.setVisibility(View.INVISIBLE);
@@ -253,12 +260,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                 if(temp1[1].length()<2){
                     temp1[1] = temp[1]+"0";
                 }
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+//                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp1[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+//                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+                holder.discountedPrice.setText(temp1[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
         } else if (onSale.equalsIgnoreCase("no")) {
             holder.price.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setVisibility(View.VISIBLE);
             holder.onSale.setText(item.getOffer());
@@ -275,15 +287,20 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                 if(temp1[1].length()<2){
                     temp1[1] = temp[1]+"0";
                 }
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+//                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp1[0]);
+                holder.textDiscountedPriceDecimal.setText(temp1[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+//                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+                holder.discountedPrice.setText(temp1[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
 
         } else if (onSale.equalsIgnoreCase("yes")) {
             holder.price.setVisibility(View.VISIBLE);
             holder.lineImage.setVisibility(View.VISIBLE);
             holder.onSale.setVisibility(View.VISIBLE);
+            holder.layoutPrice.setVisibility(View.VISIBLE);
             holder.onSale.setText(item.getOffer());
             if (!item.getSalePrice().equalsIgnoreCase("null")) {
                 String temp1[] = item.getSalePrice().split("\\.");
@@ -299,9 +316,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                     if(temp1[1].length()<2){
                         temp1[1] = temp[1]+"0";
                     }
-                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+//                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                    holder.discountedPrice.setText(temp1[0]);
+                    holder.textDiscountedPriceDecimal.setText(temp[1]);
                 } else {
-                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+//                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "00" + "</sup>"));
+                    holder.discountedPrice.setText(temp1[0]);
+                    holder.textDiscountedPriceDecimal.setText("00");
                 }
 
             }
@@ -563,11 +584,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                         public void onErrorResponse(VolleyError error) {
                             Log.d("error", "Error: " + error.toString());
                             Global.dialog.dismiss();
-                            if (error instanceof NoConnectionError) {
+                            /*if (error instanceof NoConnectionError) {
                                 //  showAlert(Constants.NO_INTERNET);
                             } else {
                                 //showAlert(Constants.REQUEST_TIMED_OUT);
-                            }
+                            }*/
                         }
                     });
 
@@ -586,7 +607,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString(Constants.SUB_CATEGORY_ID, item.getSubCategoryId());
                 editor.putString(Constants.TOP_CATEGORY_ID, item.getTopCategoryId());
-                editor.commit();
+                editor.apply();
                 Intent intent = new Intent(mContext, ItemDetailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("name", item.getItemName());
@@ -714,65 +735,53 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     }
 
     private void setTotalAmount() {
-        double orderTotalAmount = 0;
-        final TextView totalOrderPrice = (TextView) activity.findViewById(R.id.text_order_price);
-        DatabaseHandler db = new DatabaseHandler(mContext);
+        double orderTotalAmount = 0.0d;
+        TextView totalOrderPrice = (TextView) this.activity.findViewById(R.id.text_order_price);
+        DatabaseHandler db = new DatabaseHandler(this.mContext);
         List<OrderBean> ordersList = db.getAllOrders();
         for (int j = 0; j < ordersList.size(); j++) {
-            orderTotalAmount += Double.parseDouble(ordersList.get(j).getFinalPrice());
+            orderTotalAmount += Double.parseDouble(((OrderBean) ordersList.get(j)).getFinalPrice());
         }
-
-        totalOrderPrice.setText("$ " + String.format("%.2f", orderTotalAmount));
+        totalOrderPrice.setText("$ " + String.format("%.2f", new Object[]{Double.valueOf(orderTotalAmount)}));
         db.close();
-
-
-        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.firstBar);
-        TextView txtProgress = (TextView) activity.findViewById(R.id.text_progress);
-        String p[] = String.valueOf(orderTotalAmount).split("\\.");
-        int temp = Integer.parseInt(p[0]);
-
-        if (Global.promotionAvailableBean != null) {
-            if (Global.promotionAvailableBean.getFreeDeliveryMinOrder().getFreeDelivery().equalsIgnoreCase("yes")) {
-                progressBar.setVisibility(View.VISIBLE);
-                txtProgress.setVisibility(View.VISIBLE);
-
-                progressBar.setMax(Integer.parseInt(Global.promotionAvailableBean.getFreeDeliveryMinOrder().getMinOrderAmnt()));
-                double minamount = Double.parseDouble(Global.promotionAvailableBean.getFreeDeliveryMinOrder().getMinOrderAmnt());
-
-                double addMore = 0;
-                if (orderTotalAmount > minamount) {
-                    addMore = orderTotalAmount - minamount;
-                } else {
-                    addMore = minamount - orderTotalAmount;
-                }
-
-                if (orderTotalAmount > minamount) {
-                    Global.isFreeDelivery = true;
-                    if(progressBar.getMax()==0){
-                        progressBar.setMax(1);
-                        progressBar.setProgress(1);
-                    }else {
-                        progressBar.setProgress(Integer.parseInt(Global.promotionAvailableBean.getFreeDeliveryMinOrder().getMinOrderAmnt()));
-                    }
-                    txtProgress.setText("FREE DELIVERY");
-                } else {
-                    String addMoreForFee = String.format("%.2f", addMore);
-                    progressBar.setProgress(temp);
-                    txtProgress.setText("Add $" + addMoreForFee + " for free delivery");
-                    Global.isFreeDelivery = false;
-                }
+        ProgressBar progressBar = (ProgressBar) this.activity.findViewById(R.id.firstBar);
+        TextView txtProgress = (TextView) this.activity.findViewById(R.id.text_progress);
+        int temp = Integer.parseInt(String.valueOf(orderTotalAmount).split("\\.")[0]);
+        if (Global.promotionAvailableBean == null) {
+            progressBar.setVisibility(View.GONE);
+            txtProgress.setVisibility(View.GONE);
+        } else if (Global.promotionAvailableBean.getFreeDeliveryMinOrder().getFreeDelivery().equalsIgnoreCase("yes")) {
+            double addMore;
+            progressBar.setVisibility(View.VISIBLE);
+            txtProgress.setVisibility(View.VISIBLE);
+            progressBar.setMax(Integer.parseInt(Global.promotionAvailableBean.getFreeDeliveryMinOrder().getMinOrderAmnt()));
+            double minamount = Double.parseDouble(Global.promotionAvailableBean.getFreeDeliveryMinOrder().getMinOrderAmnt());
+            if (orderTotalAmount > minamount) {
+                addMore = orderTotalAmount - minamount;
             } else {
-                progressBar.setVisibility(View.GONE);
-                txtProgress.setVisibility(View.GONE);
+                addMore = minamount - orderTotalAmount;
+            }
+            if (orderTotalAmount > minamount) {
+                Global.isFreeDelivery = true;
+                if (progressBar.getMax() == 0) {
+                    progressBar.setMax(1);
+                    progressBar.setProgress(1);
+                } else {
+                    progressBar.setProgress(Integer.parseInt(Global.promotionAvailableBean.getFreeDeliveryMinOrder().getMinOrderAmnt()));
+                }
+                txtProgress.setText("FREE DELIVERY");
+            } else {
+                String addMoreForFee = String.format("%.2f", new Object[]{Double.valueOf(addMore)});
+                progressBar.setProgress(temp);
+                txtProgress.setText("Add $" + addMoreForFee + " for free delivery");
+                Global.isFreeDelivery = false;
             }
         } else {
             progressBar.setVisibility(View.GONE);
             txtProgress.setVisibility(View.GONE);
         }
-
-        int ordersCount = db.getOrdersCount();
-        TextView totalCartCountText = (TextView) activity.findViewById(R.id.text_total_cart_count);
-        totalCartCountText.setText(String.valueOf(ordersCount));
+        TextView totalCartCountText = (TextView) this.activity.findViewById(R.id.text_total_cart_count);
+        totalCartCountText.setText(String.valueOf(db.getOrdersCount()));
     }
 
     private void showAlert(String msg) {
@@ -816,7 +825,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     }
 
 
-    public void setItemToCart(SimpleViewHolder holder, SubAisleItemBean item) {
+    private void setItemToCart(SimpleViewHolder holder, SubAisleItemBean item) {
         DatabaseHandler db = new DatabaseHandler(mContext);
         SuppliersBean suppliersBean = db.getSupplier(pref.getString(Constants.SUPPLIER_ID, null));
 

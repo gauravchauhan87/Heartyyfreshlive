@@ -1,11 +1,11 @@
 package com.heartyy.heartyyfresh;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -324,7 +324,7 @@ public class SearchActivity extends AppCompatActivity {
                                         searchDetaillayout.setVisibility(View.VISIBLE);
                                         Global.searchProductsBeanList = searchDetailBean.getSearchProductsBeanList();
                                         SearchDetailFragment searchDetailFragment = new SearchDetailFragment();
-                                        FragmentManager fragmentManager = getFragmentManager();
+                                        FragmentManager fragmentManager = getSupportFragmentManager();
                                         fragmentManager.beginTransaction()
                                                 .replace(R.id.search_detail_fragment, searchDetailFragment).commit();
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/White"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="0.5dp"
     android:layout_marginTop="0.5dp"
-    android:layout_marginBottom="0.5dp">
+    android:background="@color/White">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,9 +41,9 @@
                 android:id="@+id/text_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bikano aloo bhujia"
-                android:layout_toLeftOf="@+id/layout_count"
                 android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/layout_count"
+                android:text="Bikano aloo bhujia"
                 android:textSize="14sp" />
 
             <TextView
@@ -56,24 +56,46 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/text_price"
+                android:id="@+id/text_price_dollor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_item_name"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/text_weight"
-                android:text="$8"
+                android:text="$"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="7sp" />
+
+            <TextView
+                android:id="@+id/text_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/text_price_dollor"
+                android:text="8"
                 android:textColor="@color/promotionblacktext"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_price_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_item_name"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/text_price"
+                android:text="00"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="7sp" />
+
             <ImageView
                 android:id="@+id/view1"
                 android:layout_width="150dp"
                 android:layout_height="1dp"
-                android:background="@color/edit_line_zip"
                 android:layout_below="@+id/text_price"
-                android:layout_marginTop="10dp"/>
-
+                android:layout_marginTop="10dp"
+                android:background="@color/edit_line_zip" />
 
             <TextView
                 android:id="@+id/text_substitute"
@@ -92,8 +114,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/text_substitute"
-                android:text="Store's Choice:"
                 android:paddingBottom="5dp"
+                android:text="Store's Choice:"
                 android:textColor="@color/hearty_green"
                 android:textSize="14sp" />
 
@@ -102,58 +124,69 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="45dp"
-                android:layout_marginLeft="25dp">
-
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="45dp">
 
                 <ImageButton
                     android:id="@+id/button_minus"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:textColor="@color/black"
+                    android:background="@drawable/minus_icon_border"
                     android:padding="5dp"
-                    android:background="@drawable/minus_icon_border" />
-
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/text_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="12sp"
-                    android:gravity="center_vertical"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_toRightOf="@+id/button_minus"
+                    android:gravity="top|bottom|center_vertical|fill_vertical|center|fill"
+                    android:text="1"
                     android:textColor="@color/hearty_green"
-                    android:text="1"/>
+                    android:textSize="12sp" />
 
                 <ImageButton
                     android:id="@+id/button_plus"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:textColor="@color/green"
-                    android:background="@drawable/plus_icon_border"
-                    android:textSize="15sp"
                     android:layout_toRightOf="@+id/text_quantity"
-                    android:text="+"/>
-
+                    android:background="@drawable/plus_icon_border"
+                    android:text="+"
+                    android:textColor="@color/green"
+                    android:textSize="15sp" />
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_total_price_dollor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/text_total_price"
+                android:paddingTop="3dp"
+                android:text="$"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="6sp" />
+
             <TextView
                 android:id="@+id/text_total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/text_total_price_decimal"
+                android:text="100"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/text_total_price_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:text="$100.0"
-                android:textSize="10sp"
-                android:textColor="@color/promotionblacktext"/>
-
-
+                android:paddingTop="3dp"
+                android:text="00"
+                android:textColor="@color/promotionblacktext"
+                android:textSize="6sp" />
         </RelativeLayout>
-
     </RelativeLayout>
-
-
 </RelativeLayout>

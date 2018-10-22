@@ -1,10 +1,9 @@
 package com.heartyy.heartyyfresh.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.heartyy.heartyyfresh.R;
+import com.heartyy.heartyyfresh.utils.AppController;
 
 @SuppressLint("ValidFragment")
 public class SearchFragment extends Fragment {
@@ -58,4 +58,10 @@ public class SearchFragment extends Fragment {
         return rootView;
 
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

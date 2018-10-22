@@ -1,13 +1,13 @@
 package com.heartyy.heartyyfresh;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,11 +17,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.heartyy.heartyyfresh.fragment.NeighbourhoodFragment;
-import com.heartyy.heartyyfresh.utils.*;
 import com.heartyy.heartyyfresh.utils.Constants;
+import com.heartyy.heartyyfresh.utils.Fonts;
+import com.heartyy.heartyyfresh.utils.TypefaceSpan;
 
 
 public class HomeActivity extends AppCompatActivity implements NavigationDrawerCallbacks {
@@ -44,17 +44,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerC
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationIcon(R.drawable.hamburger);
-        andBold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        bold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_BOLD);
-        italic = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_ITALIC);
-        light = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_LIGHT);
+        andBold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
+        bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
+        italic = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_ITALIC);
+        light = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_LIGHT);
         SpannableString s = new SpannableString(getResources().getString(R.string.title_activity_home));
-        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
         bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -62,15 +57,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerC
         }
         mDrawerToggle = (DrawerLayout) findViewById(R.id.drawer);
         // homeIcon = (ImageView) mToolbar.findViewById(R.id.toolbar_image);
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.fragment_drawer);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_drawer);
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawerToggle.openDrawer(Gravity.LEFT);
+                mDrawerToggle.openDrawer(Gravity.START);
             }
         });
 
@@ -80,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerC
             Fragment fragment = new NeighbourhoodFragment();
             if (fragment != null) {
                 try{
-                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
                 }catch (Exception e){
                     e.printStackTrace();
@@ -121,7 +115,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerC
                 }
             }, 1500);
         }
-
 
     }
 
@@ -173,9 +166,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerC
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment).commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
 
             // update selected item and title, then close the drawer
 

@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.support.v7.widget.AppCompatTextView;
 
 
 import com.heartyy.heartyyfresh.R;
@@ -194,14 +195,14 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             return;
         }
         if (mViewPager != null) {
-            mViewPager.setOnPageChangeListener(null);
+            mViewPager.addOnPageChangeListener(null);
         }
         final PagerAdapter adapter = view.getAdapter();
         if (adapter == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
         mViewPager = view;
-        view.setOnPageChangeListener(this);
+        view.addOnPageChangeListener(this);
         notifyDataSetChanged();
     }
 
@@ -261,7 +262,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         mListener = listener;
     }
 
-    private class TabView extends TextView {
+    private class TabView extends AppCompatTextView {
         private int mIndex;
 
         public TabView(Context context) {

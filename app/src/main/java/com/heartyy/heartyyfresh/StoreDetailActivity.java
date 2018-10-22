@@ -1,7 +1,7 @@
 package com.heartyy.heartyyfresh;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,26 +58,21 @@ public class StoreDetailActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     public static SimpleAdapter adapter;
-    private Toolbar mToolbar, longToolbar;
-    private RelativeLayout fragmentLayout, shopByLayout;
+    private RelativeLayout fragmentLayout;
     public static boolean isCategory = false;
-    private Typeface regular, meduimItalic, medium, robotoLight, bold;
+    private Typeface regular;
     RelativeLayout sortLayout, refineLayout, sortFragment, refineFragment, bannerFragment, showOfferLayout, mainLayout;
     public static boolean isSortFragment = false;
     public static boolean isRefineFragment = false;
     private Button closeBtn;
     public ImageButton plusAisleBtn;
     private boolean animationIsOn = false;
-    private TextView shopByText, sortText, refineText;
-    private String supplierId, supplierName;
+    private String supplierId;
     private SharedPreferences pref;
     private AisleBean aisleBean;
     private RelativeLayout showOfferImage, categoryLayout;
-    private TextView shoppinginText, zipText, earliestDeliveryText, topCategoryTextView, toolbarTitle, txtProgress;
+    private TextView txtProgress;
     private RelativeLayout countLayout, bottomLayout;
-    private EditText editSearch;
-    private String day;
-    private ImageButton bagButton;
     private ProgressBar progressBar;
     public static boolean cat = false;
     public static List<SubAisleItemBean> subAisleItemBeanList;
@@ -88,44 +83,36 @@ public class StoreDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar1);
-        longToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar1);
+        Toolbar longToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        supplierName = getIntent().getExtras().getString("store");
-        day = getIntent().getExtras().getString("day");
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
+        String supplierName = getIntent().getExtras().getString("store");
+        String day = getIntent().getExtras().getString("day");
         SpannableString s = new SpannableString(supplierName);
-        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
-        toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
         txtProgress = (TextView) mToolbar.findViewById(R.id.text_progress);
-        editSearch = (EditText) mToolbar.findViewById(R.id.edit_search);
+        EditText editSearch = (EditText) mToolbar.findViewById(R.id.edit_search);
         progressBar = (ProgressBar) findViewById(R.id.firstBar);
         toolbarTitle.setText(s);
 
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
-
-        robotoLight = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_LIGHT);
-        regular = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        meduimItalic = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_MEDIUM_ITALIC);
-        medium = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_MEDIUM);
-        bold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_BOLD);
+        Typeface robotoLight = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_LIGHT);
+        regular = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
+        Typeface meduimItalic = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_MEDIUM_ITALIC);
+        Typeface medium = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_MEDIUM);
+        Typeface bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
         toolbarTitle.setTypeface(regular);
-        shopByText = (TextView) findViewById(R.id.text_shop_by);
+        TextView shopByText = (TextView) findViewById(R.id.text_shop_by);
         supplierId = getIntent().getExtras().getString("id");
-        shoppinginText = (TextView) longToolbar.findViewById(R.id.text_shopping_in);
-        zipText = (TextView) longToolbar.findViewById(R.id.text_zip);
-        earliestDeliveryText = (TextView) longToolbar.findViewById(R.id.text_delivery);
+        TextView shoppinginText = (TextView) longToolbar.findViewById(R.id.text_shopping_in);
+        TextView zipText = (TextView) longToolbar.findViewById(R.id.text_zip);
+        TextView earliestDeliveryText = (TextView) longToolbar.findViewById(R.id.text_delivery);
         plusAisleBtn = (ImageButton) findViewById(R.id.button_aisle);
         shoppinginText.setTypeface(robotoLight);
         zipText.setTypeface(regular);
@@ -140,7 +127,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         // adapter = new CustomSavedCardAdapter(this);
 
         fragmentLayout = (RelativeLayout) findViewById(R.id.layout_fragment);
-        shopByLayout = (RelativeLayout) findViewById(R.id.layout_shop_by);
+        RelativeLayout shopByLayout = (RelativeLayout) findViewById(R.id.layout_shop_by);
         sortLayout = (RelativeLayout) findViewById(R.id.layout_sort);
         sortFragment = (RelativeLayout) findViewById(R.id.layout_sort_fragment);
         refineLayout = (RelativeLayout) findViewById(R.id.layout_refine);
@@ -150,16 +137,15 @@ public class StoreDetailActivity extends AppCompatActivity {
         mainLayout = (RelativeLayout) findViewById(R.id.layout_store_main);
         categoryLayout = (RelativeLayout) findViewById(R.id.layout_category);
         closeBtn = (Button) findViewById(R.id.button_close);
-        sortText = (TextView) findViewById(R.id.text_sort);
-        refineText = (TextView) findViewById(R.id.text_refine);
+        TextView sortText = (TextView) findViewById(R.id.text_sort);
+        TextView refineText = (TextView) findViewById(R.id.text_refine);
         showOfferImage = (RelativeLayout) findViewById(R.id.image_show_offer);
         shopByText = (TextView) findViewById(R.id.text_shop_by);
-        topCategoryTextView = (TextView) findViewById(R.id.text_topcategory);
+        TextView topCategoryTextView = (TextView) findViewById(R.id.text_topcategory);
         topCategoryTextView.setTypeface(regular);
         countLayout = (RelativeLayout) findViewById(R.id.layout_total_cart_count);
         bottomLayout = (RelativeLayout) findViewById(R.id.layout_bottom);
-        bagButton = (ImageButton) findViewById(R.id.image_bag);
-
+        ImageButton bagButton = (ImageButton) findViewById(R.id.image_bag);
 
         shopByText.setTypeface(robotoLight);
         sortText.setTypeface(robotoLight);
@@ -190,7 +176,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                     refineFragment.setVisibility(View.INVISIBLE);
                     isRefineFragment = false;
                     SortFragment categoryFragment = new SortFragment(StoreDetailActivity.this,StoreDetailActivity.this);
-                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.sort_fragment, categoryFragment).commit();
                 } else {
                     sortFragment.setVisibility(View.GONE);
@@ -209,7 +195,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                     bottomLayout.setVisibility(View.GONE);
                     isSortFragment = false;
                     RefineFragment categoryFragment = new RefineFragment(StoreDetailActivity.this,StoreDetailActivity.this);
-                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.refine_fragment, categoryFragment).commit();
 
@@ -221,7 +207,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         });
 
 
-        shopByLayout.setOnClickListener(new View.OnClickListener() {
+        /*shopByLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isCategory) {
@@ -246,6 +232,35 @@ public class StoreDetailActivity extends AppCompatActivity {
                     fragmentLayout.startAnimation(alphaAnimHide);
                     isCategory = false;
                 }
+            }
+        });*/
+        shopByLayout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Animation alphaAnimHide;
+                if (isCategory) {
+                    Animation animShow = AnimationUtils.loadAnimation(StoreDetailActivity.this, R.anim.profile_slide_up);
+                    alphaAnimHide = AnimationUtils.loadAnimation(StoreDetailActivity.this, R.anim.aplha_hide);
+                    plusAisleBtn.setImageResource(R.drawable.plus_icon);
+                    recyclerView.startAnimation(animShow);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    fragmentLayout.setVisibility(View.GONE);
+                    fragmentLayout.startAnimation(alphaAnimHide);
+                    isCategory = false;
+                    return;
+                }
+                plusAisleBtn.setImageResource(R.drawable.minus_icon);
+                Animation animHide = AnimationUtils.loadAnimation(StoreDetailActivity.this, R.anim.profile_slide_down);
+                Animation alphaAnimshow = AnimationUtils.loadAnimation(StoreDetailActivity.this, R.anim.alpha_show);
+                alphaAnimHide = AnimationUtils.loadAnimation(StoreDetailActivity.this, R.anim.aplha_hide);
+                recyclerView.startAnimation(animHide);
+                recyclerView.setVisibility(View.GONE);
+                if (cat) {
+                    categoryLayout.startAnimation(alphaAnimHide);
+                }
+                categoryLayout.setVisibility(View.GONE);
+                fragmentLayout.setVisibility(View.VISIBLE);
+                fragmentLayout.startAnimation(alphaAnimshow);
+                isCategory = true;
             }
         });
 
@@ -329,7 +344,6 @@ public class StoreDetailActivity extends AppCompatActivity {
                             animationIsOn = false;
                             showOfferImage.setEnabled(true);
 
-
                         }
                     });
                     mainLayout.startAnimation(anim);
@@ -360,7 +374,6 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                         @Override
                         public void onAnimationStart(Animation animation) {
-
                             mainLayout.setDrawingCacheEnabled(true);
                             animationIsOn = true;
                             showOfferImage.setEnabled(false);
@@ -373,7 +386,6 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
-
                             mainLayout.setDrawingCacheEnabled(false);
                             mainLayout.clearAnimation();
                             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mainLayout.getLayoutParams();
@@ -412,11 +424,10 @@ public class StoreDetailActivity extends AppCompatActivity {
     }
 
     private void requestForAisleAndSupplierStore() {
-        Global.showProgress(StoreDetailActivity.this);
-        String url;
-        url = "store/aisle?supplier_id=" + supplierId + "&zipcode=" + Global.zip + "&user_id=" + pref.getString(Constants.USER_ID, null);
+        Global.showProgress(this);
+        String url = "store/aisle?supplier_id=" + supplierId + "&zipcode=" + Global.zip + "&user_id=" + pref.getString(Constants.USER_ID, null);
         Log.d("storeDetailURL",Constants.URL+url);
-        RequestQueue rq = Volley.newRequestQueue(StoreDetailActivity.this);
+        RequestQueue rq = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, Constants.URL + url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -430,7 +441,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                                 Global.popularAisleBean = aisleBean;
                                 if (aisleBean.getTopAisleBeanList() != null) {
                                     categoryFragment = new CategoryFragment(StoreDetailActivity.this, aisleBean.getTopAisleBeanList(), aisleBean.getPopularItemList(),StoreDetailActivity.this);
-                                    FragmentManager fragmentManager = getFragmentManager();
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
                                     fragmentManager.beginTransaction().replace(R.id.category_fragment, categoryFragment).commit();
                                 }
                                 List<SectionedGridRecyclerViewAdapter.Section> sections =
@@ -541,7 +552,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                                 if (aisleBean.getPromotionBeanList() != null) {
                                     bannerFragment.setVisibility(View.VISIBLE);
                                     BannerPagerFragment pagerFragment = new BannerPagerFragment(StoreDetailActivity.this, aisleBean.getPromotionBeanList());
-                                    FragmentManager fragmentManager1 = getFragmentManager();
+                                    FragmentManager fragmentManager1 = getSupportFragmentManager();
                                     fragmentManager1.beginTransaction().replace(R.id.banner_fragment, pagerFragment).commit();
                                 } else {
                                     bannerFragment.setVisibility(View.GONE);
@@ -552,7 +563,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                                 editor.putString(Constants.TOP_CATEGORY_ID, null);
                                 editor.putString(Constants.SORT, null);
                                 editor.putString(Constants.REFINE, null);
-                                editor.commit();
+                                editor.apply();
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
@@ -560,10 +571,6 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                                 showAlert(jsonObject.getString("message"));
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Global.dialog.dismiss();
-
                         } catch (Exception e) {
                             e.printStackTrace();
                             Global.dialog.dismiss();
@@ -701,7 +708,7 @@ public class StoreDetailActivity extends AppCompatActivity {
 
                     if (Global.popularAisleBean.getTopAisleBeanList() != null) {
                         CategoryFragment categoryFragment = new CategoryFragment(StoreDetailActivity.this, Global.popularAisleBean.getTopAisleBeanList(), Global.popularAisleBean.getPopularItemList(),StoreDetailActivity.this);
-                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.category_fragment, categoryFragment).commit();
                     }
@@ -819,7 +826,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                     editor.putString(Constants.TOP_CATEGORY_ID, null);
                     editor.putString(Constants.SORT, null);
                     editor.putString(Constants.REFINE, null);
-                    editor.commit();
+                    editor.apply();
                     cat = false;
                /* Intent intent = new Intent(StoreDetailActivity.this,StoreDetailActivity.class);
                 startActivity(intent);
@@ -991,7 +998,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString(Constants.REFINE,null);
                             editor.putString(Constants.SORT,null);
-                            editor.commit();
+                            editor.apply();
 
                             List<SubAisleItemBean> subAisleItemBeanList = new ArrayList<>();
 
@@ -1074,7 +1081,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                             topCategoryText.setText(Global.topAisleBean.getTopAisleBean().getTopCategoryName());
                             SharedPreferences.Editor editor1 = pref.edit();
                             editor1.putString(Constants.CATEGORY, "top");
-                            editor1.commit();
+                            editor1.apply();
                             Global.backCount = 1;
                             Global.backFrom = "";
                             requestForBrandandSizeForTopCategory(supplierId, pref.getString(Constants.TOP_CATEGORY_ID, null));
@@ -1220,12 +1227,12 @@ public class StoreDetailActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor0 = pref.edit();
                             editor0.putString(Constants.REFINE,null);
                             editor0.putString(Constants.SORT,null);
-                            editor0.commit();
+                            editor0.apply();
 
                             categoryLayout.setVisibility(View.GONE);
                             if (Global.popularAisleBean.getTopAisleBeanList() != null) {
                                 CategoryFragment categoryFragment = new CategoryFragment(StoreDetailActivity.this, aisleBean.getTopAisleBeanList(), aisleBean.getPopularItemList(),StoreDetailActivity.this);
-                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentManager fragmentManager = getSupportFragmentManager();
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.category_fragment, categoryFragment).commit();
                             }
@@ -1337,14 +1344,14 @@ public class StoreDetailActivity extends AppCompatActivity {
                             Global.backCount = 0;
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString(Constants.CATEGORY, "sub");
-                            editor.commit();
+                            editor.apply();
 
                             SharedPreferences.Editor editor1 = pref.edit();
                             editor1.putString(Constants.SUB_CATEGORY_ID, null);
                             editor1.putString(Constants.TOP_CATEGORY_ID, null);
                             editor.putString(Constants.SORT, null);
                             editor.putString(Constants.REFINE, null);
-                            editor1.commit();
+                            editor1.apply();
                         }
 
                     } else if (Global.backFrom.equalsIgnoreCase("sub")) {
@@ -1361,7 +1368,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString(Constants.REFINE,null);
                         editor.putString(Constants.SORT,null);
-                        editor.commit();
+                        editor.apply();
 
 
 
@@ -1447,7 +1454,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                         Global.backCount=2;
                         SharedPreferences.Editor editor2 = pref.edit();
                         editor2.putString(Constants.CATEGORY, "sub");
-                        editor2.commit();
+                        editor2.apply();
                     }
                     return true;
                 }else{
@@ -1483,9 +1490,6 @@ public class StoreDetailActivity extends AppCompatActivity {
                                 sortImage.setImageResource(R.drawable.sort_icon);
                                 ImageView refineImage = (ImageView) findViewById(R.id.image_refine_icon);
                                 refineImage.setImageResource(R.drawable.refine_icon);
-
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-
 
                             }
                         } catch (JSONException e) {
@@ -1537,14 +1541,9 @@ public class StoreDetailActivity extends AppCompatActivity {
                                 ImageView refineImage = (ImageView) findViewById(R.id.image_refine_icon);
                                 refineImage.setImageResource(R.drawable.refine_icon);
 
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-
-
                         }
 
                     }
@@ -1679,4 +1678,3 @@ public class StoreDetailActivity extends AppCompatActivity {
         }
     }
 }
-

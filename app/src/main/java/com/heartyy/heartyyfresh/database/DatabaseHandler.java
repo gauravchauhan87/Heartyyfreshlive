@@ -290,13 +290,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 new String[]{supplierItemId}, null, null, null, null);
         String str = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 str = cursor.getString(0);
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
         return str;
     }
@@ -346,8 +347,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 new String[]{supplierItemId}, null, null, null, null);
         OrderBean orderBean = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 orderBean = new OrderBean();
                 orderBean.setSupplierItemId(cursor.getString(0));
@@ -369,7 +370,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 orderBean.setMaxQuantity(cursor.getString(16));
             }
         }
-        cursor.close();
+
+        if (cursor != null) {
+            cursor.close();
+        }
         db.close();
         return orderBean;
     }
@@ -493,16 +497,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         SUPPLIER_NAME, SUPPLIER_AVAILABLE}, SUPPLIER_ID + "=?",
                 new String[]{supplierId}, null, null, null, null);
         SuppliersBean suppliersBean = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 suppliersBean = new SuppliersBean();
                 suppliersBean.setSupplierId(cursor.getString(0));
                 suppliersBean.setSupplierName(cursor.getString(1));
                 suppliersBean.setSupplierAvailable(cursor.getString(2));
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
         return suppliersBean;
     }
@@ -653,8 +658,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_SIGNUP_ERROR;
         Cursor cursor = db.rawQuery(selectQuery, null);
         SignupError signupError = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 signupError = new SignupError();
                 signupError.setNameRequired(cursor.getString(0));
@@ -672,8 +677,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 signupError.setLastNameRequired(cursor.getString(12));
                 signupError.setLastNameLength(cursor.getString(13));
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
 
         return signupError;
@@ -685,17 +691,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_LOGIN_ERROR;
         Cursor cursor = db.rawQuery(selectQuery, null);
         LoginError loginError = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 loginError = new LoginError();
                 loginError.setPasswordRequired(cursor.getString(0));
                 loginError.setEmailRequired(cursor.getString(1));
                 loginError.setEmailInvalid(cursor.getString(2));
-
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
 
         return loginError;
@@ -706,8 +712,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_ADDRESS_ERROR;
         Cursor cursor = db.rawQuery(selectQuery, null);
         AddressError addressError = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 addressError = new AddressError();
                 addressError.setNoResult(cursor.getString(0));
@@ -723,8 +729,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 addressError.setZipcodeInvalid(cursor.getString(10));
                 addressError.setZipcodeLength(cursor.getString(11));
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
 
         return addressError;
@@ -735,8 +742,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_CARD_ERROR;
         Cursor cursor = db.rawQuery(selectQuery, null);
         CardError cardError = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 cardError = new CardError();
                 cardError.setNumberRequired(cursor.getString(0));
@@ -750,8 +757,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 cardError.setZipcodeRequired(cursor.getString(8));
                 cardError.setZipcodeLength(cursor.getString(9));
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
 
         return cardError;
@@ -762,19 +770,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_CHANGE_PASSWORD_ERROR;
         Cursor cursor = db.rawQuery(selectQuery, null);
         ChangePasswordError changePasswordError = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 changePasswordError = new ChangePasswordError();
                 changePasswordError.setCurrentPasswordRequired(cursor.getString(0));
                 changePasswordError.setNewPasswordrequired(cursor.getString(1));
                 changePasswordError.setSame(cursor.getString(2));
                 changePasswordError.setPasswordLength(cursor.getString(3));
-
-
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
 
         return changePasswordError;
@@ -785,52 +792,51 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_CHANGE_PASSWORD_ERROR;
         Cursor cursor = db.rawQuery(selectQuery, null);
         SupportError supportError = null;
-        if (cursor.getCount() > 0) {
-            if (cursor != null) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 supportError = new SupportError();
                 supportError.setCommentRequired(cursor.getString(0));
-
-
             }
+            cursor.close();
         }
-        cursor.close();
+
         db.close();
 
         return supportError;
     }
 
-    public void deleteSignupError() {
+    private void deleteSignupError() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_SIGNUP_ERROR);
         db.close();
     }
 
-    public void deleteLoginError() {
+    private void deleteLoginError() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_LOGIN_ERROR);
         db.close();
     }
 
-    public void deleteAddressError() {
+    private void deleteAddressError() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_ADDRESS_ERROR);
         db.close();
     }
 
-    public void deleteCardnError() {
+    private void deleteCardnError() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_CARD_ERROR);
         db.close();
     }
 
-    public void deleteChangePasswordError() {
+    private void deleteChangePasswordError() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_CHANGE_PASSWORD_ERROR);
         db.close();
     }
 
-    public void deleteSupportError() {
+    private void deleteSupportError() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_SUPPORT_ERROR);
         db.close();

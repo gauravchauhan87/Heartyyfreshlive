@@ -94,7 +94,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 } else {
                     editor.putString(Constants.DELIVERY_TYPE, null);
                 }
-                editor.commit();
+                editor.apply();
                 Global.map = new HashMap<String, SupplierDeliveryScheduleBean>();
                 Global.datePos = -1;
                 Global.slotPos = -1;
@@ -110,7 +110,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void checkDelivery() {
         Global.showProgress(CheckoutActivity.this);
-        RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
+        RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
         final DatabaseHandler db = new DatabaseHandler(CheckoutActivity.this);
 
         JSONObject params = new JSONObject();

@@ -3,8 +3,6 @@ package com.heartyy.heartyyfresh.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +14,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,26 +115,21 @@ public class NeighbourhoodFragment extends Fragment {
 
     }
 
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_neighbourhood, container,false);
 
-        context = getActivity().getApplicationContext();
+        if (getActivity().getApplicationContext() != null) {
+            context = getActivity().getApplicationContext();
+        }
         activity = (HomeActivity) getActivity();
 
-        andBold = Typeface.createFromAsset(context.getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        bold = Typeface.createFromAsset(context.getAssets(),
-                Fonts.ROBOTO_BOLD);
-        italic = Typeface.createFromAsset(context.getAssets(),
-                Fonts.ROBOTO_ITALIC);
-        light = Typeface.createFromAsset(context.getAssets(),
-                Fonts.ROBOTO_LIGHT);
+        andBold = Typeface.createFromAsset(context.getAssets(), Fonts.ROBOTO_REGULAR);
+        bold = Typeface.createFromAsset(context.getAssets(), Fonts.ROBOTO_BOLD);
+        italic = Typeface.createFromAsset(context.getAssets(), Fonts.ROBOTO_ITALIC);
+        light = Typeface.createFromAsset(context.getAssets(), Fonts.ROBOTO_LIGHT);
         ViewGroup root = (ViewGroup) rootView.findViewById(R.id.neighborhood_main);
         Global.setFont(root, andBold);
-        pref = context.getApplicationContext().getSharedPreferences("MyPref",
-                context.MODE_PRIVATE);
+        pref = context.getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         storeListView = (ListView) rootView.findViewById(R.id.list_stores);
         changeZipLayout = (RelativeLayout) rootView.findViewById(R.id.layout_change_zip);
         countLayout = (RelativeLayout) rootView.findViewById(R.id.layout_total_cart_count);
@@ -143,7 +139,6 @@ public class NeighbourhoodFragment extends Fragment {
         if (bundle != null) {
             zip = getActivity().getIntent().getExtras().getString("zip");
         }
-
 
         closeBtn = (Button) rootView.findViewById(R.id.button_close);
         bannerFragment = rootView.findViewById(R.id.layout_fragment);
@@ -167,8 +162,6 @@ public class NeighbourhoodFragment extends Fragment {
         if (Global.zip != null) {
             userZipcodeText.setText(Global.zip);
         }
-
-
 
         storeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -197,7 +190,7 @@ public class NeighbourhoodFragment extends Fragment {
                         editor.putString(Constants.SUPPLIER_ID, suppliersBean.getSupplierId());
                         editor.putString(Constants.SUPPLIER_NAME, suppliersBean.getSupplierName());
                         editor.putString(Constants.APPLICABLE_TAX_RATE, suppliersBean.getApplicableTaxRate());
-                        editor.commit();
+                        editor.apply();
                         Global.isDeliveryBack = false;
                         context.startActivity(intent);
                     }else{
@@ -225,7 +218,7 @@ public class NeighbourhoodFragment extends Fragment {
                         editor.putString(Constants.SUPPLIER_ID, suppliersBean.getSupplierId());
                         editor.putString(Constants.SUPPLIER_NAME, suppliersBean.getSupplierName());
                         editor.putString(Constants.APPLICABLE_TAX_RATE, suppliersBean.getApplicableTaxRate());
-                        editor.commit();
+                        editor.apply();
                     }
                 }
             }
@@ -275,10 +268,8 @@ public class NeighbourhoodFragment extends Fragment {
                     Animation animshow = AnimationUtils.loadAnimation(context, R.anim.alpha_show);
                     showOfferLayout.startAnimation(animshow);
 
-
                     TranslateAnimation anim = new TranslateAnimation(0, 0, 0, -height);
                     anim.setDuration(1000);
-
                     anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
 
                         @Override
@@ -308,8 +299,6 @@ public class NeighbourhoodFragment extends Fragment {
                             bannerFragment.setVisibility(View.INVISIBLE);
                             animationIsOn = false;
                             showOfferImage.setEnabled(true);
-
-
                         }
                     });
                     storeLayout.startAnimation(anim);
@@ -337,11 +326,9 @@ public class NeighbourhoodFragment extends Fragment {
 
                         @Override
                         public void onAnimationStart(Animation animation) {
-
                             storeLayout.setDrawingCacheEnabled(true);
                             animationIsOn = true;
                             showOfferImage.setEnabled(false);
-
                         }
 
                         @Override
@@ -350,7 +337,6 @@ public class NeighbourhoodFragment extends Fragment {
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
-
                             storeLayout.setDrawingCacheEnabled(false);
                             storeLayout.clearAnimation();
                             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) storeLayout.getLayoutParams();
@@ -362,8 +348,6 @@ public class NeighbourhoodFragment extends Fragment {
                             bannerFragment.setVisibility(View.VISIBLE);
                             animationIsOn = false;
                             closeBtn.setEnabled(true);
-
-
                         }
                     });
                     storeLayout.startAnimation(anim);
@@ -392,15 +376,15 @@ public class NeighbourhoodFragment extends Fragment {
                         }
                     }
                 }
-            }else {
-
             }
         }
 
         userZipcodeText.setText(Global.zip);
         TimeZone tz = TimeZone.getDefault();
-        System.out.println("TimeZone   " + tz.getDisplayName(false, TimeZone.SHORT) + " Timezon id :: " + tz.getID());
-        Global.showProgress(getActivity());
+        Log.d("TimeZone   ", tz.getDisplayName(false, TimeZone.SHORT) + " Timezon id :: " + tz.getID());
+        if (getActivity() != null) {
+            Global.showProgress(getActivity());
+        }
         String url;
 
         if (Global.zip == null) {
@@ -430,7 +414,7 @@ public class NeighbourhoodFragment extends Fragment {
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                chooseStore.setText("Choose your neighbourhood store");
+                                chooseStore.setText(R.string.neighbourhood_store);
                                 JSONObject dataObj = jsonObject.getJSONObject("data");
                                 String available = dataObj.getString("available");
                                 if (available.equalsIgnoreCase("YES")) {
@@ -451,7 +435,9 @@ public class NeighbourhoodFragment extends Fragment {
                                         try {
                                             BannerPagerFragment pagerFragment = new BannerPagerFragment(context, storeBeanList.getPromotionBeanList());
                                             FragmentManager fragmentManager = getFragmentManager();
-                                            fragmentManager.beginTransaction().replace(R.id.banner_fragment, pagerFragment).commit();
+                                            if (fragmentManager != null) {
+                                                fragmentManager.beginTransaction().replace(R.id.banner_fragment, pagerFragment).commit();
+                                            }
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                             Intent intent = new Intent(context,HomeActivity.class);
@@ -469,7 +455,7 @@ public class NeighbourhoodFragment extends Fragment {
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
                                 Global.dialog.dismiss();
-                                chooseStore.setText("No store available,please change your zipcode");
+                                chooseStore.setText(R.string.no_store_avl);
 
                                 showAlert(jsonObject.getString("message"));
                             }
@@ -504,8 +490,10 @@ public class NeighbourhoodFragment extends Fragment {
 
 
     public void checkAvailablePromotion() {
-
-        RequestQueue rq = Volley.newRequestQueue(getActivity());
+        RequestQueue rq = null;
+        if (getActivity() != null){
+            rq = Volley.newRequestQueue(getActivity());
+        }
         final DatabaseHandler db = new DatabaseHandler(getActivity());
         double price, salesPrice;
 
@@ -629,17 +617,19 @@ public class NeighbourhoodFragment extends Fragment {
         });
 
 // Adding request to request queue
-        rq.add(jsonObjReq);
+        if (rq != null) {
+            rq.add(jsonObjReq);
+        }
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
     }
 
     private void showRating() {
-
-        RequestQueue rq = Volley.newRequestQueue(getActivity());
-
-
+        RequestQueue rq = null;
+        if (getActivity() != null) {
+            rq = Volley.newRequestQueue(getActivity());
+        }
         JSONObject params = new JSONObject();
         try {
 
@@ -698,7 +688,9 @@ public class NeighbourhoodFragment extends Fragment {
         });
 
 // Adding request to request queue
-        rq.add(jsonObjReq);
+        if (rq != null) {
+            rq.add(jsonObjReq);
+        }
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -725,15 +717,12 @@ public class NeighbourhoodFragment extends Fragment {
                                     if (userCreditsBean != null) {
                                         SharedPreferences.Editor editor = pref.edit();
                                         editor.putString(Constants.CREDITS_AMOUNT, userCreditsBean.getTotalCreditAmount());
-                                        editor.commit();
+                                        editor.apply();
                                     }
-
 
                                 }
                                 if (storeBeanList != null) {
-                                    if (storeBeanList.getRating().equalsIgnoreCase("YES")) {
-
-                                    } else {
+                                    if (!storeBeanList.getRating().equalsIgnoreCase("YES")) {
                                         showRating();
                                     }
                                 }
@@ -768,12 +757,9 @@ public class NeighbourhoodFragment extends Fragment {
     }
 
     private void showNoEmailAlert(final String zipCode) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(getActivity());
-        View promptsView = layoutInflater.inflate(
-                R.layout.dialog_no_email, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptsView = layoutInflater.inflate(R.layout.dialog_no_email, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -801,19 +787,18 @@ public class NeighbourhoodFragment extends Fragment {
     }
 
     private void userInterest(String zipCode, String email) {
-        Global.showProgress(getActivity());
+        if (getActivity() != null) {
+            Global.showProgress(getActivity());
+        }
         RequestQueue rq = Volley.newRequestQueue(context);
-
         JSONObject params = new JSONObject();
         try {
             String device = "Android";
             String androidOsVersion = getDeviceOs();
-
             params.put("email", email);
             params.put("zipcode", zipCode);
             params.put("phone_type", device);
             params.put("os_version", androidOsVersion);
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -850,7 +835,7 @@ public class NeighbourhoodFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("error", "Error: " + error.getMessage().toString());
+                VolleyLog.d("error", "Error: " + error.getMessage());
                 Global.dialog.dismiss();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
@@ -875,11 +860,7 @@ public class NeighbourhoodFragment extends Fragment {
 
             try {
                 fieldValue = field.getInt(new Object());
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
+            } catch (IllegalArgumentException | IllegalAccessException | NullPointerException e) {
                 e.printStackTrace();
             }
 
@@ -894,12 +875,9 @@ public class NeighbourhoodFragment extends Fragment {
 
     private void showRatingPopup(final PopupRatingBean ratingBean) {
 
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(getActivity());
-        View promptsView = layoutInflater.inflate(
-                R.layout.popup_store_rating, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptsView = layoutInflater.inflate(R.layout.popup_store_rating, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -917,18 +895,10 @@ public class NeighbourhoodFragment extends Fragment {
         driverRatingBar.setMax(5);
         PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
 
-        LayerDrawable stars = (LayerDrawable) driverRatingBar
-                .getProgressDrawable();
-        stars.getDrawable(2)
-                .setColorFilter(context.
-                        getResources().getColor(
-                        R.color.hearty_star), mMode);
-        stars.getDrawable(1).setColorFilter(context.
-                getResources().getColor(
-                R.color.hearty_star), mMode);
-        stars.getDrawable(0).setColorFilter(context.
-                getResources().getColor(
-                R.color.edit_line_zip), mMode);
+        LayerDrawable stars = (LayerDrawable) driverRatingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
+        stars.getDrawable(1).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
+        stars.getDrawable(0).setColorFilter(ContextCompat.getColor(context,R.color.edit_line_zip), mMode);
         driverName.setTypeface(andBold);
         thanksText.setTypeface(andBold);
         rateStaffText.setTypeface(light);
@@ -945,8 +915,7 @@ public class NeighbourhoodFragment extends Fragment {
         driverRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                int suppRating = (int) ratingBar.getRating();
-                driverRating = suppRating;
+                driverRating = (int) ratingBar.getRating();
             }
         });
 
@@ -1002,7 +971,9 @@ public class NeighbourhoodFragment extends Fragment {
 
     private void setRating(PopupRatingBean ratingBean, final String avoide) {
 
-        Global.showProgress(getActivity());
+        if (getActivity() != null) {
+            Global.showProgress(getActivity());
+        }
         RequestQueue rq = Volley.newRequestQueue(context);
 
         JSONObject params = new JSONObject();
@@ -1065,7 +1036,7 @@ public class NeighbourhoodFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("error", "Error: " + error.getMessage().toString());
+                VolleyLog.d("error", "Error: " + error.getMessage());
                 Global.dialog.dismiss();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
@@ -1084,12 +1055,9 @@ public class NeighbourhoodFragment extends Fragment {
     }
 
     private void showAlert(String msg) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(getActivity());
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -1109,12 +1077,9 @@ public class NeighbourhoodFragment extends Fragment {
     }
 
     private void showBackAlert(String msg) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(getActivity());
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -1181,7 +1146,7 @@ public class NeighbourhoodFragment extends Fragment {
                                 progressBar.setProgress(Integer.parseInt(Global.promotionAvailableBean.getFreeDeliveryMinOrder().getMinOrderAmnt()));
                             }
                             Global.isFreeDelivery = true;
-                            txtProgress.setText("FREE DELIVERY");
+                            txtProgress.setText(R.string.free_delivery);
                         } else {
                             String text = String.format("%.2f", addMore);
                             progressBar.setProgress(temp);
@@ -1210,7 +1175,7 @@ public class NeighbourhoodFragment extends Fragment {
     }
 
     public void getCurrentLocation() {
-        GPSTracker gps = new GPSTracker(getActivity());
+        GPSTracker gps = new GPSTracker(context);
         if (gps.canGetLocation()) {
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
@@ -1232,10 +1197,6 @@ public class NeighbourhoodFragment extends Fragment {
                             currentZip = postalCode1;
                         }
                     }
-
-
-                } else {
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1247,8 +1208,7 @@ public class NeighbourhoodFragment extends Fragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
 
@@ -1256,7 +1216,6 @@ public class NeighbourhoodFragment extends Fragment {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getCurrentLocation();
                 }
-                return;
             }
         }
     }
@@ -1266,13 +1225,15 @@ public class NeighbourhoodFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setTotalAmount();
+        int locationCheck = 0;
         if (Global.zip != null) {
             userZipcodeText = (TextView) rootView.findViewById(R.id.text_user_zipcode);
             userZipcodeText.setText(Global.zip);
             userZipcodeText.setTypeface(andBold);
         }
-        int locationCheck = ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (getActivity() != null) {
+            locationCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+        }
         if (locationCheck == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
         } else {
@@ -1282,7 +1243,13 @@ public class NeighbourhoodFragment extends Fragment {
         }
         getNeighbourhoodStore();
 
-
     }
 
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (getActivity() != null) {
+            AppController.getRefWatcher(getActivity()).watch(this);
+        }
+    }*/
 }

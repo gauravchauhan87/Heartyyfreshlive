@@ -1,6 +1,8 @@
 package com.heartyy.heartyyfresh;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -33,13 +36,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -48,7 +51,6 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
@@ -58,19 +60,25 @@ import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.tasks.Task;
 import com.heartyy.heartyyfresh.bean.LocationBean;
 import com.heartyy.heartyyfresh.bean.PaymentCardBean;
 import com.heartyy.heartyyfresh.bean.UserBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.errors.LoginError;
-import com.heartyy.heartyyfresh.errors.SignupError;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
 import com.heartyy.heartyyfresh.utils.AccountChecker;
@@ -90,14 +98,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class SignInActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SignInActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
     private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 2;
     Typeface andBold, bold, italic, light;
     Button forgotPasswordBtn;
     private EditText editEmail, editPassword;
-    private TextView emailErrorText, passwordErrorText, orText, byRegisterText, andText;
-    private Button loginBtn;
+    private TextView emailErrorText;
+    private TextView passwordErrorText;
     private UserBean loginData;
     private SharedPreferences pref;
     ImageView signinFacebookButton;
@@ -110,39 +118,31 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
     private static final int RC_SIGN_IN = 0;
     private static final int RECOVERABLE_REQUEST_CODE = -1;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInAccount account;
     private GoogleApiClient mGoogleApiClient;
-    private ImageView googleBtn;
     private ConnectionResult mConnectionResult;
     private boolean mIntentInProgress;
     private String googleAuthToken;
-    private TextView termsBtn, privacyBtn;
     private List<LocationBean> locationBeanList;
     List<PaymentCardBean> cardBeanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_sign_in);
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         SpannableString s = new SpannableString(getResources().getString(R.string.title_activity_sign_in));
-        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
-        andBold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        bold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_BOLD);
-        italic = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_ITALIC);
-        light = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_LIGHT);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        andBold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
+        bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
+        italic = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_ITALIC);
+        light = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_LIGHT);
         ViewGroup root = (ViewGroup) findViewById(R.id.signin_main);
         Global.setFont(root, andBold);
         forgotPasswordBtn = (Button) findViewById(R.id.button_forgot);
@@ -150,14 +150,14 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         editPassword = (EditText) findViewById(R.id.edit_password);
         emailErrorText = (TextView) findViewById(R.id.text_warn_email);
         passwordErrorText = (TextView) findViewById(R.id.text_warn_password);
-        loginBtn = (Button) findViewById(R.id.button_login);
+        Button loginBtn = (Button) findViewById(R.id.button_login);
         signinFacebookButton = (ImageView) findViewById(R.id.button_facebook_signin);
-        googleBtn = (ImageView) findViewById(R.id.button_google);
-        termsBtn = (TextView) findViewById(R.id.button_terms);
-        privacyBtn = (TextView) findViewById(R.id.button_policy);
-        orText = (TextView) findViewById(R.id.text_or);
-        byRegisterText = (TextView) findViewById(R.id.text_by_logging);
-        andText = (TextView) findViewById(R.id.text_and);
+        ImageView googleBtn = (ImageView) findViewById(R.id.button_google);
+        TextView termsBtn = (TextView) findViewById(R.id.button_terms);
+        TextView privacyBtn = (TextView) findViewById(R.id.button_policy);
+        TextView orText = (TextView) findViewById(R.id.text_or);
+        TextView byRegisterText = (TextView) findViewById(R.id.text_by_logging);
+        TextView andText = (TextView) findViewById(R.id.text_and);
 
         orText.setTypeface(light);
         byRegisterText.setTypeface(light);
@@ -223,19 +223,24 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
         callbackManager = CallbackManager.Factory.create();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
                 .addScope(new Scope(Scopes.PROFILE))
                 .addScope(new Scope(Scopes.EMAIL))
-                .build();
+                .build();*/
 
         googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int accountCheck = ContextCompat.checkSelfPermission(SignInActivity.this,
-                        Manifest.permission.GET_ACCOUNTS);
+                int accountCheck = ContextCompat.checkSelfPermission(SignInActivity.this,Manifest.permission.GET_ACCOUNTS);
                 if (accountCheck == PackageManager.PERMISSION_GRANTED) {
                     signInWithGplus();
                 } else {
@@ -249,17 +254,14 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.radiansys.heartyfresh",
+                    getPackageName(),
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-
-        } catch (NoSuchAlgorithmException e) {
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 
@@ -272,13 +274,11 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                     fbAuthToken = currentAccessToken.getToken();
                     String fbUserID = currentAccessToken.getUserId();
 
-
                     Log.d("User id: ", fbUserID);
                     Log.d("Access token is: ", fbAuthToken);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
 
             }
         };
@@ -356,12 +356,9 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         Global.showProgress(SignInActivity.this);
         String deviceToken = pref.getString(Constants.DEVICE_TOKEN,null);
 
-
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
-
         JSONObject params = new JSONObject();
         try {
-
             JSONObject oauthObj = new JSONObject();
             if (provider.equalsIgnoreCase("facebook")) {
                 oauthObj.put("oauth_token", fbAuthToken);
@@ -427,14 +424,13 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                                 } else if (provider.equalsIgnoreCase("google")) {
                                     editor.putString(Constants.SOCIAL, "google");
                                 }
-                                editor.commit();
-
+                                editor.apply();
 
                                 getDeliveryAddress();
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.clear();
-                                editor.commit();
+                                editor.apply();
                                 Handler handler = new Handler();
                                 handler.postDelayed(new Runnable() {
                                     @Override
@@ -451,10 +447,9 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                             e.printStackTrace();
                             Global.dialog.dismiss();
 
-
                             SharedPreferences.Editor editor = pref.edit();
                             editor.clear();
-                            editor.commit();
+                            editor.apply();
                             showAlert("Can not login right now. Please try again!");
                         }
 
@@ -467,7 +462,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                 Global.dialog.dismiss();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
-                editor.commit();
+                editor.apply();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -484,9 +479,12 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     private void signInWithGplus() {
-        if (!mGoogleApiClient.isConnecting()) {
+        /*if (!mGoogleApiClient.isConnecting()) {
             resolveSignInError();
-        }
+        }*/
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     private void resolveSignInError() {
@@ -501,9 +499,9 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-    private void getGoogleProfileInformation() {
+    private void getGoogleProfileInformation(GoogleSignInAccount account) {
         try {
-            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+            /*if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 com.google.android.gms.plus.model.people.Person currentPerson = Plus.PeopleApi
                         .getCurrentPerson(mGoogleApiClient);
                 String personName = currentPerson.getDisplayName();
@@ -524,9 +522,41 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
             } else {
                 Log.d("googleapiclient", "null");
+            }*/
+
+            if (account != null) {
+                String personName = account.getDisplayName();
+                String email = account.getEmail();
+                String name[] = new String[0];
+                if (personName != null) {
+                    name = personName.split(" ");
+                }
+                mGoogleSignInClient.signOut();
+                mGoogleSignInClient.revokeAccess();
+
+                gcm = GoogleCloudMessaging.getInstance(SignInActivity.this);
+                new RegisterBackground(gcm, SignInActivity.this).execute();
+//                Toast.makeText(this, personName +" : "+ email +" : "+ googleAuthToken, Toast.LENGTH_LONG).show();
+
+                loginToHeartyFresh(email, "", "google",name[0], name[1]);
+//                loginToHeartyFresh("gaurav635478@gmail.com", "", "google","Gaurav", "Chauhan");
+
+            } else {
+                Log.d("GoogleSignInClient", "null");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            account = completedTask.getResult(ApiException.class);
+            GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
+            token.execute();
+        } catch (ApiException e) {
+            Log.w("signIn:failed code=", String.valueOf(e.getStatusCode()));
         }
     }
 
@@ -577,10 +607,9 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     private void showAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater
                 .from(SignInActivity.this);
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                SignInActivity.this);
+        @SuppressLint("InflateParams")
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignInActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -600,12 +629,10 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     private void showSuccessAlert(String msg) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(SignInActivity.this);
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                SignInActivity.this);
+        LayoutInflater layoutInflater = LayoutInflater.from(SignInActivity.this);
+        @SuppressLint("InflateParams")
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignInActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -638,29 +665,35 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("result code", "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
         if (requestCode == RC_SIGN_IN) {
-            if (resultCode != RESULT_OK) {
-            }
-
             mIntentInProgress = false;
 
-            if (!mGoogleApiClient.isConnecting()) {
+            /*if (!mGoogleApiClient.isConnecting()) {
                 mGoogleApiClient.connect();
-            }
+            }*/
+
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+
         } else if (requestCode == RECOVERABLE_REQUEST_CODE && resultCode == RESULT_OK) {
             Bundle extra = data.getExtras();
-            String oneTimeToken = extra.getString("authtoken");
+            String oneTimeToken = null;
+            if (extra != null) {
+                oneTimeToken = extra.getString("authtoken");
+            }
             Log.d("authtoken...google.", oneTimeToken);
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
-
-
     }
 
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm.getActiveNetworkInfo() != null;
+        if (cm != null) {
+            return cm.getActiveNetworkInfo() != null;
+        } else {
+            return false;
+        }
     }
 
 
@@ -684,7 +717,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /*@Override
     public void onConnected(Bundle bundle) {
         GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
         token.execute();
@@ -697,11 +730,19 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d("connectionerror", "Google plus");
         if (!connectionResult.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this,
-                    0).show();
+            *//*GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this,
+                    0).show();*//*
+            GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+            int status = apiAvailability.isGooglePlayServicesAvailable(this);
+            if(status != ConnectionResult.SUCCESS) {
+                if(apiAvailability.isUserResolvableError(status)) {
+                    apiAvailability.getErrorDialog(this, connectionResult.getErrorCode(), 0).show();
+                }
+
+            }
             return;
         }
 
@@ -711,9 +752,9 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
 
         }
-    }
+    }*/
 
-    protected void onStart() {
+    /*protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
     }
@@ -723,14 +764,14 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
-    }
+    }*/
 
     class GetGooglePlusToken extends AsyncTask<Void, Void, String> {
         Context context;
         private GoogleApiClient mGoogleApiClient;
         private String TAG = this.getClass().getSimpleName();
 
-        public GetGooglePlusToken(Context context, GoogleApiClient mGoogleApiClient) {
+        private GetGooglePlusToken(Context context, GoogleApiClient mGoogleApiClient) {
             this.context = context;
             this.mGoogleApiClient = mGoogleApiClient;
         }
@@ -742,13 +783,16 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
                 Bundle bundle = new Bundle();
 
-                String accountname = Plus.AccountApi.getAccountName(mGoogleApiClient);
-                String scope = "oauth2:" + Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.email" + " https://www.googleapis.com/auth/plus.profile.agerange.read";
-                accessToken1 = GoogleAuthUtil.getToken(context,
-                        accountname,
-                        scope);
+//                String accountname = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                Account accountuser = account.getAccount();
+//                String scope = "oauth2:" + Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.email" + " https://www.googleapis.com/auth/plus.profile.agerange.read";
+                String scope = "oauth2:" + Scopes.PLUS_ME + " " + Scopes.LEGACY_USERINFO_PROFILE;
+                if (accountuser != null) {
+                    accessToken1 = GoogleAuthUtil.getToken(context, accountuser, scope);
+                }
                 googleAuthToken = accessToken1;
                 Log.d("google auth token..", googleAuthToken);
+
                 return accessToken1;
 
             } catch (IOException transientEx) {
@@ -787,13 +831,12 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         @Override
         protected void onPostExecute(String response) {
             Log.d(TAG, "Google access token = " + response);
-            getGoogleProfileInformation();
+            getGoogleProfileInformation(account);
         }
     }
 
 
     private void getDeliveryAddress() {
-
 
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
         JSONObject params = new JSONObject();
@@ -829,16 +872,11 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
                                 getAllPaymentCard();
 
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-
                             }
 
                         } catch (JSONException e) {
-
-
                             e.printStackTrace();
                         }
-
 
                     }
                 }, new Response.ErrorListener() {
@@ -847,13 +885,6 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             public void onErrorResponse(VolleyError error) {
 
                 Log.d("error", "Error: " + error.toString());
-                if (error instanceof NoConnectionError) {
-
-                } else if (error instanceof ServerError) {
-
-                } else {
-
-                }
             }
         });
 
@@ -865,8 +896,6 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     private void getAllPaymentCard() {
 
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
-
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 Constants.URL + "payment?user_id=" + pref.getString(Constants.USER_ID, null), null, //Not null.
                 new Response.Listener<JSONObject>() {
@@ -878,8 +907,6 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-
-
                                 cardBeanList = ConversionHelper.covertPaymentCardJsonToPaymentCardApiBean(jsonObject);
                                 if (cardBeanList != null) {
                                     if (cardBeanList.size() > 0) {
@@ -915,16 +942,13 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                                 startActivity(intent);
                                 finish();
 
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
+                            } /*else if (status.equalsIgnoreCase(Constants.ERROR)) {
 
-                            }
+                            }*/
 
                         } catch (JSONException e) {
-
-
                             e.printStackTrace();
                         }
-
 
                     }
                 }, new Response.ErrorListener() {
@@ -933,11 +957,6 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             public void onErrorResponse(VolleyError error) {
                 Global.dialog.dismiss();
                 Log.d("response", error.toString());
-                if (error instanceof NoConnectionError) {
-
-                } else {
-
-                }
             }
         });
 
@@ -958,7 +977,6 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                 List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(Constants.LATITUDE), Double.parseDouble(Constants.LONGITUDE), 1);
                 if (addresses.size() > 0) {
                     latitude = addresses.get(0).getLatitude();
-
                     addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
                     String postalCode1 = addresses.get(0).getPostalCode();
                     Log.d("latitude...", String.valueOf(latitude));
@@ -970,10 +988,6 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                             Global.zip = postalCode1;
                         }
                     }
-
-
-                } else {
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -985,18 +999,16 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getCurrentLocation();
-                    ;
 
                 }
-                return;
+                break;
 
             }
 
@@ -1006,8 +1018,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                     signInWithGplus();
 
                 }
-                return;
-
+                break;
 
             }
 

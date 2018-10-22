@@ -1,6 +1,7 @@
 package com.heartyy.heartyyfresh;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -66,17 +68,12 @@ public class ZipCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zip_code);
         SpannableString s = new SpannableString(getResources().getString(R.string.title_activity_zip_code));
-        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
-        andBold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        bold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_BOLD);
-        light = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_LIGHT);
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
+        andBold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
+        bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
+        light = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_LIGHT);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         ViewGroup root = (ViewGroup) findViewById(R.id.zipcode_main);
         Global.setFont(root, andBold);
         startShoppingBtn = (Button) findViewById(R.id.button_start_shopping);
@@ -98,15 +95,15 @@ public class ZipCodeActivity extends AppCompatActivity {
                 String zip4 = editZip4.getText().toString();
                 String zip5 = editZip5.getText().toString();
 
-                if (zip1.isEmpty() || zip2.isEmpty() || zip3.isEmpty() || zip4.isEmpty() || zip5.isEmpty() || zip1 == null || zip2 == null || zip3 == null || zip4 == null || zip5 == null) {
+                if (zip1.isEmpty() || zip2.isEmpty() || zip3.isEmpty() || zip4.isEmpty() || zip5.isEmpty()) {
                     zipWarnText.setVisibility(View.VISIBLE);
-                    zipWarnText.setText("Enter a valid zipcode");
+                    zipWarnText.setText(R.string.valid_zipcode);
                 } else {
                     zipWarnText.setVisibility(View.GONE);
                     String zipCode = zip1 + zip2 + zip3 + zip4 + zip5;
+                    String userid = pref.getString(Constants.USER_ID, null);
                     checkAvailability(zipCode);
                 }
-
 
             }
         });
@@ -283,8 +280,6 @@ public class ZipCodeActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String str = charSequence.toString();
-                if (str.length() > 0) {
-                }
             }
 
             @Override
@@ -305,10 +300,12 @@ public class ZipCodeActivity extends AppCompatActivity {
                     editZip1.setText("");
 
                     editZip1.requestFocus();
-                }else if(keyCode==KeyEvent.KEYCODE_ENTER){
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(editZip5.getWindowToken(),
-                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                } else if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editZip5.getWindowToken(),
+                                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    }
                     return true;
                 }
                 return false;
@@ -396,7 +393,7 @@ public class ZipCodeActivity extends AppCompatActivity {
         Global.showProgress(ZipCodeActivity.this);
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Constants.URL + "service/available?zipcode=" + zipCode+"&user_id="+pref.getString(Constants.USER_ID,null), null,
+                Constants.URL + "service/available?zipcode=" + zipCode + "&user_id=" + pref.getString(Constants.USER_ID, null), null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -409,7 +406,6 @@ public class ZipCodeActivity extends AppCompatActivity {
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
                                 StoreBean storeBeanList = ConversionHelper.convertStoreJsonToStoreBeanList(jsonObject);
-
                                 String available = storeBeanList.getAvalilable();
 
                                 if (available.equalsIgnoreCase("YES")) {
@@ -427,7 +423,6 @@ public class ZipCodeActivity extends AppCompatActivity {
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
                                 Global.dialog.dismiss();
-
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
@@ -475,8 +470,8 @@ public class ZipCodeActivity extends AppCompatActivity {
                     Log.d("longitude...", String.valueOf(longitude));
                     Log.d("zipcode...", postalCode1);
 
-                    if(postalCode1!=null){
-                        if(postalCode1.length()==5){
+                    if (postalCode1 != null) {
+                        if (postalCode1.length() == 5) {
                             editZip1.setText(postalCode1.substring(0, 1));
                             editZip2.setText(postalCode1.substring(1, 2));
                             editZip3.setText(postalCode1.substring(2, 3));
@@ -484,10 +479,6 @@ public class ZipCodeActivity extends AppCompatActivity {
                             editZip5.setText(postalCode1.substring(4, 5));
                         }
                     }
-
-
-                } else {
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -502,10 +493,9 @@ public class ZipCodeActivity extends AppCompatActivity {
     private void showAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater
                 .from(ZipCodeActivity.this);
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                ZipCodeActivity.this);
+        @SuppressLint("InflateParams")
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ZipCodeActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -541,22 +531,14 @@ public class ZipCodeActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION:{
-
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentLocation();;
-
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getCurrentLocation();
                 }
-                return;
-
             }
-
         }
-
     }
 
     @Override
@@ -564,13 +546,18 @@ public class ZipCodeActivity extends AppCompatActivity {
         super.onResume();
         int locationCheck = ContextCompat.checkSelfPermission(ZipCodeActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
-        if (locationCheck == PackageManager.PERMISSION_GRANTED){
+        if (locationCheck == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
-        }else{
-            ActivityCompat.requestPermissions(ZipCodeActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+        } else {
+            ActivityCompat.requestPermissions(ZipCodeActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION);
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Global.dialog.dismiss();
     }
 }

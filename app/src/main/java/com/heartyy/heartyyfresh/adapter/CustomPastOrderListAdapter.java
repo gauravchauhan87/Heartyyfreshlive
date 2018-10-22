@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,18 +93,10 @@ public class CustomPastOrderListAdapter extends BaseAdapter {
 
         PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
 
-        LayerDrawable stars = (LayerDrawable) ratingBar
-                .getProgressDrawable();
-        stars.getDrawable(2)
-                .setColorFilter(context.
-                        getResources().getColor(
-                        R.color.hearty_star), mMode);
-        stars.getDrawable(1).setColorFilter(context.
-                getResources().getColor(
-                R.color.hearty_star), mMode);
-        stars.getDrawable(0).setColorFilter(context.
-                getResources().getColor(
-                R.color.edit_line_zip), mMode);
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
+        stars.getDrawable(1).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
+        stars.getDrawable(0).setColorFilter(ContextCompat.getColor(context,R.color.edit_line_zip), mMode);
 
 
         pastStoreListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

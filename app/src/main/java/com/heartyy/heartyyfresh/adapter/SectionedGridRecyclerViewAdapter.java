@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -77,18 +78,11 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         this.activity = activity;
         mRecyclerView = recyclerView;
         this.mLayoutManager = mLayoutManager;
-        robotoLight = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_LIGHT);
-        regular = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        meduimItalic = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_MEDIUM_ITALIC);
-        medium = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_MEDIUM);
-
-        pref = context.getApplicationContext().getSharedPreferences("MyPref",
-                context.MODE_PRIVATE);
-
+        robotoLight = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_LIGHT);
+        regular = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_REGULAR);
+        meduimItalic = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_MEDIUM_ITALIC);
+        medium = Typeface.createFromAsset(mContext.getAssets(), Fonts.ROBOTO_MEDIUM);
+        pref = context.getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         mBaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -126,13 +120,12 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
 
-    public static class SectionViewHolder extends RecyclerView.ViewHolder {
+    private static class SectionViewHolder extends RecyclerView.ViewHolder {
+        private TextView title, more, subId, no;
+        private ImageView popularImage;
+        private RelativeLayout moreLayout;
 
-        public TextView title, more, subId, no;
-        public ImageView popularImage;
-        public RelativeLayout moreLayout;
-
-        public SectionViewHolder(View view, int mTextResourceid) {
+        private SectionViewHolder(View view, int mTextResourceid) {
             super(view);
             title = (TextView) view.findViewById(mTextResourceid);
             more = (TextView) view.findViewById(R.id.text_more);
@@ -143,8 +136,9 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         }
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int typeView) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int typeView) {
         if (typeView == SECTION_TYPE) {
             final View view = LayoutInflater.from(mContext).inflate(mSectionResourceId, parent, false);
             return new SectionViewHolder(view, mTextResourceId);
@@ -154,7 +148,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder sectionViewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder sectionViewHolder, final int position) {
         if (isSectionHeaderPosition(position)) {
             ((SectionViewHolder) sectionViewHolder).title.setText(mSections.get(position).title);
             ((SectionViewHolder) sectionViewHolder).subId.setText(mSections.get(position).subCategoryId);
@@ -182,7 +176,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                 @Override
                 public void onClick(View view) {
                     Log.d("item name..", (String) ((SectionViewHolder) sectionViewHolder).subId.getText());
-                    if(mSections.get(position).topCategoryId==null && mSections.get(position).subCategoryId=="-1"){
+                    if(mSections.get(position).topCategoryId==null && mSections.get(position).subCategoryId.equals("-1")){
 
                     }else {
                         SharedPreferences.Editor editor = pref.edit();
@@ -191,7 +185,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                         if (mSections.get(position).topCategoryId != null) {
                             editor.putString(Constants.CATEGORY, "top");
                             editor.putString(Constants.TOP_CATEGORY_ID, mSections.get(position).topCategoryId);
-                            editor.commit();
+                            editor.apply();
                             Global.sort = null;
                         }
 
@@ -205,23 +199,19 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             mBaseAdapter.onBindViewHolder(sectionViewHolder, sectionedPositionToPosition(position));
         }
 
-
     }
 
     private void requestForAisleAndSupplierStore(final String subCategoryId, String showmore, final String topCategoryId1) {
-
         Global.showProgress(activity);
         String url;
         final String supplierId = pref.getString(Constants.SUPPLIER_ID, null);
         final String topCategoryId = pref.getString(Constants.TOP_CATEGORY_ID, null);
-
         url = "product";
-
 
         RequestQueue rq = Volley.newRequestQueue(mContext);
         JSONObject params = new JSONObject();
         try {
-            if(topCategoryId1==null&&subCategoryId=="-1"){
+            if(topCategoryId1==null && subCategoryId.equals("-1")){
                 params.put("popular", "");
             }else {
                 if (topCategoryId1 != null) {
@@ -232,8 +222,6 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                 }
             }
             params.put("supplier_id", supplierId);
-
-
             params.put("user_id", pref.getString(Constants.USER_ID, null));
             if (Global.refineBrandBeanList != null) {
                 if (Global.refineBrandBeanList.size() > 0) {
@@ -243,7 +231,6 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                     }
                     params.put("brands", brandsArray);
                 }
-
             }
 
             if (Global.refinePriceBeanList != null) {
@@ -261,9 +248,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             if (Global.sort != null) {
                 params.put("sort", Global.sort);
             }
-
             Log.d("json", params.toString());
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -404,7 +389,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                     //Apply this adapter to the RecyclerView
                                     recyclerView.setLayoutManager(mLayoutManager);
                                     recyclerView.setAdapter(mSectionedAdapter);
-                                    if(subCategoryId=="-1"&&topCategoryId1==null){
+                                    if(subCategoryId.equals("-1") && topCategoryId1==null){
                                         Global.dialog.dismiss();
                                     }else {
                                         RelativeLayout categoryLayout = (RelativeLayout) activity.findViewById(R.id.layout_category);
@@ -550,13 +535,10 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
     public void setSections(Section[] sections) {
         mSections.clear();
-
         Arrays.sort(sections, new Comparator<Section>() {
             @Override
             public int compare(Section o, Section o1) {
-                return (o.firstPosition == o1.firstPosition)
-                        ? 0
-                        : ((o.firstPosition < o1.firstPosition) ? -1 : 1);
+                return (o.firstPosition == o1.firstPosition) ? 0 : ((o.firstPosition < o1.firstPosition) ? -1 : 1);
             }
         });
 
@@ -581,7 +563,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         return position + offset;
     }
 
-    public int sectionedPositionToPosition(int sectionedPosition) {
+    private int sectionedPositionToPosition(int sectionedPosition) {
         if (isSectionHeaderPosition(sectionedPosition)) {
             return RecyclerView.NO_POSITION;
         }
@@ -596,7 +578,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         return sectionedPosition + offset;
     }
 
-    public boolean isSectionHeaderPosition(int position) {
+    private boolean isSectionHeaderPosition(int position) {
         return mSections.get(position) != null;
     }
 
@@ -614,12 +596,9 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     private void showAlert(String msg) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(activity);
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                activity);
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();

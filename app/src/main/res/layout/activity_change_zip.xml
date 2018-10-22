@@ -8,7 +8,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="16dp"
-    tools:context="0dp">
+    tools:context=".ChangeZipActivity">
 
     <TextView
         android:id="@+id/text_enter_zipcode"

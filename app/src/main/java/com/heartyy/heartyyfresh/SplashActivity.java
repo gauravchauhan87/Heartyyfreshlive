@@ -1,14 +1,20 @@
 package com.heartyy.heartyyfresh;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
@@ -38,6 +44,7 @@ import java.util.List;
 public class SplashActivity extends Activity {
 
     private final int SPLASH_DISPLAY_LENGTH = 3000;
+
     private SharedPreferences pref;
     private ValidationError validationError;
     private List<LocationBean> locationBeanList;
@@ -47,36 +54,29 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
-        new Handler().post(new Runnable() {
+        /*new Handler().post(new Runnable() {
             @Override
             public void run() {
                 getErrorMessages();
             }
-        });
+        });*/
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 String userId = pref.getString(Constants.USER_ID, null);
-
                 if (userId == null) {
-                    Intent intent = new Intent(SplashActivity.this,
-                            MainActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-
-
-                    Intent intent = new Intent(SplashActivity.this,
-                            HomeActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     startActivity(intent);
-                   finish();
+                    finish();
 
                 }
-
 
             }
 
@@ -100,8 +100,6 @@ public class SplashActivity extends Activity {
                                 db.addErrors(validationError);
                                 getDeliveryAddress();
                                 getAllPaymentCard();
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -117,16 +115,13 @@ public class SplashActivity extends Activity {
             }
         });
 
-// Adding request to request queue
+        // Adding request to request queue
         rq.add(jsonObjReq);
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
-
     private void getDeliveryAddress() {
-
-
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
         JSONObject params = new JSONObject();
 
@@ -141,14 +136,8 @@ public class SplashActivity extends Activity {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-
                                 locationBeanList = ConversionHelper.convertDeliveryAddressJsonToDeliveryAddressBean(jsonObject);
-                                if (locationBeanList == null) {
-
-                                } else if (locationBeanList.size() == 0) {
-
-                                } else {
-
+                                if (locationBeanList != null && locationBeanList.size() != 0) {
                                     DatabaseHandler db = new DatabaseHandler(SplashActivity.this);
                                     int count = db.getDeliveryAddressCount();
                                     if (count == 0) {
@@ -158,14 +147,9 @@ public class SplashActivity extends Activity {
                                         db.addDeliveryAddress(locationBeanList);
                                     }
                                 }
-
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-
                             }
 
                         } catch (JSONException e) {
-
-
                             e.printStackTrace();
                         }
 
@@ -177,27 +161,16 @@ public class SplashActivity extends Activity {
             public void onErrorResponse(VolleyError error) {
 
                 Log.d("error", "Error: " + error.toString());
-                if (error instanceof NoConnectionError) {
-
-                }else if(error instanceof ServerError){
-
-                }
-                else {
-
-                }
             }
         });
 
-// Adding request to request queue
+        // Adding request to request queue
         rq.add(jsonObjReq);
 
     }
 
     private void getAllPaymentCard() {
-
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
-
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 Constants.URL + "payment?user_id=" + pref.getString(Constants.USER_ID, null), null, //Not null.
                 new Response.Listener<JSONObject>() {
@@ -209,8 +182,6 @@ public class SplashActivity extends Activity {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-
-
                                 cardBeanList = ConversionHelper.covertPaymentCardJsonToPaymentCardApiBean(jsonObject);
                                 if(cardBeanList!=null){
                                     if(cardBeanList.size()>0){
@@ -224,36 +195,21 @@ public class SplashActivity extends Activity {
                                         }
                                     }
                                 }
-
-
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-
-
-
                             }
 
                         } catch (JSONException e) {
-
-
                             e.printStackTrace();
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("response", error.toString());
-                if(error instanceof NoConnectionError){
-
-                }else {
-
-                }
             }
         });
 
-// Adding request to request queue
+        // Adding request to request queue
         rq.add(jsonObjReq);
     }
 

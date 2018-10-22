@@ -1,7 +1,6 @@
 package com.heartyy.heartyyfresh;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,10 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +41,8 @@ import java.util.List;
 public class NavigationDrawerFragment extends Fragment implements NavigationDrawerCallbacks {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-    private static final String PREFERENCES_FILE = "my_app_settings"; //TODO: change this to your file
+    private static final String PREFERENCES_FILE = "my_app_settings";
+    private Context mContext;
     private NavigationDrawerCallbacks mCallbacks;
     private RecyclerView mDrawerList;
     private View mFragmentContainerView;
@@ -56,10 +59,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        pref = getActivity().getApplicationContext().getSharedPreferences("MyPref",
-                getActivity().getApplicationContext().MODE_PRIVATE);
-        Typeface andBold = Typeface.createFromAsset(getActivity().getApplicationContext().getAssets(),
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.mContext = getActivity();
+        pref = mContext.getSharedPreferences("MyPref",Context.MODE_PRIVATE);
+        Typeface andBold = Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/Roboto-Light.ttf");
         String userid = pref.getString(Constants.USER_ID, null);
         if (userid == null) {
@@ -96,9 +99,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             mDrawerList.setHasFixedSize(true);
             mDrawerList.bringToFront();
 
-
             navigationItems = getMenu();
-            adapter = new NavigationDrawerAdapter(navigationItems);
+            adapter = new NavigationDrawerAdapter(mContext,navigationItems);
             adapter.setNavigationDrawerCallbacks(this);
             mDrawerList.setAdapter(adapter);
             selectItem(mCurrentSelectedPosition);
@@ -154,6 +156,20 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity;
+        if (context instanceof Activity){
+            activity=(Activity) context;
+            try {
+                mCallbacks = (NavigationDrawerCallbacks) activity;
+            } catch (ClassCastException e) {
+                throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+            }
+        }
+    }
+
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -161,7 +177,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
         }
-    }
+    }*/
 
     public ActionBarDrawerToggle getActionBarDrawerToggle() {
         return mActionBarDrawerToggle;
@@ -177,8 +193,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             mFragmentContainerView = (View) mFragmentContainerView.getParent();
         }
         mDrawerLayout = drawerLayout;
-        mDrawerLayout.setStatusBarBackgroundColor(
-                getResources().getColor(R.color.ColorPrimaryDark));
+        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(getActivity().getBaseContext(),R.color.ColorPrimaryDark));
         mDrawerLayout.requestLayout();
 
         mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -214,7 +229,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             }
         });
 
-        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
     }
 
     public void openDrawer() {
@@ -233,14 +248,14 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> getMenu() {
         List<NavigationItem> items = new ArrayList<NavigationItem>();
-        items.add(new NavigationItem("Home", getResources().getDrawable(R.drawable.home_icon), "0"));
-        items.add(new NavigationItem("Profile", getResources().getDrawable(R.drawable.profile_icon), "0"));
-        items.add(new NavigationItem("Payment", getResources().getDrawable(R.drawable.payment_icon), "0"));
-        items.add(new NavigationItem("Delivery Locations", getResources().getDrawable(R.drawable.location_icon12), "0"));
-        items.add(new NavigationItem("Orders", getResources().getDrawable(R.drawable.order_icon), "0"));
-        items.add(new NavigationItem("Promotions", getResources().getDrawable(R.drawable.promotion_icon), "0"));
-        items.add(new NavigationItem("Saved Items", getResources().getDrawable(R.drawable.diet_icon), "0"));
-        items.add(new NavigationItem("Help", getResources().getDrawable(R.drawable.help_icon), "0"));
+        items.add(new NavigationItem("Home", ContextCompat.getDrawable(mContext,R.drawable.home_icon), "0"));
+        items.add(new NavigationItem("Profile", ContextCompat.getDrawable(mContext,R.drawable.profile_icon), "0"));
+        items.add(new NavigationItem("Payment", ContextCompat.getDrawable(mContext,R.drawable.payment_icon), "0"));
+        items.add(new NavigationItem("Delivery Locations", ContextCompat.getDrawable(mContext,R.drawable.location_icon12), "0"));
+        items.add(new NavigationItem("Orders", ContextCompat.getDrawable(mContext,R.drawable.order_icon), "0"));
+        items.add(new NavigationItem("Promotions", ContextCompat.getDrawable(mContext,R.drawable.promotion_icon), "0"));
+        items.add(new NavigationItem("Saved Items", ContextCompat.getDrawable(mContext,R.drawable.diet_icon), "0"));
+        items.add(new NavigationItem("Help", ContextCompat.getDrawable(mContext,R.drawable.help_icon), "0"));
         return items;
     }
 
@@ -333,5 +348,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         }
     }
 
-
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

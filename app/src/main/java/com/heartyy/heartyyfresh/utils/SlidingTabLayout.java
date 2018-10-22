@@ -2,6 +2,7 @@ package com.heartyy.heartyyfresh.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -124,7 +125,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         mViewPager = viewPager;
         if (viewPager != null) {
-            viewPager.setOnPageChangeListener(new InternalViewPagerListener());
+            viewPager.addOnPageChangeListener(new InternalViewPagerListener());
             populateTabStrip();
         }
     }
@@ -193,7 +194,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
-            tabTitleView.setTextColor(getResources().getColorStateList(R.color.selector));
+            tabTitleView.setTextColor(ContextCompat.getColorStateList(getContext(),R.color.selector));
             tabTitleView.setTextSize(14);
         }
     }

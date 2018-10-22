@@ -1,6 +1,8 @@
 package com.heartyy.heartyyfresh;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -59,13 +62,21 @@ import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.tasks.Task;
 import com.heartyy.heartyyfresh.bean.LocationBean;
 import com.heartyy.heartyyfresh.bean.PaymentCardBean;
 import com.heartyy.heartyyfresh.bean.UserBean;
@@ -90,14 +101,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class SignUpActivity extends AppCompatActivity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SignUpActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
     private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 2;
     Typeface andBold, bold, italic, light;
-    private Button registerBtn, alreadyMemberBtn;
     private EditText editFirstName, editLastName, editEmail, editPassword, editZipCode;
-    private TextView fnameErrorText, emailErrorText, passwordErrorText, zipErrorText, orText, byRegisterText, andText;
+    private TextView fnameErrorText;
+    private TextView emailErrorText;
+    private TextView passwordErrorText;
+    private TextView zipErrorText;
+    private TextView andText;
     private UserBean registrationData;
     private SharedPreferences pref;
 
@@ -109,8 +122,10 @@ public class SignUpActivity extends AppCompatActivity implements
 
     private static final int RC_SIGN_IN = 0;
     private static final int RECOVERABLE_REQUEST_CODE = -1;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInAccount account;
     private GoogleApiClient mGoogleApiClient;
-    private ImageView googleBtn;
     private ConnectionResult mConnectionResult;
     private boolean mIntentInProgress;
     private String googleAuthToken;
@@ -125,41 +140,33 @@ public class SignUpActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_sign_up);
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         SpannableString s = new SpannableString(getResources().getString(R.string.title_activity_sign_up));
-        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
-        andBold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        bold = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_BOLD);
-        light = Typeface.createFromAsset(getAssets(),
-                Fonts.ROBOTO_LIGHT);
+        andBold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
+        bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
+        light = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_LIGHT);
         ViewGroup root = (ViewGroup) findViewById(R.id.signup_main);
         Global.setFont(root, andBold);
-        pref = getApplicationContext().getSharedPreferences("MyPref",
-                MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
-        registerBtn = (Button) findViewById(R.id.button_sign_up);
+        Button registerBtn = (Button) findViewById(R.id.button_sign_up);
         editFirstName = (EditText) findViewById(R.id.edit_first);
         editLastName = (EditText) findViewById(R.id.edit_last);
         editEmail = (EditText) findViewById(R.id.edit_email);
         editPassword = (EditText) findViewById(R.id.edit_password);
         editZipCode = (EditText) findViewById(R.id.edit_zip_code);
         signinFacebookButton = (ImageView) findViewById(R.id.button_facebook_signin);
-        googleBtn = (ImageView) findViewById(R.id.button_google);
+        ImageView googleBtn = (ImageView) findViewById(R.id.button_google);
         termsBtn = (TextView) findViewById(R.id.button_terms);
         privacyBtn = (TextView) findViewById(R.id.button_policy);
-        alreadyMemberBtn = (Button) findViewById(R.id.button_already_member);
-        orText = (TextView) findViewById(R.id.text_or);
-        byRegisterText = (TextView) findViewById(R.id.text_by_logging);
+        Button alreadyMemberBtn = (Button) findViewById(R.id.button_already_member);
+        TextView orText = (TextView) findViewById(R.id.text_or);
+        TextView byRegisterText = (TextView) findViewById(R.id.text_by_logging);
         andText = (TextView) findViewById(R.id.text_and);
 
         fnameErrorText = (TextView) findViewById(R.id.text_warn_name);
@@ -182,13 +189,19 @@ public class SignUpActivity extends AppCompatActivity implements
         });
         callbackManager = CallbackManager.Factory.create();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
                 .addScope(new Scope(Scopes.PROFILE))
                 .addScope(new Scope(Scopes.EMAIL))
-                .build();
+                .build();*/
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,19 +268,21 @@ public class SignUpActivity extends AppCompatActivity implements
         });
 
         try {
+            /*PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.heartyy.heartyfresh",
+                    PackageManager.GET_SIGNATURES);*/
+            String name = getPackageName();
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.radiansys.heartyfresh",
+                    getPackageName(),
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
             e.printStackTrace();
 
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
         }
 
         accessTokenTracker = new AccessTokenTracker() {
@@ -278,14 +293,11 @@ public class SignUpActivity extends AppCompatActivity implements
                 try {
                     fbAuthToken = currentAccessToken.getToken();
                     String fbUserID = currentAccessToken.getUserId();
-
-
                     Log.d("User id: ", fbUserID);
                     Log.d("Access token is: ", fbAuthToken);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
 
             }
         };
@@ -360,9 +372,11 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void signInWithGplus() {
-        if (!mGoogleApiClient.isConnecting()) {
+        /*if (!mGoogleApiClient.isConnecting()) {
             resolveSignInError();
-        }
+        }*/
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void resolveSignInError() {
@@ -379,7 +393,7 @@ public class SignUpActivity extends AppCompatActivity implements
 
     private void getGoogleProfileInformation() {
         try {
-            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+            /*if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 com.google.android.gms.plus.model.people.Person currentPerson = Plus.PeopleApi
                         .getCurrentPerson(mGoogleApiClient);
                 String personName = currentPerson.getDisplayName();
@@ -398,10 +412,38 @@ public class SignUpActivity extends AppCompatActivity implements
                 new RegisterBackground(gcm, SignUpActivity.this).execute();
                 registerToHearty(name[0], name[1], email, "", Global.zip, "google");
 
-            } else {
+            }*/
+
+            if (account != null) {
+                String personName = account.getDisplayName();
+                String email = account.getEmail();
+                String name[] = new String[0];
+                if (personName != null) {
+                    name = personName.split(" ");
+                }
+                mGoogleSignInClient.signOut();
+                mGoogleSignInClient.revokeAccess();
+
+                gcm = GoogleCloudMessaging.getInstance(SignUpActivity.this);
+                new RegisterBackground(gcm, SignUpActivity.this).execute();
+//                Toast.makeText(this, personName +" : "+ email +" : "+ googleAuthToken, Toast.LENGTH_LONG).show();
+
+                registerToHearty(name[0], name[1], email, "", Global.zip, "google");
+//                registerToHearty("Gaurav", "Chauhan", "gaurav635478@gmail.com", "", Global.zip, "google");
+
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            account = completedTask.getResult(ApiException.class);
+            GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
+            token.execute();
+        } catch (ApiException e) {
+            Log.w("signUp:failed code=", String.valueOf(e.getStatusCode()));
         }
     }
 
@@ -474,14 +516,14 @@ public class SignUpActivity extends AppCompatActivity implements
                                 }
                                 Global.zip = zip;
                                 editor.putString(Constants.ZIP,zip);
-                                editor.commit();
+                                editor.apply();
                                 getDeliveryAddress();
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
                                 Global.dialog.dismiss();
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.clear();
-                                editor.commit();
+                                editor.apply();
                                 Handler handler = new Handler();
                                 handler.postDelayed(new Runnable() {
                                     @Override
@@ -500,7 +542,7 @@ public class SignUpActivity extends AppCompatActivity implements
                             Global.dialog.dismiss();
                             SharedPreferences.Editor editor = pref.edit();
                             editor.clear();
-                            editor.commit();
+                            editor.apply();
                             showAlert("Can not register right now. Please try again!");
                         }
 
@@ -513,7 +555,7 @@ public class SignUpActivity extends AppCompatActivity implements
                 Global.dialog.dismiss();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
-                editor.commit();
+                editor.apply();
                 if (error instanceof NoConnectionError) {
                     Global.dialog.dismiss();
                     showAlert(Constants.NO_INTERNET);
@@ -541,7 +583,7 @@ public class SignUpActivity extends AppCompatActivity implements
             emailErrorText.setVisibility(View.VISIBLE);
             passwordErrorText.setVisibility(View.VISIBLE);
             zipErrorText.setVisibility(View.VISIBLE);
-            fnameErrorText.setText("First name & Last name is required");
+            fnameErrorText.setText(R.string.first_last_name);
             emailErrorText.setText(signupError.getEmailRequired());
             passwordErrorText.setText(signupError.getPasswordRequired());
             zipErrorText.setText(signupError.getZipcodeRequired());
@@ -550,7 +592,7 @@ public class SignUpActivity extends AppCompatActivity implements
             error = true;
             if (fname.isEmpty() && lname.isEmpty()) {
                 fnameErrorText.setVisibility(View.VISIBLE);
-                fnameErrorText.setText("First name & Last name is required");
+                fnameErrorText.setText(R.string.first_last_name);
             } else if (fname.isEmpty() || lname.isEmpty()) {
                 if (fname.isEmpty()) {
                     fnameErrorText.setVisibility(View.VISIBLE);
@@ -626,20 +668,16 @@ public class SignUpActivity extends AppCompatActivity implements
                 editZipCode.requestFocus();
             }
 
-
         }
-
 
         return error;
     }
 
     private void showAlert(String msg) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(SignUpActivity.this);
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                SignUpActivity.this);
+        LayoutInflater layoutInflater = LayoutInflater.from(SignUpActivity.this);
+        @SuppressLint("InflateParams")
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignUpActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -659,12 +697,10 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void showSuccessAlert(String msg) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(SignUpActivity.this);
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                SignUpActivity.this);
+        LayoutInflater layoutInflater = LayoutInflater.from(SignUpActivity.this);
+        @SuppressLint("InflateParams")
+        View promptsView = layoutInflater.inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignUpActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
@@ -689,7 +725,11 @@ public class SignUpActivity extends AppCompatActivity implements
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm.getActiveNetworkInfo() != null;
+        if (cm != null) {
+            return cm.getActiveNetworkInfo() != null;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -703,17 +743,21 @@ public class SignUpActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("result code", "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
         if (requestCode == RC_SIGN_IN) {
-            if (resultCode != RESULT_OK) {
-            }
-
             mIntentInProgress = false;
 
-            if (!mGoogleApiClient.isConnecting()) {
+            /*if (!mGoogleApiClient.isConnecting()) {
                 mGoogleApiClient.connect();
-            }
+            }*/
+
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+
         } else if (requestCode == RECOVERABLE_REQUEST_CODE && resultCode == RESULT_OK) {
             Bundle extra = data.getExtras();
-            String oneTimeToken = extra.getString("authtoken");
+            String oneTimeToken = null;
+            if (extra != null) {
+                oneTimeToken = extra.getString("authtoken");
+            }
             Log.d("authtoken...google.", oneTimeToken);
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -741,7 +785,7 @@ public class SignUpActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /*@Override
     public void onConnected(Bundle bundle) {
         GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
         token.execute();
@@ -749,28 +793,24 @@ public class SignUpActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionSuspended(int i) {
-
         mGoogleApiClient.connect();
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d("connectionerror", "Google plus");
         if (!connectionResult.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this,
-                    0).show();
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this,0).show();
             return;
         }
 
         if (!mIntentInProgress) {
             // Store the ConnectionResult for later usage
             mConnectionResult = connectionResult;
-
-
         }
-    }
+    }*/
 
-    protected void onStart() {
+    /*protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
     }
@@ -780,14 +820,14 @@ public class SignUpActivity extends AppCompatActivity implements
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
-    }
+    }*/
 
     class GetGooglePlusToken extends AsyncTask<Void, Void, String> {
         Context context;
         private GoogleApiClient mGoogleApiClient;
-        private String TAG = this.getClass().getSimpleName();
+        private String TAG = getClass().getSimpleName();
 
-        public GetGooglePlusToken(Context context, GoogleApiClient mGoogleApiClient) {
+        private GetGooglePlusToken(Context context, GoogleApiClient mGoogleApiClient) {
             this.context = context;
             this.mGoogleApiClient = mGoogleApiClient;
         }
@@ -799,11 +839,15 @@ public class SignUpActivity extends AppCompatActivity implements
 
                 Bundle bundle = new Bundle();
 
-                String accountname = Plus.AccountApi.getAccountName(mGoogleApiClient);
-                String scope = "oauth2:" + Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.email" + " https://www.googleapis.com/auth/plus.profile.agerange.read";
-                accessToken1 = GoogleAuthUtil.getToken(context,
-                        accountname,
-                        scope);
+                /*String accountname = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                String scope = "oauth2:" + Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.email" + " https://www.googleapis.com/auth/plus.profile.agerange.read";*/
+
+                Account accountuser = account.getAccount();
+                String scope = "oauth2:" + Scopes.PLUS_ME + " " + Scopes.LEGACY_USERINFO_PROFILE;
+
+                if (accountuser != null) {
+                    accessToken1 = GoogleAuthUtil.getToken(context, accountuser, scope);
+                }
                 googleAuthToken = accessToken1;
                 Log.d("google auth token..", googleAuthToken);
                 return accessToken1;
@@ -871,10 +915,6 @@ public class SignUpActivity extends AppCompatActivity implements
                             Global.zip = postalCode1;
                         }
                     }
-
-
-                } else {
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -886,18 +926,15 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION:{
-
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getCurrentLocation();;
 
                 }
-                return;
-
+                break;
             }
 
             case MY_PERMISSIONS_REQUEST_GET_ACCOUNTS: {
@@ -906,11 +943,8 @@ public class SignUpActivity extends AppCompatActivity implements
                     signInWithGplus();
 
                 }
-                return;
-
-
+                break;
             }
-
         }
 
     }
@@ -932,33 +966,25 @@ public class SignUpActivity extends AppCompatActivity implements
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-
                                 locationBeanList = ConversionHelper.convertDeliveryAddressJsonToDeliveryAddressBean(jsonObject);
-                                if (locationBeanList == null) {
-
-                                } else if (locationBeanList.size() == 0) {
-
-                                } else {
-
-                                    DatabaseHandler db = new DatabaseHandler(SignUpActivity.this);
-                                    int count = db.getDeliveryAddressCount();
-                                    if (count == 0) {
-                                        db.addDeliveryAddress(locationBeanList);
-                                    } else {
-                                        db.deleteDeliveryAddress();
-                                        db.addDeliveryAddress(locationBeanList);
+                                if (locationBeanList != null) {
+                                    if (locationBeanList.size() != 0) {
+                                        DatabaseHandler db = new DatabaseHandler(SignUpActivity.this);
+                                        int count = db.getDeliveryAddressCount();
+                                        if (count == 0) {
+                                            db.addDeliveryAddress(locationBeanList);
+                                        } else {
+                                            db.deleteDeliveryAddress();
+                                            db.addDeliveryAddress(locationBeanList);
+                                        }
                                     }
+
                                 }
 
                                 getAllPaymentCard();
-
-                            } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-
                             }
 
                         } catch (JSONException e) {
-
-
                             e.printStackTrace();
                         }
 
@@ -970,13 +996,6 @@ public class SignUpActivity extends AppCompatActivity implements
             public void onErrorResponse(VolleyError error) {
 
                 Log.d("error", "Error: " + error.toString());
-                if (error instanceof NoConnectionError) {
-
-                } else if (error instanceof ServerError) {
-
-                } else {
-
-                }
             }
         });
 
@@ -986,10 +1005,7 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void getAllPaymentCard() {
-
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
-
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 Constants.URL + "payment?user_id=" + pref.getString(Constants.USER_ID, null), null, //Not null.
                 new Response.Listener<JSONObject>() {
@@ -1001,8 +1017,6 @@ public class SignUpActivity extends AppCompatActivity implements
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-
-
                                 cardBeanList = ConversionHelper.covertPaymentCardJsonToPaymentCardApiBean(jsonObject);
                                 if (cardBeanList != null) {
                                     if (cardBeanList.size() > 0) {
@@ -1045,7 +1059,6 @@ public class SignUpActivity extends AppCompatActivity implements
 
                         } catch (JSONException e) {
                             Global.dialog.dismiss();
-
                             e.printStackTrace();
                         }
 
@@ -1057,11 +1070,6 @@ public class SignUpActivity extends AppCompatActivity implements
             public void onErrorResponse(VolleyError error) {
                 Global.dialog.dismiss();
                 Log.d("response", error.toString());
-                if (error instanceof NoConnectionError) {
-
-                } else {
-
-                }
             }
         });
 

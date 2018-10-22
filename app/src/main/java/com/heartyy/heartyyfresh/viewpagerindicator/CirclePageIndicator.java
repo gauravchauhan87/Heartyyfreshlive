@@ -26,6 +26,7 @@ import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.view.ViewPager;
@@ -82,10 +83,10 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
         //Load defaults from resources
         final Resources res = getResources();
-        final int defaultPageColor = res.getColor(R.color.white);
-        final int defaultFillColor = res.getColor(R.color.hearty_green_dark);
+        final int defaultPageColor = ContextCompat.getColor(context,R.color.white);
+        final int defaultFillColor = ContextCompat.getColor(context,R.color.hearty_green_dark);
         final int defaultOrientation = res.getInteger(R.integer.default_circle_indicator_orientation);
-        final int defaultStrokeColor = res.getColor(R.color.Black);
+        final int defaultStrokeColor = ContextCompat.getColor(context,R.color.Black);
         final float defaultStrokeWidth = res.getDimension(R.dimen.default_circle_indicator_stroke_width);
         final float defaultRadius = res.getDimension(R.dimen.default_circle_indicator_radius);
         final boolean defaultCentered = res.getBoolean(R.bool.default_circle_indicator_centered);
@@ -108,7 +109,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
         Drawable background = a.getDrawable(R.styleable.CirclePageIndicator_android_background);
         if (background != null) {
-          setBackgroundDrawable(background);
+          setBackground(background);
         }
 
         a.recycle();
@@ -290,7 +291,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             return false;
         }
 
-        final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
+        final int action = ev.getAction() & MotionEvent.ACTION_MASK;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
@@ -344,14 +345,14 @@ public class CirclePageIndicator extends View implements PageIndicator {
                 if (mViewPager.isFakeDragging()) mViewPager.endFakeDrag();
                 break;
 
-            case MotionEventCompat.ACTION_POINTER_DOWN: {
+            case MotionEvent.ACTION_POINTER_DOWN: {
                 final int index = MotionEventCompat.getActionIndex(ev);
                 mLastMotionX = MotionEventCompat.getX(ev, index);
                 mActivePointerId = MotionEventCompat.getPointerId(ev, index);
                 break;
             }
 
-            case MotionEventCompat.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_POINTER_UP:
                 final int pointerIndex = MotionEventCompat.getActionIndex(ev);
                 final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
                 if (pointerId == mActivePointerId) {
@@ -371,13 +372,13 @@ public class CirclePageIndicator extends View implements PageIndicator {
             return;
         }
         if (mViewPager != null) {
-            mViewPager.setOnPageChangeListener(null);
+            mViewPager.addOnPageChangeListener(null);
         }
         if (view.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
         mViewPager = view;
-        mViewPager.setOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(this);
         invalidate();
     }
 

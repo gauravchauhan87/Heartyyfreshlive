@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.view.ViewPager;
@@ -91,7 +92,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         final boolean defaultFades = res.getBoolean(R.bool.default_underline_indicator_fades);
         final int defaultFadeDelay = res.getInteger(R.integer.default_underline_indicator_fade_delay);
         final int defaultFadeLength = res.getInteger(R.integer.default_underline_indicator_fade_length);
-        final int defaultSelectedColor = res.getColor(R.color.default_underline_indicator_selected_color);
+        final int defaultSelectedColor = ContextCompat.getColor(context,R.color.default_underline_indicator_selected_color);
 
         //Retrieve styles attributes
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UnderlinePageIndicator, defStyle, 0);
@@ -103,7 +104,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
 
         Drawable background = a.getDrawable(R.styleable.UnderlinePageIndicator_android_background);
         if (background != null) {
-          setBackgroundDrawable(background);
+          setBackground(background);
         }
 
         a.recycle();
@@ -189,7 +190,7 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
             return false;
         }
 
-        final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
+        final int action = ev.getAction() & MotionEvent.ACTION_MASK;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
@@ -243,14 +244,14 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
                 if (mViewPager.isFakeDragging()) mViewPager.endFakeDrag();
                 break;
 
-            case MotionEventCompat.ACTION_POINTER_DOWN: {
+            case MotionEvent.ACTION_POINTER_DOWN: {
                 final int index = MotionEventCompat.getActionIndex(ev);
                 mLastMotionX = MotionEventCompat.getX(ev, index);
                 mActivePointerId = MotionEventCompat.getPointerId(ev, index);
                 break;
             }
 
-            case MotionEventCompat.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_POINTER_UP:
                 final int pointerIndex = MotionEventCompat.getActionIndex(ev);
                 final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
                 if (pointerId == mActivePointerId) {
@@ -271,13 +272,13 @@ public class UnderlinePageIndicator extends View implements PageIndicator {
         }
         if (mViewPager != null) {
             //Clear us from the old pager.
-            mViewPager.setOnPageChangeListener(null);
+            mViewPager.addOnPageChangeListener(null);
         }
         if (viewPager.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
         mViewPager = viewPager;
-        mViewPager.setOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(this);
         invalidate();
         post(new Runnable() {
             @Override public void run() {

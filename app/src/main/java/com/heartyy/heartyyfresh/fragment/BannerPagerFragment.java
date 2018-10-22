@@ -1,9 +1,9 @@
 package com.heartyy.heartyyfresh.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.adapter.CustomPageAdapter;
 import com.heartyy.heartyyfresh.bean.PromotionBean;
-import com.heartyy.heartyyfresh.bean.SubAisleItemBean;
-import com.heartyy.heartyyfresh.bean.TopAisleBean;
+import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.viewpagerindicator.CirclePageIndicator;
 import com.heartyy.heartyyfresh.viewpagerindicator.PageIndicator;
 
@@ -56,4 +55,10 @@ public class BannerPagerFragment extends Fragment {
         return rootView;
 
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        AppController.getRefWatcher(getActivity()).watch(this);
+    }*/
 }

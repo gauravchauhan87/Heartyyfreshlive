@@ -10,7 +10,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:background="@color/profile"
-    tools:context="com.heartyy.heartyyfresh.ProfileActivity">
+    tools:context=".ProfileActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -417,11 +417,10 @@
                 <ListView
                     android:id="@+id/list_meal_notifications"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="180dp"
                     android:layout_below="@+id/view7"
                     android:layout_marginTop="20dp"
-                    android:paddingBottom="20dp"></ListView>
-
+                    android:paddingBottom="10dp"/>
 
             </RelativeLayout>
 

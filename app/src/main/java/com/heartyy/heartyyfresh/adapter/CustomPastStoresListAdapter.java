@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,18 +95,10 @@ public class CustomPastStoresListAdapter extends BaseAdapter {
         }else{
             ratingBar.setRating((float) Integer.parseInt(data.getSupplierRating()));
         }
-        LayerDrawable stars = (LayerDrawable) ratingBar
-                .getProgressDrawable();
-        stars.getDrawable(2)
-                .setColorFilter(context.
-                        getResources().getColor(
-                        R.color.hearty_star), mMode);
-        stars.getDrawable(1).setColorFilter(context.
-                getResources().getColor(
-                R.color.hearty_star), mMode);
-        stars.getDrawable(0).setColorFilter(context.
-                getResources().getColor(
-                R.color.edit_line_zip), mMode);
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
+        stars.getDrawable(1).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
+        stars.getDrawable(0).setColorFilter(ContextCompat.getColor(context,R.color.edit_line_zip), mMode);
 
         if(data.getDeliveryStatus().equalsIgnoreCase("cancelled")){
             ratingBar.setVisibility(View.GONE);

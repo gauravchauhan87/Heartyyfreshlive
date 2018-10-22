@@ -1772,7 +1772,7 @@ public class ConversionHelper {
     }
 
 
-    public static DeliveryWindowBean  convertDeliveryJSonToDeliveryBean(JSONObject jsonObject) throws JSONException {
+    public static DeliveryWindowBean    convertDeliveryJSonToDeliveryBean(JSONObject jsonObject) throws JSONException {
         DeliveryWindowBean deliveryWindowBean = null;
         if (jsonObject != null) {
             deliveryWindowBean = new DeliveryWindowBean();

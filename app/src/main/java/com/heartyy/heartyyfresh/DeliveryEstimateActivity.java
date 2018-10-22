@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -527,7 +528,7 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
                     // Adding all the points in the route to LineOptions
                     lineOptions.addAll(points);
                     lineOptions.width(10);
-                    lineOptions.color(getResources().getColor(R.color.hearty_green));
+                    lineOptions.color(ContextCompat.getColor(DeliveryEstimateActivity.this,R.color.hearty_green));
                 }
             } catch (Exception ex) {
                 showAlert("Unable to get the route.");
