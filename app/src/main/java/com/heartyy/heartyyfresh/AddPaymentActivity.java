@@ -290,13 +290,13 @@ public class AddPaymentActivity extends AppCompatActivity implements PaymentMeth
 //                                if(jsonObject.getString("message").equalsIgnoreCase("Please provide valid zipcode")){
 //                                    editZipcode.requestFocus();
 //                                }
-                                Handler handler = new Handler();
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        generateClientToken();
-                                    }
-                                });
+//                                Handler handler = new Handler();
+//                                handler.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+                                generateClientToken();
+//                                    }
+//                                });
                             }
                         } catch (JSONException e) {
                             Global.dialog.dismiss();
@@ -623,12 +623,7 @@ public class AddPaymentActivity extends AppCompatActivity implements PaymentMeth
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -639,18 +634,21 @@ public class AddPaymentActivity extends AppCompatActivity implements PaymentMeth
     @Override
     public void onResume() {
         super.onResume();
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                generateClientToken();
-            }
-        });
+//        Handler handler = new Handler();
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+        generateClientToken();
+//            }
+//        });
     }
 
     @Override
     public void onPaymentMethodNonceCreated(PaymentMethodNonce paymentMethodNonce) {
-        Toast.makeText(AddPaymentActivity.this, "error " + paymentMethodNonce.getNonce(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddPaymentActivity.this, "success " + paymentMethodNonce.getNonce(), Toast.LENGTH_SHORT).show();
+        //todo send information to our service
+
+        sendNonceToServer(paymentMethodNonce.getNonce());
     }
 
     @Override
@@ -658,6 +656,7 @@ public class AddPaymentActivity extends AppCompatActivity implements PaymentMeth
         if (error instanceof ErrorWithResponse) {
             // there was a validation error the user provided data
             Toast.makeText(AddPaymentActivity.this, "error " + error, Toast.LENGTH_SHORT).show();
+            generateClientToken();
         }
     }
 }

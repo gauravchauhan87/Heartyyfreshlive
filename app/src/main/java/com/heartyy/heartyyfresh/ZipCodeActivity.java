@@ -68,7 +68,7 @@ public class ZipCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zip_code);
         SpannableString s = new SpannableString(getResources().getString(R.string.title_activity_zip_code));
-        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
         andBold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
         bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
@@ -399,7 +399,7 @@ public class ZipCodeActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                        Global.hideProgress();
                         try {
 
                             String status = jsonObject.getString("status");
@@ -422,11 +422,11 @@ public class ZipCodeActivity extends AppCompatActivity {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                                // Global.hideProgress();
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                            // Global.hideProgress();
                             showAlert("Something went wrong.!");
                             e.printStackTrace();
                         }
@@ -436,7 +436,7 @@ public class ZipCodeActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+                Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else if (error instanceof ServerError) {
@@ -489,6 +489,7 @@ public class ZipCodeActivity extends AppCompatActivity {
         }
     }
 
+    AlertDialog dialog;
 
     private void showAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater
@@ -498,7 +499,7 @@ public class ZipCodeActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ZipCodeActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button okBtn = (Button) promptsView.findViewById(R.id.button_ok);
         titleText.setTypeface(andBold);
@@ -507,7 +508,8 @@ public class ZipCodeActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
             }
         });
         dialog.show();
@@ -549,7 +551,7 @@ public class ZipCodeActivity extends AppCompatActivity {
         if (locationCheck == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
         } else {
-            ActivityCompat.requestPermissions(ZipCodeActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+            ActivityCompat.requestPermissions(ZipCodeActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION);
         }
 
@@ -558,6 +560,8 @@ public class ZipCodeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Global.dialog.dismiss();
+        Global.hideProgress();
+        if (dialog != null && dialog.isShowing())
+            dialog.dismiss();
     }
 }

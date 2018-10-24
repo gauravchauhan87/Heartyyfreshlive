@@ -323,13 +323,13 @@ public class ItemDetailActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
                     }
                 }, new ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         Log.d(Constants.ERROR, "Error: " + error.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         if (!(error instanceof NoConnectionError)) {
                         }
                     }
@@ -746,9 +746,9 @@ public class ItemDetailActivity extends AppCompatActivity {
                         }
                         final BrandBean brandBean = Global.subAisleItemBean.getBrand();
                         if (brandBean == null) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         } else if (brandBean.getBrandName() == null) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         } else {
                             runOnUiThread(new Runnable() {
                                 public void run() {
@@ -766,18 +766,18 @@ public class ItemDetailActivity extends AppCompatActivity {
                         }
                         layoutSimilar.setVisibility(View.GONE);
                     } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         showAlert(jsonObject.getString(ShareConstants.WEB_DIALOG_PARAM_MESSAGE));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 Log.d(Constants.ERROR, "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -796,7 +796,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(0, Constants.URL + url, null, new Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
                 Log.d("response", jsonObject.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 try {
                     String status = jsonObject.getString(AnalyticsEvents.PARAMETER_SHARE_DIALOG_CONTENT_STATUS);
                     if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -811,18 +811,18 @@ public class ItemDetailActivity extends AppCompatActivity {
                         }
                         moreLayout.setVisibility(View.GONE);
                     } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         showAlert(jsonObject.getString(ShareConstants.WEB_DIALOG_PARAM_MESSAGE));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 Log.d(Constants.ERROR, "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

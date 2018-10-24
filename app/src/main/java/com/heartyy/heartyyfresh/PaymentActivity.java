@@ -137,20 +137,20 @@ public class PaymentActivity extends AppCompatActivity {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 cardBeanList = ConversionHelper.covertPaymentCardJsonToPaymentCardApiBean(jsonObject);
                                 setPaymentCard(cardBeanList);
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(message);
 
                             }
 
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("Something went wrong!");
                             e.printStackTrace();
                         }
@@ -161,7 +161,7 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
                 if(error instanceof NoConnectionError){
                     showAlert(Constants.NO_INTERNET);

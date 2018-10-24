@@ -496,7 +496,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -520,7 +520,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 getDeliveryAddress();
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.clear();
                                 editor.apply();
@@ -539,7 +539,7 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             SharedPreferences.Editor editor = pref.edit();
                             editor.clear();
                             editor.apply();
@@ -552,16 +552,16 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
                 editor.apply();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -823,7 +823,15 @@ public class SignUpActivity extends AppCompatActivity {
     }*/
 
     class GetGooglePlusToken extends AsyncTask<Void, Void, String> {
-        Context context;
+        public GetGooglePlusToken(SignUpActivity signUpActivity, GoogleApiClient mGoogleApiClient) {
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return null;
+        }
+     /*   Context context;
         private GoogleApiClient mGoogleApiClient;
         private String TAG = getClass().getSimpleName();
 
@@ -842,7 +850,7 @@ public class SignUpActivity extends AppCompatActivity {
                 /*String accountname = Plus.AccountApi.getAccountName(mGoogleApiClient);
                 String scope = "oauth2:" + Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.email" + " https://www.googleapis.com/auth/plus.profile.agerange.read";*/
 
-                Account accountuser = account.getAccount();
+         /*       Account accountuser = account.getAccount();
                 String scope = "oauth2:" + Scopes.PLUS_ME + " " + Scopes.LEGACY_USERINFO_PROFILE;
 
                 if (accountuser != null) {
@@ -889,7 +897,7 @@ public class SignUpActivity extends AppCompatActivity {
         protected void onPostExecute(String response) {
             Log.d(TAG, "Google access token = " + response);
             getGoogleProfileInformation();
-        }
+        }*/
     }
 
     public void getCurrentLocation() {
@@ -1053,12 +1061,12 @@ public class SignUpActivity extends AppCompatActivity {
                                 finish();
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                             }
 
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             e.printStackTrace();
                         }
 
@@ -1068,7 +1076,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
             }
         });

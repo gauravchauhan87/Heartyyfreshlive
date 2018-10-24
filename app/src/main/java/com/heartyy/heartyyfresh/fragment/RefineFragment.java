@@ -478,7 +478,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -547,13 +547,13 @@ public class RefineFragment extends Fragment {
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -563,7 +563,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -626,7 +626,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -721,7 +721,7 @@ public class RefineFragment extends Fragment {
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
@@ -744,7 +744,7 @@ public class RefineFragment extends Fragment {
 
                             }
                             showAlert("No such refined data found");
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -754,7 +754,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -781,7 +781,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -820,13 +820,13 @@ public class RefineFragment extends Fragment {
                                 refinePriceListView.setAdapter(priceAdapter);
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -836,7 +836,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -863,7 +863,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -903,13 +903,13 @@ public class RefineFragment extends Fragment {
                                 refinePriceListView.setAdapter(priceAdapter);
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -919,7 +919,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -946,7 +946,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -986,13 +986,13 @@ public class RefineFragment extends Fragment {
                                 refinePriceListView.setAdapter(priceAdapter);
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -1002,7 +1002,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -1029,7 +1029,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -1070,13 +1070,13 @@ public class RefineFragment extends Fragment {
                                 refinePriceListView.setAdapter(priceAdapter);
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -1086,7 +1086,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -1112,7 +1112,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and pri response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -1131,13 +1131,13 @@ public class RefineFragment extends Fragment {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -1147,7 +1147,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -1174,7 +1174,7 @@ public class RefineFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -1191,13 +1191,13 @@ public class RefineFragment extends Fragment {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -1207,7 +1207,7 @@ public class RefineFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

@@ -573,7 +573,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        Global.dialog.dismiss();
+                                       Global.hideProgress();
 
                                     }
 
@@ -583,7 +583,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("error", "Error: " + error.toString());
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             /*if (error instanceof NoConnectionError) {
                                 //  showAlert(Constants.NO_INTERNET);
                             } else {

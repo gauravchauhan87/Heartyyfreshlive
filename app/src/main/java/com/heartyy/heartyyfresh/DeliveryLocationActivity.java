@@ -56,6 +56,7 @@ public class DeliveryLocationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery_location);
+
         SpannableString s = new SpannableString(getResources().getString(R.string.title_activity_delivery_location));
         s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -82,8 +83,10 @@ public class DeliveryLocationActivity extends AppCompatActivity {
                 Fonts.ROBOTO_ITALIC);
         light = Typeface.createFromAsset(getAssets(),
                 Fonts.ROBOTO_LIGHT);
+
         pref = getApplicationContext().getSharedPreferences("MyPref",
                 MODE_PRIVATE);
+
         ViewGroup root = (ViewGroup) findViewById(R.id.delivery_main);
         Global.setFont(root, andBold);
         locationListView = (ListView) findViewById(R.id.list_delivery_locations);
@@ -179,12 +182,12 @@ public class DeliveryLocationActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 locationBeanList = ConversionHelper.convertDeliveryAddressJsonToDeliveryAddressBean(jsonObject);
                                 if (locationBeanList == null) {
                                     noLocationLayout.setVisibility(View.VISIBLE);
@@ -211,12 +214,12 @@ public class DeliveryLocationActivity extends AppCompatActivity {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(message);
                             }
 
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("something went wrong!");
                             e.printStackTrace();
                         }
@@ -227,7 +230,7 @@ public class DeliveryLocationActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("error", "Error: " + error.toString());
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);

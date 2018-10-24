@@ -228,7 +228,7 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("recent search response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -273,7 +273,7 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -282,7 +282,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -313,7 +313,7 @@ public class SearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject jsonObject) {
                             Log.d("response", jsonObject.toString());
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             try {
                                 String status = jsonObject.getString("status");
                                 if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -342,7 +342,7 @@ public class SearchActivity extends AppCompatActivity {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                             }
 
                         }
@@ -351,7 +351,7 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("error", "Error: " + error.toString());
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     if (error instanceof NoConnectionError) {
                         showAlert(Constants.NO_INTERNET);
                     } else {
@@ -400,7 +400,7 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -409,7 +409,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -459,7 +459,7 @@ public class SearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject jsonObject) {
                             Log.d("response", jsonObject.toString());
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             try {
                                 String status = jsonObject.getString("status");
                                 if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -526,7 +526,7 @@ public class SearchActivity extends AppCompatActivity {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                             }
 
                         }
@@ -535,7 +535,7 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("error", "Error: " + error.toString());
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     if (error instanceof NoConnectionError) {
                         showAlert(Constants.NO_INTERNET);
                     } else {

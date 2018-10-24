@@ -179,6 +179,13 @@ public class Global {
         dialog.show();
     }
 
+
+    public static void hideProgress()
+    {
+        if(dialog!=null&&dialog.isShowing())
+            dialog.dismiss();
+    }
+
     public static String FormatAddress(String[] stringArray) {
         String stringAddress = BuildConfig.VERSION_NAME;
         for (int i = 0; i < stringArray.length; i++) {

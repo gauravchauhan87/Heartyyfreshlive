@@ -160,7 +160,7 @@ public class RateUsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String msg = jsonObject.getString("message");
@@ -180,7 +180,8 @@ public class RateUsActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
+                Global.hideProgress();
 
                 if (error instanceof NoConnectionError) {
 

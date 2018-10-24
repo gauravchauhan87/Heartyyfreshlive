@@ -200,13 +200,13 @@ public class SimpleSectionedRecyclerViewAdapter extends Adapter<ViewHolder> {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 Log.d(Constants.ERROR, "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (!(error instanceof NoConnectionError)) {
                 }
             }

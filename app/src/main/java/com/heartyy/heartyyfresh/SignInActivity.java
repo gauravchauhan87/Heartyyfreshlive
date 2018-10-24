@@ -397,7 +397,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -445,7 +445,7 @@ public class SignInActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                             SharedPreferences.Editor editor = pref.edit();
                             editor.clear();
@@ -459,7 +459,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
                 editor.apply();
@@ -603,7 +603,7 @@ public class SignInActivity extends AppCompatActivity {
         }
         return error;
     }
-
+     AlertDialog dialog;
     private void showAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater
                 .from(SignInActivity.this);
@@ -612,7 +612,7 @@ public class SignInActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignInActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button okBtn = (Button) promptsView.findViewById(R.id.button_ok);
         titleText.setTypeface(andBold);
@@ -621,12 +621,14 @@ public class SignInActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(dialog!=null&&dialog.isShowing())
                 dialog.dismiss();
             }
         });
         dialog.show();
 
     }
+
 
     private void showSuccessAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater.from(SignInActivity.this);
@@ -658,6 +660,8 @@ public class SignInActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         profileTracker.stopTracking();
+        if(dialog!=null&&dialog.isShowing())
+            dialog.dismiss();
     }
 
     @Override
@@ -767,7 +771,15 @@ public class SignInActivity extends AppCompatActivity {
     }*/
 
     class GetGooglePlusToken extends AsyncTask<Void, Void, String> {
-        Context context;
+        public GetGooglePlusToken(SignInActivity signInActivity, GoogleApiClient mGoogleApiClient) {
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return null;
+        }
+  /*      Context context;
         private GoogleApiClient mGoogleApiClient;
         private String TAG = this.getClass().getSimpleName();
 
@@ -832,7 +844,7 @@ public class SignInActivity extends AppCompatActivity {
         protected void onPostExecute(String response) {
             Log.d(TAG, "Google access token = " + response);
             getGoogleProfileInformation(account);
-        }
+        }*/
     }
 
 
@@ -955,7 +967,7 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
             }
         });

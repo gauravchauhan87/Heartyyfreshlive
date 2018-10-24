@@ -33,7 +33,7 @@ public class BannerPagerFragment extends Fragment {
     private List<PromotionBean> promotionBeanList;
 
 
-    @SuppressLint("ValidFragment")
+   // @SuppressLint("ValidFragment")
     public BannerPagerFragment(Context context, List<PromotionBean> promotionBeanList) {
         this.context = context;
         this.promotionBeanList = promotionBeanList;

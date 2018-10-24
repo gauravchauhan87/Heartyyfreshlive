@@ -292,7 +292,7 @@ public class CategoryFragment extends Fragment {
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 aisleBean = ConversionHelper.convertCategoryAisleJsonToCategoryAisleBean(jsonObject);
                                 Global.topAisleBean = aisleBean;
                                 Global.backCount = 1;
@@ -348,13 +348,13 @@ public class CategoryFragment extends Fragment {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -364,7 +364,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -504,13 +504,13 @@ public class CategoryFragment extends Fragment {
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -520,7 +520,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -547,7 +547,7 @@ public class CategoryFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -567,12 +567,12 @@ public class CategoryFragment extends Fragment {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -582,7 +582,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -723,7 +723,7 @@ public class CategoryFragment extends Fragment {
                                         editor.putString(Constants.SORT, null);
                                         editor.apply();
                                         showAlert("No Result found");
-                                        Global.dialog.dismiss();
+                                       Global.hideProgress();
                                     }
                                 } else {
                                     RelativeLayout categoryLayout = (RelativeLayout) getActivity().findViewById(R.id.layout_category);
@@ -736,17 +736,17 @@ public class CategoryFragment extends Fragment {
                                     editor.putString(Constants.SORT, null);
                                     editor.apply();
                                     showAlert("No Result found");
-                                    Global.dialog.dismiss();
+                                   Global.hideProgress();
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -754,7 +754,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -780,7 +780,7 @@ public class CategoryFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -800,13 +800,13 @@ public class CategoryFragment extends Fragment {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -815,7 +815,7 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

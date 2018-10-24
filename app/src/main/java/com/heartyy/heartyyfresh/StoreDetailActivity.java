@@ -89,9 +89,11 @@ public class StoreDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationIcon(R.drawable.ic_back);
-        String supplierName = getIntent().getExtras().getString("store");
+
+        String supplierName = getIntent().getExtras().getString("store","");
         String day = getIntent().getExtras().getString("day");
         SpannableString s = new SpannableString(supplierName);
+
         s.setSpan(new TypefaceSpan(this, Fonts.HEADER), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
@@ -100,7 +102,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.firstBar);
         toolbarTitle.setText(s);
 
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+    //    pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
         Typeface robotoLight = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_LIGHT);
         regular = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
@@ -433,7 +435,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -567,13 +569,13 @@ public class StoreDetailActivity extends AppCompatActivity {
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -583,7 +585,7 @@ public class StoreDetailActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -632,6 +634,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(dialog!=null&&dialog.isShowing())
                 dialog.dismiss();
             }
         });
@@ -1480,7 +1483,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -1494,7 +1497,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -1504,7 +1507,7 @@ public class StoreDetailActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -1530,7 +1533,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -1552,7 +1555,7 @@ public class StoreDetailActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

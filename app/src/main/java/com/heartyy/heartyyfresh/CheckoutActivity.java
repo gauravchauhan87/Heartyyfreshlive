@@ -176,11 +176,11 @@ public class CheckoutActivity extends AppCompatActivity {
                                 }
                                 checkStorePromotion("main");
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -189,13 +189,13 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -312,7 +312,7 @@ public class CheckoutActivity extends AppCompatActivity {
         mSectionedAdapter.setSections(sections.toArray(dummy));
         recyclerView.setAdapter(mSectionedAdapter);
 
-        Global.dialog.dismiss();
+       Global.hideProgress();
 
 
     }
@@ -383,12 +383,12 @@ public class CheckoutActivity extends AppCompatActivity {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -397,13 +397,13 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -557,7 +557,7 @@ public class CheckoutActivity extends AppCompatActivity {
         adapter.changeList(finalOrderBeanList);
         mSectionedAdapter.setSections(sections.toArray(dummy));
         mSectionedAdapter.changeadapter(adapter);
-        Global.dialog.dismiss();
+       Global.hideProgress();
     }
 
 

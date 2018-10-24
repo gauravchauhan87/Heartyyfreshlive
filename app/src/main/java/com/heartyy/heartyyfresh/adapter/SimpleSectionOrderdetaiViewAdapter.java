@@ -285,7 +285,7 @@ public class SimpleSectionOrderdetaiViewAdapter extends RecyclerView.Adapter<Rec
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                             }
 
@@ -295,7 +295,7 @@ public class SimpleSectionOrderdetaiViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("error", "Error: " + error.toString());
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     if (error instanceof NoConnectionError) {
                         //  showAlert(Constants.NO_INTERNET);
                     } else {

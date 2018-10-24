@@ -163,16 +163,16 @@ public class HelpActivity extends AppCompatActivity {
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
 
 
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showShareAlert();
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             e.printStackTrace();
                             showAlert("Could not post commnet right now. Please try after sometime");
                         }
@@ -183,7 +183,7 @@ public class HelpActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

@@ -89,7 +89,7 @@ public class LegalTermsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
@@ -107,12 +107,12 @@ public class LegalTermsActivity extends AppCompatActivity {
                                 setContentView(webViewTermsOfServices);
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(message);
 
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("Something went Wrong!");
                             e.printStackTrace();
                         }
@@ -123,7 +123,7 @@ public class LegalTermsActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
                 if(error instanceof NoConnectionError){
                     showAlert(Constants.NO_INTERNET);
@@ -184,7 +184,7 @@ public class LegalTermsActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }else if (id == android.R.id.home) {
-            Intent intent = new Intent(getApplicationContext(), previousClass);
+            Intent intent = new Intent(LegalTermsActivity.this, previousClass);
 
             startActivity(intent);
             finish();

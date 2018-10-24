@@ -53,7 +53,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+
+        pref = getSharedPreferences("MyPref", MODE_PRIVATE);
 
         andBold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_REGULAR);
         bold = Typeface.createFromAsset(getAssets(), Fonts.ROBOTO_BOLD);
@@ -155,10 +156,10 @@ public class MainActivity extends Activity {
 
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.d("response", jsonObject.toString());
+                        Log.d("response22", jsonObject.toString());
                         try {
-                            String status = jsonObject.getString("status");
-                            String message = jsonObject.getString("message");
+                            String status = jsonObject.optString("status");
+                            String message = jsonObject.optString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
                                 locationBeanList = ConversionHelper.convertDeliveryAddressJsonToDeliveryAddressBean(jsonObject);
                                 if (locationBeanList != null && locationBeanList.size() != 0) {
