@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -26,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Cache;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;

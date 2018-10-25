@@ -7,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.PaymentCardBean;
 import com.heartyy.heartyyfresh.bean.SortBean;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;

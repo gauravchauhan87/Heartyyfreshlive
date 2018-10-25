@@ -15,7 +15,6 @@ import com.heartyy.heartyyfresh.adapter.SearchSectionGridRecyclerViewAdapter;
 import com.heartyy.heartyyfresh.bean.SearchProductsBean;
 import com.heartyy.heartyyfresh.bean.SubAisleItemBean;
 import com.heartyy.heartyyfresh.global.Global;
-import com.heartyy.heartyyfresh.utils.AppController;
 
 import java.util.ArrayList;
 import java.util.List;

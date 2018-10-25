@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
-    android:id="@+id/current_orders_items_main"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 

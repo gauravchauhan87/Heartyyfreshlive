@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.global.Global;
-import com.heartyy.heartyyfresh.utils.AppController;
 
 @SuppressLint("ValidFragment")
 public class DetailFragment extends Fragment {

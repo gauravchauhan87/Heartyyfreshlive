@@ -35,7 +35,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-
 import com.heartyy.heartyyfresh.R;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;

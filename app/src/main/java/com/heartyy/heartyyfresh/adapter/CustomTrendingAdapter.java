@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.RecentSearchBean;
 import com.heartyy.heartyyfresh.bean.TrendingBean;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;

@@ -396,6 +396,19 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="81743dff51ba76c9062cebc8996ca9db16d69268" />
+
+        <activity
+            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="${applicationId}.braintree" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

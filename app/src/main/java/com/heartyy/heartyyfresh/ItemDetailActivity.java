@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
@@ -61,12 +62,15 @@ import com.heartyy.heartyyfresh.utils.TypefaceSpan;
 import com.heartyy.heartyyfresh.utils.WrappingLinearLayoutManager;
 import com.heartyy.heartyyfresh.viewpagerindicator.CirclePageIndicator;
 import com.heartyy.heartyyfresh.viewpagerindicator.PageIndicator;
-import io.card.payment.BuildConfig;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.card.payment.BuildConfig;
 
 public class ItemDetailActivity extends AppCompatActivity {
     ViewPagerAdapter adapter;

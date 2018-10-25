@@ -45,7 +45,6 @@ import com.heartyy.heartyyfresh.bean.SubAisleItemBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
-import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 

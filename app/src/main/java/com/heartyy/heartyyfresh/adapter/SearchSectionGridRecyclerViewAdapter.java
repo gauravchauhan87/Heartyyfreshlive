@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
 import java.util.Arrays;

@@ -1,6 +1,5 @@
 package com.heartyy.heartyyfresh.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Handler;

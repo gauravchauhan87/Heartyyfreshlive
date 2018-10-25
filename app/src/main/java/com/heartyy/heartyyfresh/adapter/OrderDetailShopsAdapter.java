@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.CurrentOrderBean;
 import com.heartyy.heartyyfresh.bean.SuppliersBean;
 
 import java.util.List;

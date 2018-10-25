@@ -442,7 +442,6 @@
                     android:src="@drawable/logout_icon" />
 
                 <TextView
-                    android:id="@+id/text_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"

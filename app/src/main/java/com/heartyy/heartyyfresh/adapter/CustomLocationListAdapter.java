@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.bean.LocationBean;
-import com.heartyy.heartyyfresh.bean.StoreBean;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;
 

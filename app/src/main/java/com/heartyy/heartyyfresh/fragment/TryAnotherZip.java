@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.ZipCodeActivity;
-import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
 /**

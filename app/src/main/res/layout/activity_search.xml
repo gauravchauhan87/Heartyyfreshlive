@@ -35,7 +35,6 @@
                     android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/text_search_items"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -63,7 +62,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_aisle_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layout_search_items">
@@ -76,7 +74,6 @@
                     android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/text_aisle_items"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -104,7 +101,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_trending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

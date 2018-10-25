@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.android.volley.Cache;
 import com.android.volley.toolbox.ImageLoader;
-import com.google.android.gms.plus.model.people.Person;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.bean.RefineBrandBean;
 import com.heartyy.heartyyfresh.global.Global;

@@ -33,7 +33,6 @@
         <!-- android:layout_marginTop="?android:attr/actionBarSize"-->
         <com.heartyy.heartyyfresh.ScrimInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/scrimInsetsFrameLayout"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="wrap_content"
             android:layout_gravity="start"

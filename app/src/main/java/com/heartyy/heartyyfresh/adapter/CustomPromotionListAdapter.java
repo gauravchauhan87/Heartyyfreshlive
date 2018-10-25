@@ -2,22 +2,15 @@ package com.heartyy.heartyyfresh.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.TrackOrderActivity;
-import com.heartyy.heartyyfresh.bean.CurrentOrderBean;
-import com.heartyy.heartyyfresh.bean.HeartyPromotionBean;
 import com.heartyy.heartyyfresh.bean.PromotionBean;
-import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
 import java.util.List;

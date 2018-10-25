@@ -54,7 +54,6 @@
         </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linear_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_head"

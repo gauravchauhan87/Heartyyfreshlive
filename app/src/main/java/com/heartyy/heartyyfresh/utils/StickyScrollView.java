@@ -1,7 +1,5 @@
 package com.heartyy.heartyyfresh.utils;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -15,6 +13,8 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ScrollView;
 
 import com.heartyy.heartyyfresh.R;
+
+import java.util.ArrayList;
 
 /**
  * 

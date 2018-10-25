@@ -1,6 +1,5 @@
 package com.heartyy.heartyyfresh;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;

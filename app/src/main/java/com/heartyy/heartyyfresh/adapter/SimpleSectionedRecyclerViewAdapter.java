@@ -33,13 +33,13 @@ import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class SimpleSectionedRecyclerViewAdapter extends Adapter<ViewHolder> {
     private static final int SECTION_TYPE = 0;

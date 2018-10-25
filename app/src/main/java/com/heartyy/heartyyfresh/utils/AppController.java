@@ -1,7 +1,6 @@
 package com.heartyy.heartyyfresh.utils;
 
 import android.app.Application;
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -10,10 +9,11 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
-//import com.squareup.leakcanary.LeakCanary;
-//import com.squareup.leakcanary.RefWatcher;
 
 import io.fabric.sdk.android.Fabric;
+
+//import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.RefWatcher;
 
 public class AppController extends Application {
 

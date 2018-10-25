@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.adapter.CustomPageAdapter;
 import com.heartyy.heartyyfresh.bean.PromotionBean;
-import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.viewpagerindicator.CirclePageIndicator;
 import com.heartyy.heartyyfresh.viewpagerindicator.PageIndicator;
 

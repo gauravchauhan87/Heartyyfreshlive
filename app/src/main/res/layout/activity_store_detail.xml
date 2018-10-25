@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/store_detail_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
@@ -281,7 +280,6 @@
         android:visibility="visible">
 
         <ImageView
-            android:id="@+id/shadow"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:alpha="0.5"
@@ -316,7 +314,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/layout_progress_text"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:gravity="center"
@@ -411,7 +408,6 @@
                 android:background="@drawable/offers_background" />
 
             <TextView
-                android:id="@+id/text_showOffer"
                 android:layout_width="120dp"
                 android:layout_height="20dp"
                 android:layout_centerInParent="true"
@@ -426,14 +422,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/layout_search_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar_actionbar"
         android:visibility="gone">
 
         <FrameLayout
-            android:id="@+id/search_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />

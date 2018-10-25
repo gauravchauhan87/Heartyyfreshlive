@@ -176,7 +176,6 @@
                 android:layout_height="18dp"
                 android:src="@drawable/cart_bag_icon" />
             <TextView
-                android:id="@+id/text_reorder_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

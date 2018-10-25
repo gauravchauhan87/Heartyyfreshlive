@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.heartyy.heartyyfresh.fragment.CurrentOrdersFragment;
-import com.heartyy.heartyyfresh.fragment.NoCurrentOrderFragment;
 import com.heartyy.heartyyfresh.fragment.PastOrdersFragment;
 
 

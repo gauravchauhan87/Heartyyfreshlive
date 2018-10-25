@@ -7,14 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.CurrentOrderBean;
 import com.heartyy.heartyyfresh.bean.CurrentOrderSupplierBean;
-import com.heartyy.heartyyfresh.bean.CurrentStoresBean;
-import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
 import java.util.List;

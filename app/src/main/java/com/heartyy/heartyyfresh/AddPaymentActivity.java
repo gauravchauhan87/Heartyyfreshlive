@@ -1,12 +1,10 @@
 package com.heartyy.heartyyfresh;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -167,7 +165,7 @@ public class AddPaymentActivity extends AppCompatActivity implements PaymentMeth
             @Override
             public void onClick(View view) {
                 if (clientToken != null) {
-//                    type = "paypal";
+                    type = "paypal";
 //                    Intent intent = new Intent(AddPaymentActivity.this, BraintreePaymentActivity.class);
 //                    intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, clientToken);
 //                    startActivityForResult(intent, REQUEST_CODE);
@@ -645,10 +643,10 @@ public class AddPaymentActivity extends AppCompatActivity implements PaymentMeth
 
     @Override
     public void onPaymentMethodNonceCreated(PaymentMethodNonce paymentMethodNonce) {
-        Toast.makeText(AddPaymentActivity.this, "success " + paymentMethodNonce.getNonce(), Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(AddPaymentActivity.this, "success " + paymentMethodNonce.getNonce(), Toast.LENGTH_SHORT).show();
         //todo send information to our service
-
-        sendNonceToServer(paymentMethodNonce.getNonce());
+      //  Log.i("ingo", "" + paymentMethodNonce.getNonce());
+         sendNonceToServer(paymentMethodNonce.getNonce());
     }
 
     @Override

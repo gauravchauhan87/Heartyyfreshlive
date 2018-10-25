@@ -15,15 +15,11 @@ import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.OrderDetailActivity;
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.RateUsActivity;
 import com.heartyy.heartyyfresh.TrackOrderActivity;
-import com.heartyy.heartyyfresh.bean.CreditsBean;
 import com.heartyy.heartyyfresh.bean.CurrentOrderBean;
 import com.heartyy.heartyyfresh.bean.CurrentOrderSupplierBean;
 import com.heartyy.heartyyfresh.global.Global;
-import com.heartyy.heartyyfresh.utils.Fonts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
-
 import com.heartyy.heartyyfresh.R;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
