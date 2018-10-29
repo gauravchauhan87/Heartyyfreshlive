@@ -30,8 +30,9 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     }
 
     public void setNewitems(List<NavigationItem> data) {
+        if(data!=null){
         mData = data;
-        notifyDataSetChanged();
+        notifyDataSetChanged();}
     }
 
     public NavigationDrawerCallbacks getNavigationDrawerCallbacks() {

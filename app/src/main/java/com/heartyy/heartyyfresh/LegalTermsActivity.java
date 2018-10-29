@@ -184,9 +184,9 @@ public class LegalTermsActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }else if (id == android.R.id.home) {
-            Intent intent = new Intent(LegalTermsActivity.this, previousClass);
+          //  Intent intent = new Intent(LegalTermsActivity.this, previousClass);
 
-            startActivity(intent);
+         //   startActivity(intent);
             finish();
             return true;
         }

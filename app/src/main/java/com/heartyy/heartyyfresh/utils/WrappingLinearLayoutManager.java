@@ -10,8 +10,11 @@ import android.view.ViewGroup;
  * Created by Dheeraj on 1/11/2016.
  */
 public class WrappingLinearLayoutManager extends LinearLayoutManager {
-
     public WrappingLinearLayoutManager(Context context) {
+        super(context);
+    }
+
+   /* public WrappingLinearLayoutManager(Context context) {
         super(context);
     }
 
@@ -79,8 +82,8 @@ public class WrappingLinearLayoutManager extends LinearLayoutManager {
 
         View view = recycler.getViewForPosition(position);
         if (view.getVisibility() == View.GONE) {
-            measuredDimension[0] = 0;
-            measuredDimension[1] = 0;
+        //    measuredDimension[0] = 0;
+         //   measuredDimension[1] = 0;
             return;
         }
         // For adding Item Decor Insets to view
@@ -97,8 +100,8 @@ public class WrappingLinearLayoutManager extends LinearLayoutManager {
         view.measure(childWidthSpec, childHeightSpec);
 
         // Get decorated measurements
-        measuredDimension[0] = getDecoratedMeasuredWidth(view) + p.leftMargin + p.rightMargin;
-        measuredDimension[1] = getDecoratedMeasuredHeight(view) + p.bottomMargin + p.topMargin;
+      //  measuredDimension[0] = getDecoratedMeasuredWidth(view) + p.leftMargin + p.rightMargin;
+    //    measuredDimension[1] = getDecoratedMeasuredHeight(view) + p.bottomMargin + p.topMargin;
         recycler.recycleView(view);
-    }
+    }*/
 }

@@ -57,7 +57,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     NavigationDrawerAdapter adapter;
 
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mContext = getActivity();
@@ -148,11 +147,13 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(getActivity(), PREF_USER_LEARNED_DRAWER, "false"));
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
+        mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(getActivity(),
+                PREF_USER_LEARNED_DRAWER, "false"));
+
     }
 
     @Override

@@ -17,8 +17,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,11 +54,13 @@ import com.heartyy.heartyyfresh.HomeActivity;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.SignUpActivity;
 import com.heartyy.heartyyfresh.StoreDetailActivity;
+import com.heartyy.heartyyfresh.adapter.CustomPageAdapter;
 import com.heartyy.heartyyfresh.adapter.CustomStoreListAdapter;
 import com.heartyy.heartyyfresh.adapter.PopupStoreRatingListAdapter;
 import com.heartyy.heartyyfresh.bean.LocationBean;
 import com.heartyy.heartyyfresh.bean.OrderBean;
 import com.heartyy.heartyyfresh.bean.PopupRatingBean;
+import com.heartyy.heartyyfresh.bean.PromotionBean;
 import com.heartyy.heartyyfresh.bean.StoreBean;
 import com.heartyy.heartyyfresh.bean.SupplierRatingBean;
 import com.heartyy.heartyyfresh.bean.SuppliersBean;
@@ -73,6 +75,7 @@ import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 import com.heartyy.heartyyfresh.utils.GPSTracker;
+import com.heartyy.heartyyfresh.viewpagerindicator.PageIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,7 +121,8 @@ public class NeighbourhoodFragment extends Fragment {
     private UserProfileBean userProfileBean;
     private UserCreditsBean userCreditsBean;
     HomeActivity activity;
-
+    ViewPager pager;
+    PageIndicator mIndicator;
 
     @SuppressLint("ValidFragment")
     public NeighbourhoodFragment() {
@@ -162,6 +166,12 @@ public class NeighbourhoodFragment extends Fragment {
         txtProgress = (TextView) rootView.findViewById(R.id.text_progress);
         bagButton = (ImageButton) rootView.findViewById(R.id.image_bag);
         progressBar = (ProgressBar) rootView.findViewById(R.id.firstBar);
+
+        pager = rootView.findViewById(R.id.pager);
+        mIndicator = rootView.findViewById(R.id.indicator);
+
+
+
         chooseStore.setTypeface(light);
         changeZipBtn.setTypeface(light);
         shoppingIn.setTypeface(light);
@@ -442,19 +452,23 @@ public class NeighbourhoodFragment extends Fragment {
                                     }
                                     if (storeBeanList.getPromotionBeanList() != null) {
                                         bannerFragment.setVisibility(View.VISIBLE);
-                                        try {
-                                            BannerPagerFragment pagerFragment = new BannerPagerFragment(context, storeBeanList.getPromotionBeanList());
-                                            FragmentManager fragmentManager = getFragmentManager();
-                                            if (fragmentManager != null) {
-                                                fragmentManager.beginTransaction().replace(R.id.banner_fragment, pagerFragment).commit();
-                                            }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            Intent intent = new Intent(context, HomeActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            context.startActivity(intent);
-                                            getActivity().finish();
-                                        }
+                                        configSlider(storeBeanList.getPromotionBeanList());
+//                                        try {
+//                                            //todo : modify the code here
+//                                            BannerPagerFragment pagerFragment = new BannerPagerFragment(context, storeBeanList.getPromotionBeanList());
+//                                            FragmentManager fragmentManager = getFragmentManager();
+//                                            if (fragmentManager != null) {
+//                                                fragmentManager.beginTransaction()
+//                                                        .replace(R.id.banner_fragment, pagerFragment)
+//                                                        .commit();
+//                                            }
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                            Intent intent = new Intent(context, HomeActivity.class);
+//                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                            context.startActivity(intent);
+//                                            getActivity().finish();
+//                                        }
                                     } else {
                                         bannerFragment.setVisibility(View.GONE);
                                     }
@@ -497,6 +511,14 @@ public class NeighbourhoodFragment extends Fragment {
 
 
     }
+
+    private void configSlider(List<PromotionBean> promotionBeanList) {
+        CustomPageAdapter pagerAdapter = new CustomPageAdapter(getContext(), promotionBeanList);
+        pager.setAdapter(pagerAdapter);
+        pager.setOffscreenPageLimit(4);
+        mIndicator.setViewPager(pager);
+    }
+
 
 
     public void checkAvailablePromotion() {

@@ -364,6 +364,9 @@ public class SignUpActivity extends AppCompatActivity {
         }*/
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
+
+
     }
 
     private void resolveSignInError() {
@@ -378,28 +381,26 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void getGoogleProfileInformation() {
+    private void getGoogleProfileInformation(GoogleSignInAccount account) {
         try {
-            /*if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-                com.google.android.gms.plus.model.people.Person currentPerson = Plus.PeopleApi
-                        .getCurrentPerson(mGoogleApiClient);
-                String personName = currentPerson.getDisplayName();
-                String personPhotoUrl = currentPerson.getImage().getUrl();
-                String personGooglePlusProfile = currentPerson.getUrl();
-                String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-
-                Log.e("TAG", "Name: " + personName + ", plusProfile: "
-                        + personGooglePlusProfile + ", email: " + email
-                        + ", Image: " + personPhotoUrl);
-                String name[] = personName.split(" ");
-                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                mGoogleApiClient.disconnect();
-                gcm = GoogleCloudMessaging.getInstance(SignUpActivity.this);
-
-                new RegisterBackground(gcm, SignUpActivity.this).execute();
-                registerToHearty(name[0], name[1], email, "", Global.zip, "google");
-
-            }*/
+//            if (account!= null) {
+////                String personName = account.getDisplayName();
+////                String personPhotoUrl = account.getPhotoUrl().toString();
+////                String personGooglePlusProfile ="";
+////                String email = account.getEmail();
+//
+////                Log.e("TAG", "Name: " + personName + ", plusProfile: "
+////                        + personGooglePlusProfile + ", email: " + email
+////                        + ", Image: " + personPhotoUrl);
+////                String name[] = personName.split(" ");
+//    //            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+////                mGoogleApiClient.disconnect();
+//                gcm = GoogleCloudMessaging.getInstance(SignUpActivity.this);
+//
+//                new RegisterBackground(gcm, SignUpActivity.this).execute();
+//                registerToHearty(name[0], name[1], email, "", Global.zip, "google");
+//
+//            }
 
             if (account != null) {
                 String personName = account.getDisplayName();
@@ -408,14 +409,14 @@ public class SignUpActivity extends AppCompatActivity {
                 if (personName != null) {
                     name = personName.split(" ");
                 }
-                mGoogleSignInClient.signOut();
-                mGoogleSignInClient.revokeAccess();
+//                mGoogleSignInClient.signOut();
+//                mGoogleSignInClient.revokeAccess();
 
                 gcm = GoogleCloudMessaging.getInstance(SignUpActivity.this);
                 new RegisterBackground(gcm, SignUpActivity.this).execute();
 //                Toast.makeText(this, personName +" : "+ email +" : "+ googleAuthToken, Toast.LENGTH_LONG).show();
 
-                registerToHearty(name[0], name[1], email, "", Global.zip, "google");
+                registerToHearty(account.getGivenName(), account.getFamilyName(), account.getEmail(), "", Global.zip, "google");
 //                registerToHearty("Gaurav", "Chauhan", "gaurav635478@gmail.com", "", Global.zip, "google");
 
             }
@@ -424,15 +425,32 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+//    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+//        try {
+//            account = completedTask.getResult(ApiException.class);
+//            GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
+//            token.execute();
+//        } catch (ApiException e) {
+//            Log.w("signUp", ""+e);
+//        }
+//    }
+
+
+    {
+
+    }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            account = completedTask.getResult(ApiException.class);
-            GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
-            token.execute();
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            getGoogleProfileInformation(account);
         } catch (ApiException e) {
-            Log.w("signUp:failed code=", String.valueOf(e.getStatusCode()));
+            Log.w("signInResult", "signInResult:failed code=" + e.getStatusCode());
+            getGoogleProfileInformation(null);
         }
     }
+
+
 
     private void registerToHearty(String fname, String lname, String email, String password, final String zip, final String provider) {
         String deviceToken = pref.getString(Constants.DEVICE_TOKEN,null);
@@ -739,6 +757,7 @@ public class SignUpActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
 
+
         } else if (requestCode == RECOVERABLE_REQUEST_CODE && resultCode == RESULT_OK) {
             Bundle extra = data.getExtras();
             String oneTimeToken = null;
@@ -903,7 +922,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String postalCode1 = addresses.get(0).getPostalCode();
                     Log.d("latitude...", String.valueOf(latitude));
                     Log.d("longitude...", String.valueOf(longitude));
-                    Log.d("zipcode...", postalCode1);
+//                    Log.d("zipcode...", postalCode1);
 
                     if (postalCode1 != null) {
                         if (postalCode1.length() == 5) {

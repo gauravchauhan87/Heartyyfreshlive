@@ -625,6 +625,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         refineFragment.setVisibility(View.INVISIBLE);
     }
 
+    AlertDialog dialog;
     private void showAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater
                 .from(StoreDetailActivity.this);
@@ -634,7 +635,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                 StoreDetailActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button okBtn = (Button) promptsView.findViewById(R.id.button_ok);
         titleText.setTypeface(regular);
@@ -658,6 +659,12 @@ public class StoreDetailActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null&&dialog.isShowing())
+            dialog.dismiss();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

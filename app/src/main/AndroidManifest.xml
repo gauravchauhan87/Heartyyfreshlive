@@ -397,6 +397,9 @@
             android:name="io.fabric.ApiKey"
             android:value="81743dff51ba76c9062cebc8996ca9db16d69268" />
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity
             android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
             android:launchMode="singleTask">
