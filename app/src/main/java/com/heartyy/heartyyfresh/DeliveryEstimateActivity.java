@@ -185,6 +185,8 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
             }
         });
 
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
 
@@ -207,11 +209,11 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
         textEstimatedDeliveryCost.setText("$" + String.format("%.2f", estimatedDeliveryCostDouble));
         setEstimateCostBreakDown();
 
-        try {
-            initilizeMap();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -327,10 +329,9 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
 
 
     private void initilizeMap() {
-        if (googleMap == null) {
+        if (googleMap != null) {
 //            googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-            MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
+
             /*googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -393,10 +394,11 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
     public void setUpMap() {
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
-        googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        initilizeMap();
     }
 
     /**
