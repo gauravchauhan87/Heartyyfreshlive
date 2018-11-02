@@ -112,7 +112,7 @@ public class SearchAddressActivity extends AppCompatActivity {
 
 
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     warnText.setVisibility(View.VISIBLE);
                     DatabaseHandler db = new DatabaseHandler(SearchAddressActivity.this);
                     AddressError addressError = db.getAddressError();
