@@ -43,6 +43,49 @@ public class SubAisleItemBean {
     private double taxAmount;
     private NutritutionBean nutritutionBean;
 
+    public SubAisleItemBean() {
+    }
+
+    public SubAisleItemBean(String itemId, String price, String itemName, String size,
+                            String uom, String isTaxApplicable, String subIsTaxApplicable, String inStock,
+                            String salePrice, String buyGetFree, String buy, String get, String finalItemId, String onSale, String percentOff, BrandBean brand, String nutrition, String images, String count, String thumbnail, String supplierItemId, List<ImagesBean> imagesBeanList, List<ImagesBean> mainImagesBeanList, String description, String offer, String subCategoryId, String isSave, String sale, String topCategoryId, String shippingWeight, String finalItemUnitPrice,
+                            boolean isCartShown, String maxQuantity, double taxAmount, NutritutionBean nutritutionBean) {
+        this.itemId = itemId;
+        this.price = price;
+        this.itemName = itemName;
+        this.size = size;
+        this.uom = uom;
+        this.isTaxApplicable = isTaxApplicable;
+        this.subIsTaxApplicable = subIsTaxApplicable;
+        this.inStock = inStock;
+        this.salePrice = salePrice;
+        this.buyGetFree = buyGetFree;
+        this.buy = buy;
+        this.get = get;
+        this.finalItemId = finalItemId;
+        this.onSale = onSale;
+        this.percentOff = percentOff;
+        this.brand = brand;
+        this.nutrition = nutrition;
+        this.images = images;
+        this.count = count;
+        this.thumbnail = thumbnail;
+        this.supplierItemId = supplierItemId;
+        this.imagesBeanList = imagesBeanList;
+        this.mainImagesBeanList = mainImagesBeanList;
+        this.description = description;
+        this.offer = offer;
+        this.subCategoryId = subCategoryId;
+        this.isSave = isSave;
+        this.sale = sale;
+        this.topCategoryId = topCategoryId;
+        this.shippingWeight = shippingWeight;
+        this.finalItemUnitPrice = finalItemUnitPrice;
+        this.isCartShown = isCartShown;
+        this.maxQuantity = maxQuantity;
+        this.taxAmount = taxAmount;
+        this.nutritutionBean = nutritutionBean;
+    }
 
     public String getItemId() {
         return itemId;

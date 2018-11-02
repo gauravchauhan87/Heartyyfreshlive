@@ -38,9 +38,14 @@ public class SimilarItems {
     private String finalItemUnitPrice;
     private String subCategoryId;
     private String sale;
+    private String count="0";
     private String maxQuantity;
     private double taxAmount;
     private NutritutionBean nutritutionBean;
+
+    public void setCount(String count) {
+        this.count = count;
+    }
 
     public String getSupplierItemId() {
         return supplierItemId;
@@ -313,4 +318,12 @@ public class SimilarItems {
     public void setNutritutionBean(NutritutionBean nutritutionBean) {
         this.nutritutionBean = nutritutionBean;
     }
+
+//    public String getCount() {
+//        return count;
+//    }
+//
+//    public String getCount(String count) {
+//        return this.count=count;
+//    }
 }
