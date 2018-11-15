@@ -96,7 +96,6 @@
             android:background="@color/edit_line_zip" />
 
         <LinearLayout
-            android:id="@+id/linear_inform_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView_line_email"

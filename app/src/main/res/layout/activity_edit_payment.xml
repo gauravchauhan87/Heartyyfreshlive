@@ -22,7 +22,6 @@
             android:layout_marginTop="20dp">
 
             <LinearLayout
-                android:id="@+id/layout_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -333,7 +332,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linear_delete_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear_login_button"

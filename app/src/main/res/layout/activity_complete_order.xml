@@ -174,7 +174,6 @@
                         android:textStyle="italic" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_edit_order_instructions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/text_inst"
@@ -256,7 +255,6 @@
                         android:textSize="14sp" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_edit_phone_no"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/text_phoneNo"
@@ -426,7 +424,6 @@
                         app:dividerWidth="1dp" />
 
                     <ImageView
-                        android:id="@+id/date_list_right_border_line"
                         android:layout_width="1dp"
                         android:layout_height="41dp"
                         android:layout_alignParentEnd="true"
@@ -1259,7 +1256,6 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/text_for_each"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/text_return_policy"
@@ -1269,7 +1265,6 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/layout_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_1"
@@ -1304,7 +1299,6 @@
         android:background="@color/White">
 
         <LinearLayout
-            android:id="@+id/linear_place_order"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_warning"

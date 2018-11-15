@@ -55,7 +55,6 @@
         android:background="@color/hearty_hint" />
 
     <LinearLayout
-        android:id="@+id/linear_paypal_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view2"
@@ -65,7 +64,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_add_paypal"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_weight="1"

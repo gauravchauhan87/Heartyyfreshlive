@@ -32,7 +32,6 @@
             android:src="@drawable/heartyy_placeholder" />
 
         <RelativeLayout
-            android:id="@+id/layout_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -325,7 +324,6 @@
             android:src="@drawable/heartyy_placeholder" />
 
         <RelativeLayout
-            android:id="@+id/layout_sub_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -333,7 +331,6 @@
             android:layout_toRightOf="@+id/image_sub_item">
 
             <RelativeLayout
-                android:id="@+id/layout_sub_item_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

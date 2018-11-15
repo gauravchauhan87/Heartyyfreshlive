@@ -6,7 +6,6 @@
     tools:context="com.heartyy.heartyyfresh.MainActivity">
 
     <ImageView
-        android:id="@+id/video"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"

@@ -34,7 +34,6 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/layout_zip1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
@@ -62,7 +61,6 @@
                 android:background="@color/hearty_hint" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/layout_zip2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -91,7 +89,6 @@
                 android:background="@color/hearty_hint" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/layout_zip3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -120,7 +117,6 @@
                 android:background="@color/hearty_hint" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/layout_zip4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -149,7 +145,6 @@
                 android:background="@color/hearty_hint" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/layout_zip5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -212,14 +207,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/image_view_or_left"
             android:layout_width="70dip"
             android:layout_height="1dip"
             android:layout_gravity="center_vertical"
             android:background="@color/or_line" />
 
         <TextView
-            android:id="@+id/user_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -232,7 +225,6 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/image_view_or_right"
             android:layout_width="70dip"
             android:layout_height="1dip"
             android:layout_gravity="center_vertical"

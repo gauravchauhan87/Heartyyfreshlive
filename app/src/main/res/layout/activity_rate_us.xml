@@ -15,7 +15,6 @@
         android:paddingBottom="20dp">
 
         <RelativeLayout
-            android:id="@+id/rate_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp">
@@ -127,7 +126,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_review"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layout_rate_store"
@@ -168,7 +166,6 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/linear_submit_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

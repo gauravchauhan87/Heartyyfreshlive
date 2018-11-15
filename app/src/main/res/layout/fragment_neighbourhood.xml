@@ -93,11 +93,11 @@
         android:layout_below="@+id/layout_zip"
         android:visibility="gone">
 
-        <FrameLayout
-            android:id="@+id/banner_fragment"
+        <include
+            android:id="@+id/banner_layout"
+            layout="@layout/fragment_banner"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_weight="1" />
+            android:layout_height="120dp" />
 
         <Button
             android:id="@+id/button_close"
@@ -179,7 +179,6 @@
                 android:background="@drawable/offers_background" />
 
             <TextView
-                android:id="@+id/text_showOffer"
                 android:layout_width="120dp"
                 android:layout_height="20dp"
                 android:layout_centerInParent="true"
@@ -204,7 +203,6 @@
         android:visibility="visible">
 
         <ImageView
-            android:id="@+id/shadow"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/Black"
@@ -250,7 +248,6 @@
             android:progress="0" />
 
         <RelativeLayout
-            android:id="@+id/layout_progress_text"
             android:layout_width="220dp"
             android:layout_height="20dp"
             android:layout_below="@+id/layout_order_total"
