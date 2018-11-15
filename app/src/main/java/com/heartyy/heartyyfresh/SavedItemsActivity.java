@@ -90,7 +90,7 @@ public class SavedItemsActivity extends AppCompatActivity {
                     SavedSuppliersBean ei = (SavedSuppliersBean) items;
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(Constants.APPLICABLE_TAX_RATE, ei.getTaxRate());
-                    editor.commit();
+                    editor.apply();
                     Global.savedSupplierItemBeanList = ei.getSavedSupplierItemBeanList();
                     Global.savedSupplierId = ei.getSupplierId();
                     Global.savedSupplierName = ei.getSupplierName();
@@ -129,7 +129,7 @@ public class SavedItemsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             savedItemBeanList = ConversionHelper.convertSavedItemsJsonToSavedItemsBean(jsonObject);
                             if (savedItemBeanList.size() > 0) {
@@ -155,7 +155,7 @@ public class SavedItemsActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             noSave.setVisibility(View.VISIBLE);
                             buttonStartShopping.setVisibility(View.VISIBLE);
                             saveItemListView.setVisibility(View.GONE);
@@ -167,16 +167,16 @@ public class SavedItemsActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
                 editor.commit();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }

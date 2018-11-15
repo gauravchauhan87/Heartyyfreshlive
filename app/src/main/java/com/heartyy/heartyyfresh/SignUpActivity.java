@@ -1,7 +1,6 @@
 package com.heartyy.heartyyfresh;
 
 import android.Manifest;
-import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -42,7 +41,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -52,30 +50,20 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.UserRecoverableAuthException;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.plus.Plus;
 import com.google.android.gms.tasks.Task;
 import com.heartyy.heartyyfresh.bean.LocationBean;
 import com.heartyy.heartyyfresh.bean.PaymentCardBean;
@@ -94,7 +82,6 @@ import com.heartyy.heartyyfresh.utils.TypefaceSpan;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -190,6 +177,7 @@ public class SignUpActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 
@@ -377,6 +365,9 @@ public class SignUpActivity extends AppCompatActivity {
         }*/
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
+
+
     }
 
     private void resolveSignInError() {
@@ -391,36 +382,33 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void getGoogleProfileInformation() {
+    private void getGoogleProfileInformation(GoogleSignInAccount account) {
         try {
-            /*if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-                com.google.android.gms.plus.model.people.Person currentPerson = Plus.PeopleApi
-                        .getCurrentPerson(mGoogleApiClient);
-                String personName = currentPerson.getDisplayName();
-                String personPhotoUrl = currentPerson.getImage().getUrl();
-                String personGooglePlusProfile = currentPerson.getUrl();
-                String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-
-                Log.e("TAG", "Name: " + personName + ", plusProfile: "
-                        + personGooglePlusProfile + ", email: " + email
-                        + ", Image: " + personPhotoUrl);
-                String name[] = personName.split(" ");
-                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                mGoogleApiClient.disconnect();
-                gcm = GoogleCloudMessaging.getInstance(SignUpActivity.this);
-
-                new RegisterBackground(gcm, SignUpActivity.this).execute();
-                registerToHearty(name[0], name[1], email, "", Global.zip, "google");
-
-            }*/
+//            if (account!= null) {
+////                String personName = account.getDisplayName();
+////                String personPhotoUrl = account.getPhotoUrl().toString();
+////                String personGooglePlusProfile ="";
+////                String email = account.getEmail();
+//
+////                Log.e("TAG", "Name: " + personName + ", plusProfile: "
+////                        + personGooglePlusProfile + ", email: " + email
+////                        + ", Image: " + personPhotoUrl);
+////                String name[] = personName.split(" ");
+//    //            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+////                mGoogleApiClient.disconnect();
+//                gcm = GoogleCloudMessaging.getInstance(SignUpActivity.this);
+//
+//                new RegisterBackground(gcm, SignUpActivity.this).execute();
+//                registerToHearty(name[0], name[1], email, "", Global.zip, "google");
+//
+//            }
 
             if (account != null) {
-                String personName = account.getDisplayName();
+                String firstName = account.getGivenName();
+                String lastName = account.getFamilyName();
                 String email = account.getEmail();
-                String name[] = new String[0];
-                if (personName != null) {
-                    name = personName.split(" ");
-                }
+                googleAuthToken = account.getIdToken();
+
                 mGoogleSignInClient.signOut();
                 mGoogleSignInClient.revokeAccess();
 
@@ -428,24 +416,34 @@ public class SignUpActivity extends AppCompatActivity {
                 new RegisterBackground(gcm, SignUpActivity.this).execute();
 //                Toast.makeText(this, personName +" : "+ email +" : "+ googleAuthToken, Toast.LENGTH_LONG).show();
 
-                registerToHearty(name[0], name[1], email, "", Global.zip, "google");
-//                registerToHearty("Gaurav", "Chauhan", "gaurav635478@gmail.com", "", Global.zip, "google");
-
+                registerToHearty(firstName, lastName, email, "", Global.zip, "google");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+    /*private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             account = completedTask.getResult(ApiException.class);
             GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
             token.execute();
         } catch (ApiException e) {
-            Log.w("signUp:failed code=", String.valueOf(e.getStatusCode()));
+            Log.w("signUp", ""+e);
+        }
+    }*/
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            getGoogleProfileInformation(account);
+        } catch (ApiException e) {
+            Log.w("signInResult", "signInResult:failed code=" + e.getStatusCode());
+            getGoogleProfileInformation(null);
         }
     }
+
+
 
     private void registerToHearty(String fname, String lname, String email, String password, final String zip, final String provider) {
         String deviceToken = pref.getString(Constants.DEVICE_TOKEN,null);
@@ -496,7 +494,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -520,7 +518,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 getDeliveryAddress();
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.clear();
                                 editor.apply();
@@ -539,7 +537,7 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             SharedPreferences.Editor editor = pref.edit();
                             editor.clear();
                             editor.apply();
@@ -552,16 +550,16 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
                 editor.apply();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -752,6 +750,7 @@ public class SignUpActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
 
+
         } else if (requestCode == RECOVERABLE_REQUEST_CODE && resultCode == RESULT_OK) {
             Bundle extra = data.getExtras();
             String oneTimeToken = null;
@@ -823,7 +822,15 @@ public class SignUpActivity extends AppCompatActivity {
     }*/
 
     class GetGooglePlusToken extends AsyncTask<Void, Void, String> {
-        Context context;
+        public GetGooglePlusToken(SignUpActivity signUpActivity, GoogleApiClient mGoogleApiClient) {
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return null;
+        }
+     /*   Context context;
         private GoogleApiClient mGoogleApiClient;
         private String TAG = getClass().getSimpleName();
 
@@ -842,7 +849,7 @@ public class SignUpActivity extends AppCompatActivity {
                 /*String accountname = Plus.AccountApi.getAccountName(mGoogleApiClient);
                 String scope = "oauth2:" + Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.email" + " https://www.googleapis.com/auth/plus.profile.agerange.read";*/
 
-                Account accountuser = account.getAccount();
+         /*       Account accountuser = account.getAccount();
                 String scope = "oauth2:" + Scopes.PLUS_ME + " " + Scopes.LEGACY_USERINFO_PROFILE;
 
                 if (accountuser != null) {
@@ -889,7 +896,7 @@ public class SignUpActivity extends AppCompatActivity {
         protected void onPostExecute(String response) {
             Log.d(TAG, "Google access token = " + response);
             getGoogleProfileInformation();
-        }
+        }*/
     }
 
     public void getCurrentLocation() {
@@ -908,7 +915,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String postalCode1 = addresses.get(0).getPostalCode();
                     Log.d("latitude...", String.valueOf(latitude));
                     Log.d("longitude...", String.valueOf(longitude));
-                    Log.d("zipcode...", postalCode1);
+//                    Log.d("zipcode...", postalCode1);
 
                     if (postalCode1 != null) {
                         if (postalCode1.length() == 5) {
@@ -1053,12 +1060,12 @@ public class SignUpActivity extends AppCompatActivity {
                                 finish();
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                             }
 
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             e.printStackTrace();
                         }
 
@@ -1068,7 +1075,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
             }
         });

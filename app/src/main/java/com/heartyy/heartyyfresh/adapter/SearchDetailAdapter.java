@@ -56,7 +56,7 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
     private List<SubAisleItemBean> subAisleItemBeanList;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, packsItem, price, discountedPrice, onSale, cartCount, brandName;
+        public TextView title, packsItem, price, discountedPrice, onSale, cartCount, brandName, textDiscountedPriceDecimal, textPriceDecimal, text_price_dollor;
         public ImageView lineImage, itemImage;
         public CardView cardView;
         public ImageButton  plusBtn, minusBtn;
@@ -82,6 +82,9 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
             itemImage = (ImageView) view.findViewById(R.id.image_item);
             likeBtn = (ImageButton) view.findViewById(R.id.image_like);
             brandName = (TextView) view.findViewById(R.id.text_item_brand);
+            textDiscountedPriceDecimal = (TextView) view.findViewById(R.id.text_discounted_price_decimal);
+            textPriceDecimal = (TextView) view.findViewById(R.id.text_price_decimal);
+            text_price_dollor = (TextView) view.findViewById(R.id.text_price_dollor);
         }
     }
 
@@ -128,10 +131,12 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
 
         holder.title.setText(item.getItemName());
         String temp[] = item.getPrice().split("\\.");
-        if(temp.length>1) {
-            holder.price.setText(Html.fromHtml("<sup> &nbsp; $</sup><big>" + temp[0] + "</big><sup>" + temp[1] + "</sup>"));
-        }else{
-            holder.price.setText(Html.fromHtml("<sup> &nbsp; $</sup><big>" + temp[0] + "</big><sup>" + "0" + "</sup>"));
+        if (temp.length > 1) {
+            holder.price.setText(temp[0]);
+            holder.textPriceDecimal.setText(temp[1]);
+        } else {
+            holder.price.setText(temp[0]);
+            holder.textPriceDecimal.setText("00");
         }
         DatabaseHandler db = new DatabaseHandler(mContext);
         OrderBean orderBean = db.getOrder(item.getSupplierItemId());
@@ -174,6 +179,8 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
         String onSale = item.getSale();
         if (onSale == null) {
             holder.price.setVisibility(View.GONE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setText(item.getOffer());
             holder.onSale.setVisibility(View.INVISIBLE);
@@ -187,12 +194,16 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
             }
             item.setFinalItemUnitPrice(priceTemp);
             if (temp1.length > 1) {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
         } else if (onSale.equalsIgnoreCase("null")) {
             holder.price.setVisibility(View.GONE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setText(item.getOffer());
             holder.onSale.setVisibility(View.INVISIBLE);
@@ -206,12 +217,16 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
             }
             item.setFinalItemUnitPrice(priceTemp);
             if (temp1.length > 1) {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
         } else if (onSale.equalsIgnoreCase("no")) {
             holder.price.setVisibility(View.GONE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setVisibility(View.VISIBLE);
             holder.onSale.setText(item.getOffer());
@@ -225,13 +240,17 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
             }
             item.setFinalItemUnitPrice(priceTemp);
             if (temp1.length > 1) {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
 
         } else if (onSale.equalsIgnoreCase("yes")) {
             holder.price.setVisibility(View.VISIBLE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.VISIBLE);
             holder.onSale.setVisibility(View.VISIBLE);
             holder.onSale.setText(item.getOffer());
@@ -246,9 +265,11 @@ public class SearchDetailAdapter extends RecyclerView.Adapter<SearchDetailAdapte
                 }
                 item.setFinalItemUnitPrice(priceTemp);
                 if (temp1.length > 1) {
-                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                    holder.discountedPrice.setText(temp[0]);
+                    holder.textDiscountedPriceDecimal.setText(temp[1]);
                 } else {
-                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                    holder.discountedPrice.setText(temp[0]);
+                    holder.textDiscountedPriceDecimal.setText("00");
                 }
 
             }

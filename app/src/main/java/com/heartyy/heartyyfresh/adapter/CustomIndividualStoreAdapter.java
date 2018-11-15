@@ -12,7 +12,11 @@ import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.DeliveryTimesActivity;
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.*;
+import com.heartyy.heartyyfresh.bean.OperatingHourBean;
+import com.heartyy.heartyyfresh.bean.SupplierDeliveryScheduleBean;
+import com.heartyy.heartyyfresh.bean.SuppliersBean;
+import com.heartyy.heartyyfresh.bean.TimeIntervalBean;
+import com.heartyy.heartyyfresh.bean.WorkingDaysBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;

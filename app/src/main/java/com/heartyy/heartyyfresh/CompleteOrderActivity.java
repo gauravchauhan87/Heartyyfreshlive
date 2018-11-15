@@ -892,13 +892,13 @@ public class CompleteOrderActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(Constants.ERROR, new Object[]{"Error: " + error.toString()});
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -996,24 +996,24 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         }
                         getDeliveryTimes();
                     } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         showAlert(jsonObject.getString(ShareConstants.WEB_DIALOG_PARAM_MESSAGE));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(Constants.ERROR, new Object[]{"Error: " + error.toString()});
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
                     return;
                 }
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 showAlert(Constants.REQUEST_TIMED_OUT);
             }
         });
@@ -1058,7 +1058,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(0, Constants.URL + url, null, new Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
                 Log.d("response", jsonObject.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 try {
                     String status = jsonObject.getString(AnalyticsEvents.PARAMETER_SHARE_DIALOG_CONTENT_STATUS);
                     if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -1217,13 +1217,13 @@ public class CompleteOrderActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 Log.d(Constants.ERROR, "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else if (error instanceof TimeoutError) {
@@ -1835,7 +1835,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(1, "https://api.heartyyfresh.com/api/v2/order/place", params, new Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
                 Log.d("response", jsonObject.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 try {
                     String status = jsonObject.getString(AnalyticsEvents.PARAMETER_SHARE_DIALOG_CONTENT_STATUS);
                     if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -1890,23 +1890,23 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         finish();
                     } else if (status.equalsIgnoreCase(Constants.ERROR)) {
                         showAlert(jsonObject.getString(ShareConstants.WEB_DIALOG_PARAM_MESSAGE));
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(Constants.ERROR, new Object[]{"Error: " + error.toString()});
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
                     return;
                 }
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 showAlert(Constants.REQUEST_TIMED_OUT);
             }
         });
@@ -1943,7 +1943,7 @@ public class CompleteOrderActivity extends AppCompatActivity {
                 try {
                     String status = jsonObject.getString(AnalyticsEvents.PARAMETER_SHARE_DIALOG_CONTENT_STATUS);
                     if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         checkDeliveryBeanList = ConversionHelper.convertCheckDeliveryJsonToCheckDeliveryBean(jsonObject);
                         List<SuppliersBean> suppliersBeanList = db.getAllSuppliers();
                         CheckDeliveryBean bean;
@@ -2019,23 +2019,23 @@ public class CompleteOrderActivity extends AppCompatActivity {
                         }
                         getAvailableSuppliers();
                     } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("delivery error", new Object[]{"Error: " + error.toString()});
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
                     return;
                 }
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 showAlert(Constants.REQUEST_TIMED_OUT);
             }
         });

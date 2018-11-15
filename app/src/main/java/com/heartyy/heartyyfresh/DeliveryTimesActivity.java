@@ -27,12 +27,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.heartyy.heartyyfresh.adapter.*;
-import com.heartyy.heartyyfresh.bean.*;
+import com.heartyy.heartyyfresh.adapter.CustomDateListAdapter;
+import com.heartyy.heartyyfresh.adapter.CustomDeliverySlotsListAdapter;
+import com.heartyy.heartyyfresh.adapter.CustomIndividualStoreAdapter;
+import com.heartyy.heartyyfresh.bean.DeliveryWindowBean;
+import com.heartyy.heartyyfresh.bean.IndividualDeliveryBean;
+import com.heartyy.heartyyfresh.bean.OperatingHourBean;
+import com.heartyy.heartyyfresh.bean.OrderBean;
+import com.heartyy.heartyyfresh.bean.SupplierDeliveryScheduleBean;
+import com.heartyy.heartyyfresh.bean.SuppliersBean;
+import com.heartyy.heartyyfresh.bean.TimeIntervalBean;
+import com.heartyy.heartyyfresh.bean.WorkingDaysBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
-import com.heartyy.heartyyfresh.utils.*;
+import com.heartyy.heartyyfresh.utils.Constants;
+import com.heartyy.heartyyfresh.utils.Fonts;
+import com.heartyy.heartyyfresh.utils.HorizontalListView;
+import com.heartyy.heartyyfresh.utils.StickyScrollView;
+import com.heartyy.heartyyfresh.utils.TypefaceSpan;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -323,7 +336,7 @@ public class DeliveryTimesActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -415,7 +428,7 @@ public class DeliveryTimesActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -425,7 +438,7 @@ public class DeliveryTimesActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

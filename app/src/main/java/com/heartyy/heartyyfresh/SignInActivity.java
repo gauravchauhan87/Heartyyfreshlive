@@ -1,7 +1,6 @@
 package com.heartyy.heartyyfresh;
 
 import android.Manifest;
-import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,7 +35,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
@@ -57,22 +55,14 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.UserRecoverableAuthException;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.plus.Plus;
 import com.google.android.gms.tasks.Task;
 import com.heartyy.heartyyfresh.bean.LocationBean;
 import com.heartyy.heartyyfresh.bean.PaymentCardBean;
@@ -91,7 +81,6 @@ import com.heartyy.heartyyfresh.utils.TypefaceSpan;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -224,6 +213,7 @@ public class SignInActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 
@@ -397,7 +387,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -445,7 +435,7 @@ public class SignInActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                             SharedPreferences.Editor editor = pref.edit();
                             editor.clear();
@@ -459,7 +449,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 SharedPreferences.Editor editor = pref.edit();
                 editor.clear();
                 editor.apply();
@@ -525,12 +515,11 @@ public class SignInActivity extends AppCompatActivity {
             }*/
 
             if (account != null) {
-                String personName = account.getDisplayName();
+                String firstName = account.getGivenName();
+                String lastName = account.getFamilyName();
                 String email = account.getEmail();
-                String name[] = new String[0];
-                if (personName != null) {
-                    name = personName.split(" ");
-                }
+                googleAuthToken = account.getIdToken();
+
                 mGoogleSignInClient.signOut();
                 mGoogleSignInClient.revokeAccess();
 
@@ -538,9 +527,7 @@ public class SignInActivity extends AppCompatActivity {
                 new RegisterBackground(gcm, SignInActivity.this).execute();
 //                Toast.makeText(this, personName +" : "+ email +" : "+ googleAuthToken, Toast.LENGTH_LONG).show();
 
-                loginToHeartyFresh(email, "", "google",name[0], name[1]);
-//                loginToHeartyFresh("gaurav635478@gmail.com", "", "google","Gaurav", "Chauhan");
-
+                loginToHeartyFresh(email, "", "google", firstName, lastName);
             } else {
                 Log.d("GoogleSignInClient", "null");
             }
@@ -552,11 +539,11 @@ public class SignInActivity extends AppCompatActivity {
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            account = completedTask.getResult(ApiException.class);
-            GetGooglePlusToken token = new GetGooglePlusToken(this, mGoogleApiClient);
-            token.execute();
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            getGoogleProfileInformation(account);
         } catch (ApiException e) {
-            Log.w("signIn:failed code=", String.valueOf(e.getStatusCode()));
+            Log.w("signInResult", "signInResult:failed code=" + e.getStatusCode());
+            getGoogleProfileInformation(null);
         }
     }
 
@@ -603,7 +590,7 @@ public class SignInActivity extends AppCompatActivity {
         }
         return error;
     }
-
+     AlertDialog dialog;
     private void showAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater
                 .from(SignInActivity.this);
@@ -612,7 +599,7 @@ public class SignInActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignInActivity.this);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button okBtn = (Button) promptsView.findViewById(R.id.button_ok);
         titleText.setTypeface(andBold);
@@ -621,12 +608,14 @@ public class SignInActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(dialog!=null&&dialog.isShowing())
                 dialog.dismiss();
             }
         });
         dialog.show();
 
     }
+
 
     private void showSuccessAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater.from(SignInActivity.this);
@@ -658,6 +647,8 @@ public class SignInActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         profileTracker.stopTracking();
+        if(dialog!=null&&dialog.isShowing())
+            dialog.dismiss();
     }
 
     @Override
@@ -767,7 +758,15 @@ public class SignInActivity extends AppCompatActivity {
     }*/
 
     class GetGooglePlusToken extends AsyncTask<Void, Void, String> {
-        Context context;
+        public GetGooglePlusToken(SignInActivity signInActivity, GoogleApiClient mGoogleApiClient) {
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return null;
+        }
+  /*      Context context;
         private GoogleApiClient mGoogleApiClient;
         private String TAG = this.getClass().getSimpleName();
 
@@ -832,7 +831,7 @@ public class SignInActivity extends AppCompatActivity {
         protected void onPostExecute(String response) {
             Log.d(TAG, "Google access token = " + response);
             getGoogleProfileInformation(account);
-        }
+        }*/
     }
 
 
@@ -955,7 +954,7 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
             }
         });

@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -163,16 +162,16 @@ public class HelpActivity extends AppCompatActivity {
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
 
 
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showShareAlert();
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             e.printStackTrace();
                             showAlert("Could not post commnet right now. Please try after sometime");
                         }
@@ -183,7 +182,7 @@ public class HelpActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

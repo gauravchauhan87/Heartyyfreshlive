@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.utils.AppController;
 
 @SuppressLint("ValidFragment")
 public class SearchFragment extends Fragment {

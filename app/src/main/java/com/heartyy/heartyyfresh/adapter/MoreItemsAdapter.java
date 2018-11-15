@@ -23,10 +23,15 @@ import com.android.volley.Cache;
 import com.android.volley.toolbox.ImageLoader;
 import com.heartyy.heartyyfresh.ItemDetailActivity;
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.*;
+import com.heartyy.heartyyfresh.bean.BrandBean;
+import com.heartyy.heartyyfresh.bean.OrderBean;
+import com.heartyy.heartyyfresh.bean.SimilarItems;
+import com.heartyy.heartyyfresh.bean.SuppliersBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
-import com.heartyy.heartyyfresh.utils.*;
+import com.heartyy.heartyyfresh.utils.AppController;
+import com.heartyy.heartyyfresh.utils.Constants;
+import com.heartyy.heartyyfresh.utils.Fonts;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

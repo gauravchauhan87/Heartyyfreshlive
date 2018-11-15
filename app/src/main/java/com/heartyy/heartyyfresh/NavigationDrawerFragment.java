@@ -57,11 +57,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     NavigationDrawerAdapter adapter;
 
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mContext = getActivity();
-        pref = mContext.getSharedPreferences("MyPref",Context.MODE_PRIVATE);
+        pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Typeface andBold = Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/Roboto-Light.ttf");
         String userid = pref.getString(Constants.USER_ID, null);
@@ -100,13 +99,13 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             mDrawerList.bringToFront();
 
             navigationItems = getMenu();
-            adapter = new NavigationDrawerAdapter(mContext,navigationItems);
+            adapter = new NavigationDrawerAdapter(mContext, navigationItems);
             adapter.setNavigationDrawerCallbacks(this);
             mDrawerList.setAdapter(adapter);
             selectItem(mCurrentSelectedPosition);
             ImageView profileImage = (ImageView) view.findViewById(R.id.img_profile);
             TextView userText = (TextView) view.findViewById(R.id.txtUsername);
-            userText.setText(pref.getString(Constants.FIRST_NAME, null)+" "+pref.getString(Constants.LAST_NAME,null));
+            userText.setText(pref.getString(Constants.FIRST_NAME, null) + " " + pref.getString(Constants.LAST_NAME, null));
             userText.setTypeface(andBold);
             String path = pref.getString(Constants.PICTURE, null);
             if (path != null) {
@@ -148,19 +147,21 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(getActivity(), PREF_USER_LEARNED_DRAWER, "false"));
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
+        mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(getActivity(),
+                PREF_USER_LEARNED_DRAWER, "false"));
+
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Activity activity;
-        if (context instanceof Activity){
-            activity=(Activity) context;
+        if (context instanceof Activity) {
+            activity = (Activity) context;
             try {
                 mCallbacks = (NavigationDrawerCallbacks) activity;
             } catch (ClassCastException e) {
@@ -193,7 +194,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             mFragmentContainerView = (View) mFragmentContainerView.getParent();
         }
         mDrawerLayout = drawerLayout;
-        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(getActivity().getBaseContext(),R.color.ColorPrimaryDark));
+        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(getActivity().getBaseContext(), R.color.ColorPrimaryDark));
         mDrawerLayout.requestLayout();
 
         mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -248,14 +249,14 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> getMenu() {
         List<NavigationItem> items = new ArrayList<NavigationItem>();
-        items.add(new NavigationItem("Home", ContextCompat.getDrawable(mContext,R.drawable.home_icon), "0"));
-        items.add(new NavigationItem("Profile", ContextCompat.getDrawable(mContext,R.drawable.profile_icon), "0"));
-        items.add(new NavigationItem("Payment", ContextCompat.getDrawable(mContext,R.drawable.payment_icon), "0"));
-        items.add(new NavigationItem("Delivery Locations", ContextCompat.getDrawable(mContext,R.drawable.location_icon12), "0"));
-        items.add(new NavigationItem("Orders", ContextCompat.getDrawable(mContext,R.drawable.order_icon), "0"));
-        items.add(new NavigationItem("Promotions", ContextCompat.getDrawable(mContext,R.drawable.promotion_icon), "0"));
-        items.add(new NavigationItem("Saved Items", ContextCompat.getDrawable(mContext,R.drawable.diet_icon), "0"));
-        items.add(new NavigationItem("Help", ContextCompat.getDrawable(mContext,R.drawable.help_icon), "0"));
+        items.add(new NavigationItem("Home", ContextCompat.getDrawable(mContext, R.drawable.home_icon), "0"));
+        items.add(new NavigationItem("Profile", ContextCompat.getDrawable(mContext, R.drawable.profile_icon), "0"));
+        items.add(new NavigationItem("Payment", ContextCompat.getDrawable(mContext, R.drawable.payment_icon), "0"));
+        items.add(new NavigationItem("Delivery Locations", ContextCompat.getDrawable(mContext, R.drawable.location_icon12), "0"));
+        items.add(new NavigationItem("Orders", ContextCompat.getDrawable(mContext, R.drawable.order_icon), "0"));
+        items.add(new NavigationItem("Promotions", ContextCompat.getDrawable(mContext, R.drawable.promotion_icon), "0"));
+        items.add(new NavigationItem("Saved Items", ContextCompat.getDrawable(mContext, R.drawable.diet_icon), "0"));
+        items.add(new NavigationItem("Help", ContextCompat.getDrawable(mContext, R.drawable.help_icon), "0"));
         return items;
     }
 

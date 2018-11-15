@@ -8,12 +8,9 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.OrderRecieptActivity;
-import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
 import java.util.Arrays;

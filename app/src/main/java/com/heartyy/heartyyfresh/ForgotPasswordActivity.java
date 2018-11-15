@@ -3,13 +3,12 @@ package com.heartyy.heartyyfresh;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.heartyy.heartyyfresh.global.Global;
@@ -107,7 +105,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 Intent intent = new Intent(ForgotPasswordActivity.this,
                                         ResetPasswordActivity.class);
 
@@ -116,12 +114,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 finish();
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(message);
 
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("Something went Wrong!");
                             e.printStackTrace();
                         }
@@ -132,7 +130,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
                 if(error instanceof NoConnectionError){
                     showAlert(Constants.NO_INTERNET);

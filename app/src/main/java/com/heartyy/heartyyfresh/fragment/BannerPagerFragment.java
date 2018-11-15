@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.adapter.CustomPageAdapter;
 import com.heartyy.heartyyfresh.bean.PromotionBean;
-import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.viewpagerindicator.CirclePageIndicator;
 import com.heartyy.heartyyfresh.viewpagerindicator.PageIndicator;
 
@@ -33,7 +32,7 @@ public class BannerPagerFragment extends Fragment {
     private List<PromotionBean> promotionBeanList;
 
 
-    @SuppressLint("ValidFragment")
+   // @SuppressLint("ValidFragment")
     public BannerPagerFragment(Context context, List<PromotionBean> promotionBeanList) {
         this.context = context;
         this.promotionBeanList = promotionBeanList;

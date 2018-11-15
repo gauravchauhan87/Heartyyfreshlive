@@ -14,22 +14,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.HomeActivity;
 import com.heartyy.heartyyfresh.OrderDetailActivity;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.adapter.CustomCurrentOrderListAdapter;
 import com.heartyy.heartyyfresh.bean.CurrentOrderBean;
-import com.heartyy.heartyyfresh.bean.CurrentPastOrdersBean;
-import com.heartyy.heartyyfresh.bean.CurrentStoresBean;
-import com.heartyy.heartyyfresh.bean.SuppliersBean;
 import com.heartyy.heartyyfresh.global.Global;
-import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Fonts;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Deepak Sharma on 10/8/2015.

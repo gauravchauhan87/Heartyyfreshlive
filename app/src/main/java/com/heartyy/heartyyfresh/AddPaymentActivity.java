@@ -1,12 +1,10 @@
 package com.heartyy.heartyyfresh;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -21,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
@@ -31,10 +30,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.braintreepayments.api.Braintree;
-import com.braintreepayments.api.dropin.BraintreePaymentActivity;
+import com.braintreepayments.api.BraintreeFragment;
+import com.braintreepayments.api.Card;
+import com.braintreepayments.api.PayPal;
 import com.braintreepayments.api.exceptions.ErrorWithResponse;
+import com.braintreepayments.api.exceptions.InvalidArgumentException;
+import com.braintreepayments.api.interfaces.BraintreeErrorListener;
+import com.braintreepayments.api.interfaces.PaymentMethodNonceCreatedListener;
 import com.braintreepayments.api.models.CardBuilder;
+import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.heartyy.heartyyfresh.bean.PaymentCardBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.errors.CardError;
@@ -45,7 +49,6 @@ import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 import com.heartyy.heartyyfresh.utils.FourDigitCardFormatWatcher;
 import com.heartyy.heartyyfresh.utils.TypefaceSpan;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,7 +58,7 @@ import java.util.List;
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
 
-public class AddPaymentActivity extends AppCompatActivity {
+public class AddPaymentActivity extends AppCompatActivity implements PaymentMethodNonceCreatedListener, BraintreeErrorListener {
     Typeface andBold, bold, italic, light;
     ImageButton paypalBtn;
     EditText editCardLabel, editCardNumber, editCardMonth, editCardYear, editCardCvv, editZipcode;
@@ -64,7 +67,7 @@ public class AddPaymentActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private String clientToken;
     private String scanCardNumber, scanCardExpiryMonth, scanCardExpiryYear;
-    private Braintree braintree;
+    // private Braintree braintree;
     private CheckBox primary;
     private RelativeLayout scanCardLayout;
     private static int MY_SCAN_REQUEST_CODE = 1;
@@ -134,7 +137,7 @@ public class AddPaymentActivity extends AppCompatActivity {
                     if (clientToken == null) {
                         showAlert("Could not add your card ");
                     } else {
-                        type="card";
+                        type = "card";
                         addCardToBraintree();
                     }
 
@@ -161,11 +164,13 @@ public class AddPaymentActivity extends AppCompatActivity {
         paypalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(clientToken!=null) {
+                if (clientToken != null) {
                     type = "paypal";
-                    Intent intent = new Intent(AddPaymentActivity.this, BraintreePaymentActivity.class);
-                    intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, clientToken);
-                    startActivityForResult(intent, REQUEST_CODE);
+//                    Intent intent = new Intent(AddPaymentActivity.this, BraintreePaymentActivity.class);
+//                    intent.putExtra(BraintreePaymentActivity.EXTRA_CLIENT_TOKEN, clientToken);
+//                    startActivityForResult(intent, REQUEST_CODE);
+
+                    PayPal.authorizeAccount(mBraintreeFragment);
                 }
             }
         });
@@ -181,46 +186,60 @@ public class AddPaymentActivity extends AppCompatActivity {
         card.expirationMonth(editCardMonth.getText().toString());
         card.expirationYear(editCardYear.getText().toString());
 
-        braintree = Braintree.getInstance(this, clientToken);
-        braintree.addListener(new Braintree.PaymentMethodNonceListener() {
-            @Override
-            public void onPaymentMethodNonce(String paymentMethodNonce) {
-                Log.d("Nonce...>>", paymentMethodNonce);
-                sendNonceToServer(paymentMethodNonce);
 
-            }
-        });
-
-        braintree.addListener(new Braintree.ErrorListener() {
-
-
-            @Override
-            public void onUnrecoverableError(Throwable throwable) {
-
-            }
-
-            @Override
-
-            public void onRecoverableError(ErrorWithResponse error) {
-                Global.dialog.dismiss();
-                showAlert(error.toString());
-
-                Log.d("error..>>", error.toString());
-
-            }
-
-        });
-
-        braintree.tokenize(card);
+        Card.tokenize(mBraintreeFragment, card);
+//        braintree = Braintree.getInstance(this, clientToken);
+//        braintree.addListener(new Braintree.PaymentMethodNonceListener() {
+//            @Override
+//            public void onPaymentMethodNonce(String paymentMethodNonce) {
+//                Log.d("Nonce...>>", paymentMethodNonce);
+//                sendNonceToServer(paymentMethodNonce);
+//
+//            }
+//        });
+//
+//        braintree.addListener(new Braintree.ErrorListener() {
+//
+//
+//            @Override
+//            public void onUnrecoverableError(Throwable throwable) {
+//
+//            }
+//
+//            @Override
+//
+//            public void onRecoverableError(ErrorWithResponse error) {
+//                Global.dialog.dismiss();
+//                showAlert(error.toString());
+//
+//                Log.d("error..>>", error.toString());
+//
+//            }
+//
+//        });
+//
+//        braintree.tokenize(card);
 
     }
 
-    public static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
-            .clientId("..(the client id) ")
-            .merchantName("... (the name) ")
-            .rememberUser(true)
-            .acceptCreditCards(true);
+    private BraintreeFragment mBraintreeFragment;
+
+    private void brainTreeInitialize() {
+        try {
+            mBraintreeFragment = BraintreeFragment.newInstance(this, clientToken);
+        } catch (InvalidArgumentException e) {
+            // the authorization provided was of an invalid form
+        }
+
+
+    }
+
+//    public static PayPalConfiguration config = new PayPalConfiguration()
+//            .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
+//            .clientId("..(the client id) ")
+//            .merchantName("... (the name) ")
+//            .rememberUser(true)
+//            .acceptCreditCards(true);
 
     private void sendNonceToServer(String paymentMethodNonce) {
         RequestQueue rq = Volley.newRequestQueue(this.getApplicationContext());
@@ -269,13 +288,13 @@ public class AddPaymentActivity extends AppCompatActivity {
 //                                if(jsonObject.getString("message").equalsIgnoreCase("Please provide valid zipcode")){
 //                                    editZipcode.requestFocus();
 //                                }
-                                Handler handler = new Handler();
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        generateClientToken();
-                                    }
-                                });
+//                                Handler handler = new Handler();
+//                                handler.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+                                generateClientToken();
+//                                    }
+//                                });
                             }
                         } catch (JSONException e) {
                             Global.dialog.dismiss();
@@ -312,8 +331,6 @@ public class AddPaymentActivity extends AppCompatActivity {
         try {
 
             params.put("user_id", pref.getString(Constants.USER_ID, null));
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -330,10 +347,11 @@ public class AddPaymentActivity extends AppCompatActivity {
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
                                 JSONObject dataObj = jsonObject.getJSONObject("data");
                                 clientToken = dataObj.getString("token");
+                                brainTreeInitialize();
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                if(jsonObject.getString("message").equalsIgnoreCase("")){
+                                if (jsonObject.getString("message").equalsIgnoreCase("")) {
                                     finish();
-                                }else {
+                                } else {
                                     showAlert(jsonObject.getString("message"));
                                 }
                             }
@@ -348,7 +366,7 @@ public class AddPaymentActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 try {
                     VolleyLog.d("error", "Error: " + error.getMessage().toString());
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -450,7 +468,7 @@ public class AddPaymentActivity extends AppCompatActivity {
                 //showAlert(cardError.getZipcodeLength());
                 showAlert("Enter valid zip code");
                 editZipcode.requestFocus();
-            }else if(!AccountChecker.checkExpiryDate(month,year)){
+            } else if (!AccountChecker.checkExpiryDate(month, year)) {
                 error = true;
                 showAlert("Invalid expiry date");
                 editCardMonth.requestFocus();
@@ -502,15 +520,15 @@ public class AddPaymentActivity extends AppCompatActivity {
             // do something with resultDisplayStr, maybe display it in a textView
             // resultTextView.setText(resultStr);
         } else if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String nonce = data.getStringExtra(
-                        BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE
-                );
-                Log.d("paypal nounce", nonce);
-                Global.showProgress(this);
-                sendNonceToServer(nonce);
-                // Send the nonce to your server.
-            }
+//            if (resultCode == Activity.RESULT_OK) {
+//                String nonce = data.getStringExtra(
+//                        BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE
+//                );
+//                Log.d("paypal nounce", nonce);
+//                Global.showProgress(this);
+//                sendNonceToServer(nonce);
+//                // Send the nonce to your server.
+//            }
         }
         // else handle other activity results
     }
@@ -532,13 +550,13 @@ public class AddPaymentActivity extends AppCompatActivity {
         okBtn.setTypeface(andBold);
         titleText.setText(msg);
 
-        if(msg.equalsIgnoreCase("Please provide valid zipcode")){
+        if (msg.equalsIgnoreCase("Please provide valid zipcode")) {
             editZipcode.requestFocus();
-        }else if(msg.equalsIgnoreCase("Credit card number is invalid.")){
+        } else if (msg.equalsIgnoreCase("Credit card number is invalid.")) {
             editCardNumber.requestFocus();
-        }else if(msg.equalsIgnoreCase("CVV must be 4 digits for American Express and 3 digits for other card types.")){
+        } else if (msg.equalsIgnoreCase("CVV must be 4 digits for American Express and 3 digits for other card types.")) {
             editCardCvv.requestFocus();
-        }else editCardNumber.requestFocus();
+        } else editCardNumber.requestFocus();
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -579,15 +597,15 @@ public class AddPaymentActivity extends AppCompatActivity {
 
                     Global.paymentCardBean = paymentCardBean;
                     Intent intent = new Intent(AddPaymentActivity.this, CompleteOrderActivity.class);
-                    if(Global.isCompleteBack) {
+                    if (Global.isCompleteBack) {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     }
 
-                    if(db.getOrdersCount()>0){
+                    if (db.getOrdersCount() > 0) {
                         startActivity(intent);
                         finish();
                         Global.isCompleteBack = false;
-                    }else{
+                    } else {
                         finish();
                         Global.isCompleteBack = false;
                     }
@@ -603,12 +621,7 @@ public class AddPaymentActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -619,12 +632,29 @@ public class AddPaymentActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                generateClientToken();
-            }
-        });
+//        Handler handler = new Handler();
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+        generateClientToken();
+//            }
+//        });
+    }
+
+    @Override
+    public void onPaymentMethodNonceCreated(PaymentMethodNonce paymentMethodNonce) {
+     //   Toast.makeText(AddPaymentActivity.this, "success " + paymentMethodNonce.getNonce(), Toast.LENGTH_SHORT).show();
+        //todo send information to our service
+      //  Log.i("ingo", "" + paymentMethodNonce.getNonce());
+         sendNonceToServer(paymentMethodNonce.getNonce());
+    }
+
+    @Override
+    public void onError(Exception error) {
+        if (error instanceof ErrorWithResponse) {
+            // there was a validation error the user provided data
+            Toast.makeText(AddPaymentActivity.this, "error " + error, Toast.LENGTH_SHORT).show();
+            generateClientToken();
+        }
     }
 }

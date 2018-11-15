@@ -1,7 +1,5 @@
 package com.heartyy.heartyyfresh.bean;
 
-import java.util.List;
-
 /**
  * Created by amitvashist1 on 03/02/16.
  */

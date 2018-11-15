@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -437,7 +436,7 @@ public class ChangeZipActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
 
                             String status = jsonObject.getString("status");
@@ -475,12 +474,12 @@ public class ChangeZipActivity extends AppCompatActivity {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("Something went wrong.!");
                             e.printStackTrace();
                         }
@@ -490,7 +489,7 @@ public class ChangeZipActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else if (error instanceof ServerError) {
@@ -613,7 +612,7 @@ public class ChangeZipActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
@@ -623,7 +622,7 @@ public class ChangeZipActivity extends AppCompatActivity {
                              //   showAlert(message);
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("Something went wrong!");
                             e.printStackTrace();
                         }
@@ -634,7 +633,7 @@ public class ChangeZipActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.getMessage().toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -689,12 +688,12 @@ public class ChangeZipActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 locationBeanList = ConversionHelper.convertDeliveryAddressJsonToDeliveryAddressBean(jsonObject);
                                 if (locationBeanList == null) {
 
@@ -718,12 +717,12 @@ public class ChangeZipActivity extends AppCompatActivity {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(message);
                             }
 
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("something went wrong!");
                             e.printStackTrace();
                         }
@@ -734,7 +733,7 @@ public class ChangeZipActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("error", "Error: " + error.toString());
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);

@@ -2,7 +2,6 @@ package com.heartyy.heartyyfresh.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
@@ -13,14 +12,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.bean.PastOrderSupplierBean;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

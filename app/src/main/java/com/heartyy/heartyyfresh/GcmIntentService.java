@@ -17,7 +17,6 @@
 package com.heartyy.heartyyfresh;
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;

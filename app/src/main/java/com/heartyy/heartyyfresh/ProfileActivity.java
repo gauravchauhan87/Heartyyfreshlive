@@ -31,17 +31,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,7 +55,6 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.heartyy.heartyyfresh.adapter.ProfileNotificationAdapter;
 import com.heartyy.heartyyfresh.bean.AllCreditsBean;
@@ -481,7 +477,7 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
@@ -502,7 +498,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             e.printStackTrace();
                             showAlert("Updating profile failed. Please try after sometime");
                         }
@@ -513,7 +509,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
@@ -565,7 +561,7 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                             setUserProfileDetails();
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             e.printStackTrace();
                             showAlert("Something went wrong!. Try again later");
                         }
@@ -576,7 +572,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("response", error.toString());
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
@@ -593,7 +589,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setUserProfileDetails() {
-        Global.dialog.dismiss();
+       Global.hideProgress();
         Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -1064,17 +1060,17 @@ public class ProfileActivity extends AppCompatActivity {
                             String status = jsonObject.getString("status");
                             String msg = jsonObject.getString("message");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 getUserProfile();
                                 showAlert(msg);
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -1083,13 +1079,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -1159,14 +1155,16 @@ public class ProfileActivity extends AppCompatActivity {
                         startActivityForResult(i, RESULT_LOAD_IMAGE);
                     }
 
-                } else {
-
-                    String per = permissions[1];
-
-                    ActivityCompat.requestPermissions(ProfileActivity.this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, per},
-                            MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 }
+//
+//                else {
+//
+//                    String per = permissions[0];
+//
+//                    ActivityCompat.requestPermissions(ProfileActivity.this,
+//                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, per},
+//                            MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+//                }
             }
 
         }

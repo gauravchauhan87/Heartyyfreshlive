@@ -30,12 +30,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.heartyy.heartyyfresh.adapter.*;
-import com.heartyy.heartyyfresh.bean.*;
+import com.heartyy.heartyyfresh.adapter.OrderDetailAdapter;
+import com.heartyy.heartyyfresh.adapter.OrderDetailShopsAdapter;
+import com.heartyy.heartyyfresh.adapter.SimpleSectionOrderdetaiViewAdapter;
+import com.heartyy.heartyyfresh.bean.LocationBean;
+import com.heartyy.heartyyfresh.bean.OrderBean;
+import com.heartyy.heartyyfresh.bean.OrderDetailBean;
+import com.heartyy.heartyyfresh.bean.OrderDetailPromoBean;
+import com.heartyy.heartyyfresh.bean.PaymentCardBean;
+import com.heartyy.heartyyfresh.bean.SuppliersBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
-import com.heartyy.heartyyfresh.utils.*;
+import com.heartyy.heartyyfresh.utils.Constants;
+import com.heartyy.heartyyfresh.utils.Fonts;
+import com.heartyy.heartyyfresh.utils.TypefaceSpan;
+import com.heartyy.heartyyfresh.utils.WrappingLinearLayoutManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -387,11 +397,11 @@ public class OrderDetailActivity extends AppCompatActivity {
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert(Constants.SERVER_ERROR);
                             e.printStackTrace();
                         }
@@ -402,7 +412,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -497,7 +507,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(mSectionedAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        Global.dialog.dismiss();
+       Global.hideProgress();
 
     }
 
@@ -637,7 +647,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -658,13 +668,13 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
 
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -709,14 +719,14 @@ public class OrderDetailActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
 
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }

@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.SearchItemsBean;
 import com.heartyy.heartyyfresh.bean.SearchSubAisleBean;
 import com.heartyy.heartyyfresh.utils.Fonts;
 

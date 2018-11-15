@@ -1,6 +1,5 @@
 package com.heartyy.heartyyfresh.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -390,7 +389,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                     recyclerView.setLayoutManager(mLayoutManager);
                                     recyclerView.setAdapter(mSectionedAdapter);
                                     if(subCategoryId.equals("-1") && topCategoryId1==null){
-                                        Global.dialog.dismiss();
+                                       Global.hideProgress();
                                     }else {
                                         RelativeLayout categoryLayout = (RelativeLayout) activity.findViewById(R.id.layout_category);
                                         categoryLayout.setVisibility(View.VISIBLE);
@@ -407,13 +406,13 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 //  showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -423,7 +422,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -453,7 +452,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("brand and size response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
 
                         try {
                             String status = jsonObject.getString("status");
@@ -465,13 +464,13 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                 refineImage.setImageResource(R.drawable.refine_icon);
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -481,7 +480,7 @@ public class SectionedGridRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

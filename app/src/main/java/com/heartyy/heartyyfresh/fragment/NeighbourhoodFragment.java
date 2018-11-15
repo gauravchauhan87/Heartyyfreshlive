@@ -17,8 +17,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,15 +54,28 @@ import com.heartyy.heartyyfresh.HomeActivity;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.SignUpActivity;
 import com.heartyy.heartyyfresh.StoreDetailActivity;
+import com.heartyy.heartyyfresh.adapter.CustomPageAdapter;
 import com.heartyy.heartyyfresh.adapter.CustomStoreListAdapter;
 import com.heartyy.heartyyfresh.adapter.PopupStoreRatingListAdapter;
-import com.heartyy.heartyyfresh.bean.*;
+import com.heartyy.heartyyfresh.bean.LocationBean;
+import com.heartyy.heartyyfresh.bean.OrderBean;
+import com.heartyy.heartyyfresh.bean.PopupRatingBean;
+import com.heartyy.heartyyfresh.bean.PromotionBean;
+import com.heartyy.heartyyfresh.bean.StoreBean;
+import com.heartyy.heartyyfresh.bean.SupplierRatingBean;
+import com.heartyy.heartyyfresh.bean.SuppliersBean;
+import com.heartyy.heartyyfresh.bean.UserCreditsBean;
+import com.heartyy.heartyyfresh.bean.UserProfileBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
 import com.heartyy.heartyyfresh.promotionbean.FreeDeliveryMinOrder;
 import com.heartyy.heartyyfresh.promotionbean.PromotionAvailableBean;
-import com.heartyy.heartyyfresh.utils.*;
+import com.heartyy.heartyyfresh.utils.AppController;
+import com.heartyy.heartyyfresh.utils.Constants;
+import com.heartyy.heartyyfresh.utils.Fonts;
+import com.heartyy.heartyyfresh.utils.GPSTracker;
+import com.heartyy.heartyyfresh.viewpagerindicator.PageIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,7 +121,8 @@ public class NeighbourhoodFragment extends Fragment {
     private UserProfileBean userProfileBean;
     private UserCreditsBean userCreditsBean;
     HomeActivity activity;
-
+    ViewPager pager;
+    PageIndicator mIndicator;
 
     @SuppressLint("ValidFragment")
     public NeighbourhoodFragment() {
@@ -116,7 +130,7 @@ public class NeighbourhoodFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_neighbourhood, container,false);
+        rootView = inflater.inflate(R.layout.fragment_neighbourhood, container, false);
 
         if (getActivity().getApplicationContext() != null) {
             context = getActivity().getApplicationContext();
@@ -152,6 +166,12 @@ public class NeighbourhoodFragment extends Fragment {
         txtProgress = (TextView) rootView.findViewById(R.id.text_progress);
         bagButton = (ImageButton) rootView.findViewById(R.id.image_bag);
         progressBar = (ProgressBar) rootView.findViewById(R.id.firstBar);
+
+        pager = rootView.findViewById(R.id.pager);
+        mIndicator = rootView.findViewById(R.id.indicator);
+
+
+
         chooseStore.setTypeface(light);
         changeZipBtn.setTypeface(light);
         shoppingIn.setTypeface(light);
@@ -167,8 +187,8 @@ public class NeighbourhoodFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 SuppliersBean suppliersBean = (SuppliersBean) adapterView.getItemAtPosition(i);
-                if(Global.isDeliveryBack){
-                    if(suppliersBean.getEstimatedCostBreakDownBean()!=null) {
+                if (Global.isDeliveryBack) {
+                    if (suppliersBean.getEstimatedCostBreakDownBean() != null) {
                         Intent intent = new Intent(context, DeliveryEstimateActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Global.supplierId = suppliersBean.getSupplierId();
@@ -193,10 +213,10 @@ public class NeighbourhoodFragment extends Fragment {
                         editor.apply();
                         Global.isDeliveryBack = false;
                         context.startActivity(intent);
-                    }else{
+                    } else {
                         showAlert(Constants.SERVER_ERROR);
                     }
-                }else {
+                } else {
                     if (!suppliersBean.getComingSoon().equalsIgnoreCase("YES")) {
                         adapter.setSelected(i);
                         String[] time = suppliersBean.getEstimateDeliveryTime().split(" ");
@@ -388,10 +408,10 @@ public class NeighbourhoodFragment extends Fragment {
         String url;
 
         if (Global.zip == null) {
-            if(currentZip != null){
+            if (currentZip != null) {
                 Global.zip = currentZip;
-            }else {
-                Global.zip = pref.getString(Constants.ZIP,null);
+            } else {
+                Global.zip = pref.getString(Constants.ZIP, null);
             }
         }
         userZipcodeText.setText(Global.zip);
@@ -410,7 +430,7 @@ public class NeighbourhoodFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                        Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -428,23 +448,27 @@ public class NeighbourhoodFragment extends Fragment {
                                         adapter.notifyDataSetChanged();
                                         checkAvailablePromotion();
                                     } else {
-                                        Global.dialog.dismiss();
+                                        Global.hideProgress();
                                     }
                                     if (storeBeanList.getPromotionBeanList() != null) {
                                         bannerFragment.setVisibility(View.VISIBLE);
-                                        try {
-                                            BannerPagerFragment pagerFragment = new BannerPagerFragment(context, storeBeanList.getPromotionBeanList());
-                                            FragmentManager fragmentManager = getFragmentManager();
-                                            if (fragmentManager != null) {
-                                                fragmentManager.beginTransaction().replace(R.id.banner_fragment, pagerFragment).commit();
-                                            }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            Intent intent = new Intent(context,HomeActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            context.startActivity(intent);
-                                            getActivity().finish();
-                                        }
+                                        configSlider(storeBeanList.getPromotionBeanList());
+//                                        try {
+//                                            //todo : modify the code here
+//                                            BannerPagerFragment pagerFragment = new BannerPagerFragment(context, storeBeanList.getPromotionBeanList());
+//                                            FragmentManager fragmentManager = getFragmentManager();
+//                                            if (fragmentManager != null) {
+//                                                fragmentManager.beginTransaction()
+//                                                        .replace(R.id.banner_fragment, pagerFragment)
+//                                                        .commit();
+//                                            }
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                            Intent intent = new Intent(context, HomeActivity.class);
+//                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                            context.startActivity(intent);
+//                                            getActivity().finish();
+//                                        }
                                     } else {
                                         bannerFragment.setVisibility(View.GONE);
                                     }
@@ -454,14 +478,14 @@ public class NeighbourhoodFragment extends Fragment {
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                                Global.hideProgress();
                                 chooseStore.setText(R.string.no_store_avl);
 
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                            Global.hideProgress();
 
                         }
 
@@ -471,7 +495,7 @@ public class NeighbourhoodFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+                Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -488,10 +512,18 @@ public class NeighbourhoodFragment extends Fragment {
 
     }
 
+    private void configSlider(List<PromotionBean> promotionBeanList) {
+        CustomPageAdapter pagerAdapter = new CustomPageAdapter(getContext(), promotionBeanList);
+        pager.setAdapter(pagerAdapter);
+        pager.setOffscreenPageLimit(4);
+        mIndicator.setViewPager(pager);
+    }
+
+
 
     public void checkAvailablePromotion() {
         RequestQueue rq = null;
-        if (getActivity() != null){
+        if (getActivity() != null) {
             rq = Volley.newRequestQueue(getActivity());
         }
         final DatabaseHandler db = new DatabaseHandler(getActivity());
@@ -583,19 +615,19 @@ public class NeighbourhoodFragment extends Fragment {
                                 if (pref.getString(Constants.USER_ID, null) != null) {
                                     getUserProfile();
                                 } else {
-                                    Global.dialog.dismiss();
+                                    Global.hideProgress();
                                 }
 
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                                Global.hideProgress();
 
                                 setTotalAmount();
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                            Global.hideProgress();
                         }
 
                     }
@@ -604,13 +636,13 @@ public class NeighbourhoodFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+                Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                    Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                    Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -653,7 +685,7 @@ public class NeighbourhoodFragment extends Fragment {
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                                Global.hideProgress();
                                 ratingBean = ConversionHelper.convertSupplierRatingJsonToSupplierRatingBean(jsonObject);
                                 if (ratingBean != null) {
                                     Global.ratingBean = ratingBean;
@@ -661,12 +693,12 @@ public class NeighbourhoodFragment extends Fragment {
                                 }
 
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                                Global.hideProgress();
 
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                            Global.hideProgress();
                         }
 
                     }
@@ -675,13 +707,13 @@ public class NeighbourhoodFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+                Global.hideProgress();
                 if (error instanceof NoConnectionError) {
-                    Global.dialog.dismiss();
+                    Global.hideProgress();
                     showAlert(Constants.NO_INTERNET);
 
                 } else {
-                    Global.dialog.dismiss();
+                    Global.hideProgress();
                     showAlert(Constants.REQUEST_TIMED_OUT);
                 }
             }
@@ -699,20 +731,20 @@ public class NeighbourhoodFragment extends Fragment {
     public void getUserProfile() {
         String url = "profile?user_id=" + pref.getString(Constants.USER_ID, null);
         RequestQueue rq = Volley.newRequestQueue(context);
-        Log.d("USER_ID", pref.getString(Constants.USER_ID, null));
+        Log.d("USER_ID", "" + pref.getString(Constants.USER_ID, null));
         final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 Constants.URL + url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Global.dialog.dismiss();
+                        Global.hideProgress();
                         Log.d("response", response.toString());
                         try {
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
-                                Global.dialog.dismiss();
+                                Global.hideProgress();
                                 userProfileBean = ConversionHelper.convertUserProfileJsonToUserProfileBean(response);
-                                if (userProfileBean.getUserCreditsBean() != null) {
+                                if (userProfileBean != null) {
                                     userCreditsBean = userProfileBean.getUserCreditsBean();
                                     if (userCreditsBean != null) {
                                         SharedPreferences.Editor editor = pref.edit();
@@ -727,11 +759,11 @@ public class NeighbourhoodFragment extends Fragment {
                                     }
                                 }
                             } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                                Global.dialog.dismiss();
+                                //Global.hideProgress();
                             }
 
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+//                           Global.hideProgress();
                             e.printStackTrace();
                         }
                     }
@@ -739,7 +771,7 @@ public class NeighbourhoodFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+                Global.hideProgress();
                 Log.d("response", error.toString());
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
@@ -762,7 +794,7 @@ public class NeighbourhoodFragment extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button closeBtn = (Button) promptsView.findViewById(R.id.button_close);
         Button keepInformedBtn = (Button) promptsView.findViewById(R.id.button_keep_me_infored);
@@ -773,17 +805,29 @@ public class NeighbourhoodFragment extends Fragment {
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
             }
         });
         keepInformedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 userInterest(zipCode, pref.getString(Constants.EMAIL, null));
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing())
+                    if (dialog != null && dialog.isShowing())
+                        dialog.dismiss();
             }
         });
         dialog.show();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing())
+            if (dialog != null && dialog.isShowing())
+                dialog.dismiss();
     }
 
     private void userInterest(String zipCode, String email) {
@@ -812,7 +856,7 @@ public class NeighbourhoodFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                        Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
@@ -825,7 +869,7 @@ public class NeighbourhoodFragment extends Fragment {
                                 context.startActivity(intent);
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                            Global.hideProgress();
                             showAlert("Something went wrong!");
                             e.printStackTrace();
                         }
@@ -836,7 +880,7 @@ public class NeighbourhoodFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.getMessage());
-                Global.dialog.dismiss();
+                Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -880,7 +924,7 @@ public class NeighbourhoodFragment extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
         TextView thanksText = (TextView) promptsView.findViewById(R.id.text_thanks);
         TextView rateText = (TextView) promptsView.findViewById(R.id.text_rate);
         TextView rateStaffText = (TextView) promptsView.findViewById(R.id.text_rate_staff);
@@ -896,9 +940,10 @@ public class NeighbourhoodFragment extends Fragment {
         PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
 
         LayerDrawable stars = (LayerDrawable) driverRatingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
-        stars.getDrawable(1).setColorFilter(ContextCompat.getColor(context,R.color.hearty_star), mMode);
-        stars.getDrawable(0).setColorFilter(ContextCompat.getColor(context,R.color.edit_line_zip), mMode);
+        stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context, R.color.hearty_star), mMode);
+        stars.getDrawable(1).setColorFilter(ContextCompat.getColor(context, R.color.hearty_star), mMode);
+        stars.getDrawable(0).setColorFilter(ContextCompat.getColor(context, R.color.edit_line_zip), mMode);
+
         driverName.setTypeface(andBold);
         thanksText.setTypeface(andBold);
         rateStaffText.setTypeface(light);
@@ -926,7 +971,8 @@ public class NeighbourhoodFragment extends Fragment {
             public void onClick(View v) {
 
                 setRating(ratingBean, "no");
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
             }
         });
 
@@ -934,7 +980,8 @@ public class NeighbourhoodFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setRating(ratingBean, "yes");
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
             }
         });
 
@@ -1013,7 +1060,7 @@ public class NeighbourhoodFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                        Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
@@ -1026,7 +1073,7 @@ public class NeighbourhoodFragment extends Fragment {
                                 showAlert(jsonObject.getString("message"));
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                            Global.hideProgress();
                             showAlert(Constants.SERVER_ERROR);
                             e.printStackTrace();
                         }
@@ -1037,7 +1084,7 @@ public class NeighbourhoodFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.getMessage());
-                Global.dialog.dismiss();
+                Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -1060,7 +1107,7 @@ public class NeighbourhoodFragment extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog = alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button okBtn = (Button) promptsView.findViewById(R.id.button_ok);
         titleText.setTypeface(andBold);
@@ -1069,12 +1116,15 @@ public class NeighbourhoodFragment extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
             }
         });
         dialog.show();
 
     }
+
+    AlertDialog dialog;
 
     private void showBackAlert(String msg) {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
@@ -1082,7 +1132,7 @@ public class NeighbourhoodFragment extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
-        final AlertDialog dialog = alertDialogBuilder.create();
+        dialog =alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button okBtn = (Button) promptsView.findViewById(R.id.button_ok);
         titleText.setTypeface(andBold);
@@ -1094,7 +1144,8 @@ public class NeighbourhoodFragment extends Fragment {
                 Intent intent = new Intent(context, ChangeZipActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-                dialog.dismiss();
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
             }
         });
         dialog.show();

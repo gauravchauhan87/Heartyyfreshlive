@@ -16,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.bean.AisleBean;
 import com.heartyy.heartyyfresh.bean.AllCreditsBean;
@@ -40,11 +41,13 @@ import com.heartyy.heartyyfresh.bean.SupplierDeliveryScheduleBean;
 import com.heartyy.heartyyfresh.bean.TimeIntervalBean;
 import com.heartyy.heartyyfresh.bean.TipBean;
 import com.heartyy.heartyyfresh.promotionbean.PromotionAvailableBean;
-import io.card.payment.BuildConfig;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.card.payment.BuildConfig;
 
 public class Global {
     public static List<AllCreditsBean> allCreditsBeanList;
@@ -177,6 +180,13 @@ public class Global {
         new ProgressBar(context, null, 16842871).getIndeterminateDrawable().setColorFilter(-1, Mode.MULTIPLY);
         loadingText.setTypeface(andBold);
         dialog.show();
+    }
+
+
+    public static void hideProgress()
+    {
+        if(dialog!=null&&dialog.isShowing())
+            dialog.dismiss();
     }
 
     public static String FormatAddress(String[] stringArray) {

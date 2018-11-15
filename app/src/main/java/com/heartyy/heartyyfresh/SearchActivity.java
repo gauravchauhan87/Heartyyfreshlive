@@ -30,8 +30,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.heartyy.heartyyfresh.adapter.*;
-import com.heartyy.heartyyfresh.bean.*;
+import com.heartyy.heartyyfresh.adapter.CustomRecentSearchAdapter;
+import com.heartyy.heartyyfresh.adapter.CustomSearchAisleItemsAdapter;
+import com.heartyy.heartyyfresh.adapter.CustomSearchItemsAdapter;
+import com.heartyy.heartyyfresh.adapter.CustomTrendingAdapter;
+import com.heartyy.heartyyfresh.bean.RecentSearchBean;
+import com.heartyy.heartyyfresh.bean.SearchBean;
+import com.heartyy.heartyyfresh.bean.SearchDetailBean;
+import com.heartyy.heartyyfresh.bean.SearchSubAisleBean;
+import com.heartyy.heartyyfresh.bean.SearchTagBean;
+import com.heartyy.heartyyfresh.bean.SearchTrendingBean;
+import com.heartyy.heartyyfresh.bean.TrendingBean;
 import com.heartyy.heartyyfresh.fragment.SearchDetailFragment;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
@@ -82,6 +91,7 @@ public class SearchActivity extends AppCompatActivity {
                 Fonts.ROBOTO_BOLD);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar1);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(mToolbar);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -228,7 +238,7 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("recent search response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -273,7 +283,7 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -282,7 +292,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -313,7 +323,7 @@ public class SearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject jsonObject) {
                             Log.d("response", jsonObject.toString());
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             try {
                                 String status = jsonObject.getString("status");
                                 if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -342,7 +352,7 @@ public class SearchActivity extends AppCompatActivity {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                             }
 
                         }
@@ -351,7 +361,7 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("error", "Error: " + error.toString());
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     if (error instanceof NoConnectionError) {
                         showAlert(Constants.NO_INTERNET);
                     } else {
@@ -400,7 +410,7 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
 
                     }
@@ -409,7 +419,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -459,7 +469,7 @@ public class SearchActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject jsonObject) {
                             Log.d("response", jsonObject.toString());
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             try {
                                 String status = jsonObject.getString("status");
                                 if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -526,7 +536,7 @@ public class SearchActivity extends AppCompatActivity {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Global.dialog.dismiss();
+                               Global.hideProgress();
                             }
 
                         }
@@ -535,7 +545,7 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.d("error", "Error: " + error.toString());
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                     if (error instanceof NoConnectionError) {
                         showAlert(Constants.NO_INTERNET);
                     } else {

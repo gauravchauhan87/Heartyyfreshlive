@@ -123,7 +123,7 @@ public class StayWithUsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
@@ -139,7 +139,7 @@ public class StayWithUsActivity extends AppCompatActivity {
                                 showAlert(message);
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("Something went wrong!");
                             e.printStackTrace();
                         }
@@ -150,7 +150,7 @@ public class StayWithUsActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.getMessage().toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if(error instanceof NoConnectionError){
                     showAlert(Constants.NO_INTERNET);
                 }else {

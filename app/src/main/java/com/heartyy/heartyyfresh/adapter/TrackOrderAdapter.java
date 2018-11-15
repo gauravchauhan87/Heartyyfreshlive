@@ -14,7 +14,6 @@ import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.bean.OrderTrackBean;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**

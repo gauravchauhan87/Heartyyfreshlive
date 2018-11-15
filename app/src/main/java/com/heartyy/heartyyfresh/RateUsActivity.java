@@ -4,29 +4,24 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -37,10 +32,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.heartyy.heartyyfresh.adapter.CustomStoreRatingListAdapter;
-import com.heartyy.heartyyfresh.bean.CurrentStoresBean;
 import com.heartyy.heartyyfresh.bean.PastOrderSupplierBean;
 import com.heartyy.heartyyfresh.global.Global;
-import com.heartyy.heartyyfresh.helper.ConversionHelper;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
 import com.heartyy.heartyyfresh.utils.TypefaceSpan;
@@ -49,7 +42,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RateUsActivity extends AppCompatActivity {
@@ -160,7 +152,7 @@ public class RateUsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(final JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String msg = jsonObject.getString("message");
@@ -180,7 +172,8 @@ public class RateUsActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
+                Global.hideProgress();
 
                 if (error instanceof NoConnectionError) {
 

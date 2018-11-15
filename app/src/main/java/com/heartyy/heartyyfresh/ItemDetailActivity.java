@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
@@ -49,6 +50,7 @@ import com.heartyy.heartyyfresh.bean.ImagesBean;
 import com.heartyy.heartyyfresh.bean.NutritutionBean;
 import com.heartyy.heartyyfresh.bean.OrderBean;
 import com.heartyy.heartyyfresh.bean.SimilarItemBean;
+import com.heartyy.heartyyfresh.bean.SimilarItems;
 import com.heartyy.heartyyfresh.bean.SubAisleItemBean;
 import com.heartyy.heartyyfresh.bean.SuppliersBean;
 import com.heartyy.heartyyfresh.database.DatabaseHandler;
@@ -61,12 +63,15 @@ import com.heartyy.heartyyfresh.utils.TypefaceSpan;
 import com.heartyy.heartyyfresh.utils.WrappingLinearLayoutManager;
 import com.heartyy.heartyyfresh.viewpagerindicator.CirclePageIndicator;
 import com.heartyy.heartyyfresh.viewpagerindicator.PageIndicator;
-import io.card.payment.BuildConfig;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.card.payment.BuildConfig;
 
 public class ItemDetailActivity extends AppCompatActivity {
     ViewPagerAdapter adapter;
@@ -323,13 +328,13 @@ public class ItemDetailActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
                     }
                 }, new ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         Log.d(Constants.ERROR, "Error: " + error.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         if (!(error instanceof NoConnectionError)) {
                         }
                     }
@@ -485,7 +490,14 @@ public class ItemDetailActivity extends AppCompatActivity {
         });
         similarItemListView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SubAisleItemBean item = (SubAisleItemBean) parent.getItemAtPosition(position);
+//                SubAisleItemBean item = (SubAisleItemBean) parent.getItemAtPosition(position);
+                Object itemAtPosition = parent.getItemAtPosition(position);
+                SubAisleItemBean item = null;
+                if (itemAtPosition instanceof SubAisleItemBean) {
+                    item = (SubAisleItemBean) itemAtPosition;
+                } else if (itemAtPosition instanceof SimilarItems) {
+                    item = getSubAisleItemBean((SimilarItems) itemAtPosition);
+                } else return;
                 itemName = item.getItemName();
                 supplierItemId = item.getSupplierItemId();
                 Global.subAisleItemBean = item;
@@ -496,7 +508,14 @@ public class ItemDetailActivity extends AppCompatActivity {
         });
         moreItemListView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SubAisleItemBean item = (SubAisleItemBean) parent.getItemAtPosition(position);
+//                SubAisleItemBean item = (SubAisleItemBean) parent.getItemAtPosition(position);
+                Object itemAtPosition = parent.getItemAtPosition(position);
+                SubAisleItemBean item = null;
+                if (itemAtPosition instanceof SubAisleItemBean) {
+                    item = (SubAisleItemBean) itemAtPosition;
+                } else if (itemAtPosition instanceof SimilarItems) {
+                    item = getSubAisleItemBean((SimilarItems) itemAtPosition);
+                } else return;
                 itemName = item.getItemName();
                 supplierItemId = item.getSupplierItemId();
                 Global.subAisleItemBean = item;
@@ -746,9 +765,9 @@ public class ItemDetailActivity extends AppCompatActivity {
                         }
                         final BrandBean brandBean = Global.subAisleItemBean.getBrand();
                         if (brandBean == null) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         } else if (brandBean.getBrandName() == null) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         } else {
                             runOnUiThread(new Runnable() {
                                 public void run() {
@@ -766,18 +785,18 @@ public class ItemDetailActivity extends AppCompatActivity {
                         }
                         layoutSimilar.setVisibility(View.GONE);
                     } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         showAlert(jsonObject.getString(ShareConstants.WEB_DIALOG_PARAM_MESSAGE));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 Log.d(Constants.ERROR, "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -796,7 +815,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(0, Constants.URL + url, null, new Listener<JSONObject>() {
             public void onResponse(JSONObject jsonObject) {
                 Log.d("response", jsonObject.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 try {
                     String status = jsonObject.getString(AnalyticsEvents.PARAMETER_SHARE_DIALOG_CONTENT_STATUS);
                     if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -811,18 +830,18 @@ public class ItemDetailActivity extends AppCompatActivity {
                         }
                         moreLayout.setVisibility(View.GONE);
                     } else if (status.equalsIgnoreCase(Constants.ERROR)) {
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         showAlert(jsonObject.getString(ShareConstants.WEB_DIALOG_PARAM_MESSAGE));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Global.dialog.dismiss();
+                   Global.hideProgress();
                 }
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 Log.d(Constants.ERROR, "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {
@@ -922,5 +941,16 @@ public class ItemDetailActivity extends AppCompatActivity {
         if (moreItemsListBaseAdapter != null) {
             moreItemsListBaseAdapter.notifyDataSetChanged();
         }
+    }
+
+    private SubAisleItemBean getSubAisleItemBean(SimilarItems items) {
+        return new SubAisleItemBean(items.getItemId(), items.getPrice(), items.getItemName(), items.getSize(),
+                items.getUom(), items.getIsTaxAplicable(), items.getIsTaxAplicable(), items.getInStock(),
+                items.getSalePrice(), items.getBuyGetFree(), items.getBuy(), items.getGet(), items.getFinalItemId(),
+                items.getOnSale(), items.getPercentOff(), items.getBrand(),
+                items.getNutrition(), items.getImages(), "0", items.getThumbnail(), items.getSupplierItemId(), items.getImagesBeanList(),
+                items.getMainImagesBeanList(), items.getDescription(), items.getOffer(),
+                items.getSubCategoryId(), items.getIsSave(), "0", items.getTopCategoryId(), items.getShippingWeight(), items.getFinalItemUnitPrice(),
+                false, items.getMaxQuantity(), items.getTaxAmount(), items.getNutritutionBean());
     }
 }

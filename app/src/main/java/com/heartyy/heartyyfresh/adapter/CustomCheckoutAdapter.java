@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.android.volley.Cache.Entry;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Response.ErrorListener;
@@ -43,12 +43,14 @@ import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomCheckoutAdapter extends RecyclerView.Adapter<CustomCheckoutAdapter.SimpleViewHolder> {
     private static final int COUNT = 100;
@@ -286,13 +288,13 @@ public class CustomCheckoutAdapter extends RecyclerView.Adapter<CustomCheckoutAd
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                         }
                     }
                 }, new ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         Log.d(Constants.ERROR, "Error: " + error.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         if (!(error instanceof NoConnectionError)) {
                         }
                     }

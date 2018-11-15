@@ -299,7 +299,7 @@ public class AddDeliveryLocationActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
@@ -310,7 +310,7 @@ public class AddDeliveryLocationActivity extends AppCompatActivity {
                                 showAlert(message);
                             }
                         } catch (JSONException e) {
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
                             showAlert("Something went wrong!");
                             e.printStackTrace();
                             Log.d("Exceptioon",e.toString());
@@ -320,7 +320,7 @@ public class AddDeliveryLocationActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 Log.d("error", "Error: " + error.toString());
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);

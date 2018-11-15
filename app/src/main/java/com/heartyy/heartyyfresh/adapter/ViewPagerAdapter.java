@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 
 import com.android.volley.Cache;
 import com.android.volley.toolbox.ImageLoader;
-import com.heartyy.heartyyfresh.HomeActivity;
 import com.heartyy.heartyyfresh.ItemDetailActivity;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.bean.ImagesBean;

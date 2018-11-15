@@ -2,8 +2,8 @@ package com.heartyy.heartyyfresh;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.ViewGroup;
@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.braintreepayments.api.Braintree;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;
 import com.heartyy.heartyyfresh.utils.FourDigitCardFormatWatcher;
@@ -30,7 +29,6 @@ public class EditPaymentActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private String clientToken;
     private String scanCardNumber, scanCardExpiryMonth, scanCardExpiryYear;
-    private Braintree braintree;
     private CheckBox primary;
     private RelativeLayout scanCardLayout;
     private static int MY_SCAN_REQUEST_CODE = 1;

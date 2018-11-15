@@ -1,6 +1,5 @@
 package com.heartyy.heartyyfresh;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -31,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -177,6 +177,7 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
         btnStartShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(DeliveryEstimateActivity.this, StoreDetailActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("store", store);
@@ -186,12 +187,14 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
             }
         });
 
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
 
     void setBreakDownDetails(int pos) {
         DatabaseHandler db = new DatabaseHandler(DeliveryEstimateActivity.this);
-        LocationBean locationBean = db.getAllDeliveryaddress().get(pos);
+        LocationBean locationBean = db.getAllDeliveryaddress().get(0);
         estimatedCostBreakDownBean = Global.estimatedCostBreakDownBean;
         txtShopName.setText(estimatedCostBreakDownBean.getFrom());
         //txtZip.setText(estimatedCostBreakDownBean.getTo());
@@ -208,11 +211,11 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
         textEstimatedDeliveryCost.setText("$" + String.format("%.2f", estimatedDeliveryCostDouble));
         setEstimateCostBreakDown();
 
-        try {
+        /*try {
             initilizeMap();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -328,59 +331,36 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
 
 
     private void initilizeMap() {
-        if (googleMap == null) {
-//            googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-            MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-            /*googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if (googleMap != null) {
+            /*SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+            if (mapFragment != null) {
+                mapFragment.getMapAsync(this);
+            }*/
 
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            googleMap.setMyLocationEnabled(true);
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);*/
-
-            try {
-
-                if (estimatedCostBreakDownBean.getLatLongBean() != null) {
-// create marker
-                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLongitude())));
-// Changing marker icon
-                    marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-// create marker
-                    MarkerOptions marker1 = new MarkerOptions().position(new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLongitude())));
-// Changing marker icon
-                    marker1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-// adding marker
-                    googleMap.addMarker(marker);
-                    googleMap.addMarker(marker1);
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                            new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean()
-                                    .getSourceLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean()
-                                    .getSourceLongitude()))).zoom(11).build();
-
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    LatLng origin = new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLongitude()));
-                    LatLng dest = new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLongitude()));
-
-
-                    // Getting URL to the Google Directions API
-                    String url = getDirectionsUrl(origin, dest);
-                    DownloadTask downloadTask = new DownloadTask();
-                    // Start downloading json data from Google Directions API
-                    downloadTask.execute(url);
+            googleMap.setMapType(1);
+            if (ActivityCompat.checkSelfPermission(this, "android.permission.ACCESS_FINE_LOCATION") == 0 || ActivityCompat.checkSelfPermission(this, "android.permission.ACCESS_COARSE_LOCATION") == 0) {
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                googleMap.getUiSettings().setMapToolbarEnabled(true);
+                try {
+                    if (this.estimatedCostBreakDownBean.getLatLongBean() != null) {
+                        MarkerOptions marker = new MarkerOptions().position(new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLongitude())));
+                        marker.icon(BitmapDescriptorFactory.defaultMarker(330));
+                        MarkerOptions marker1 = new MarkerOptions().position(new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLongitude())));
+                        marker1.icon(BitmapDescriptorFactory.defaultMarker(330));
+                        googleMap.addMarker(marker);
+                        googleMap.addMarker(marker1);
+                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLongitude()))).zoom(11).build()));
+                        String url = getDirectionsUrl(new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getSourceLongitude())), new LatLng(Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLatitude()), Double.parseDouble(estimatedCostBreakDownBean.getLatLongBean().getDestinationLongitude())));
+                        new DownloadTask().execute(new String[]{url});
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            // check if map is created successfully or not
-            if (googleMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
+                if (this.googleMap == null) {
+                    Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -394,10 +374,11 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
     public void setUpMap() {
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
-        googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        initilizeMap();
     }
 
     /**

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -112,16 +112,14 @@ public class SearchAddressActivity extends AppCompatActivity {
 
 
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     warnText.setVisibility(View.VISIBLE);
                     DatabaseHandler db = new DatabaseHandler(SearchAddressActivity.this);
                     AddressError addressError = db.getAddressError();
                     warnText.setText(addressError.getNoResult());
 
-
                     e.printStackTrace();
                 }
-
 
             }
         });

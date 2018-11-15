@@ -2,26 +2,37 @@ package com.heartyy.heartyyfresh.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.android.volley.Cache;
+import com.android.volley.Cache.Entry;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.internal.AnalyticsEvents;
+import com.facebook.internal.ServerProtocol;
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.BrandBean;
 import com.heartyy.heartyyfresh.bean.OrderBean;
 import com.heartyy.heartyyfresh.bean.SavedSupplierItemBean;
 import com.heartyy.heartyyfresh.bean.SuppliersBean;
@@ -30,38 +41,49 @@ import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.AppController;
 import com.heartyy.heartyyfresh.utils.Constants;
 import com.heartyy.heartyyfresh.utils.Fonts;
-
+import io.card.payment.BuildConfig;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-/**
- * Created by Dheeraj on 12/8/2015.
- */
 public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCardAdapter.SimpleViewHolder> {
-
     private static final int COUNT = 100;
-
-    private final Context mContext;
-    private final List<Integer> mItems;
-    private int mCurrentItemId = 0;
-    private Typeface regular, meduimItalic, medium, robotoLight;
-    private List<SavedSupplierItemBean> savedSupplierItemBeanList;
     private Activity activity;
+    private final Context mContext;
+    private int mCurrentItemId = 0;
+    private final List<Integer> mItems;
+    private Typeface medium;
+    private Typeface meduimItalic;
     private SharedPreferences pref;
+    private Typeface regular;
+    private Typeface robotoLight;
+    private List<SavedSupplierItemBean> savedSupplierItemBeanList;
 
-    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, price, discountedPrice, onSale, cartCount, brandName, size;
-        public ImageView lineImage, itemImage;
+    public static class SimpleViewHolder extends ViewHolder {
+        public TextView brandName;
         public CardView cardView;
-        public ImageButton  plusBtn, minusBtn;
-        public RelativeLayout cartCountlayout,cartBtn;
+        public RelativeLayout cartBtn;
+        public TextView cartCount;
+        public RelativeLayout cartCountlayout;
+        public TextView discountedPrice;
+        public ImageView itemImage;
         public ImageButton likeBtn;
-
+        public ImageView lineImage;
+        public ImageButton minusBtn;
+        public TextView onSale;
+        public ImageButton plusBtn;
+        public TextView price;
+        public TextView size;
+        public TextView textDiscountedPriceDecimal;
+        public TextView textPriceDecimal;
+        public TextView text_price_dollor;
+        public TextView title;
 
         public SimpleViewHolder(View view) {
             super(view);
-
             title = (TextView) view.findViewById(R.id.text_item_detail);
             price = (TextView) view.findViewById(R.id.text_price);
             discountedPrice = (TextView) view.findViewById(R.id.text_discounted_price);
@@ -77,28 +99,22 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
             likeBtn = (ImageButton) view.findViewById(R.id.image_like);
             brandName = (TextView) view.findViewById(R.id.text_item_brand);
             size = (TextView) view.findViewById(R.id.text_size);
-
+            textDiscountedPriceDecimal = (TextView) view.findViewById(R.id.text_discounted_price_decimal);
+            textPriceDecimal = (TextView) view.findViewById(R.id.text_price_decimal);
+            text_price_dollor = (TextView) view.findViewById(R.id.text_price_dollor);
         }
     }
 
     public CustomSavedCardAdapter(Context context, List<SavedSupplierItemBean> savedSupplierItemBeanList, Activity activity) {
-        mContext = context;
+        this.mContext = context;
         this.activity = activity;
-        robotoLight = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_LIGHT);
-        regular = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_REGULAR);
-        meduimItalic = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_MEDIUM_ITALIC);
-        medium = Typeface.createFromAsset(mContext.getAssets(),
-                Fonts.ROBOTO_MEDIUM);
-
-        pref = context.getApplicationContext().getSharedPreferences("MyPref",
-                context.MODE_PRIVATE);
-
+        this.robotoLight = Typeface.createFromAsset(this.mContext.getAssets(), Fonts.ROBOTO_LIGHT);
+        this.regular = Typeface.createFromAsset(this.mContext.getAssets(), Fonts.ROBOTO_REGULAR);
+        this.meduimItalic = Typeface.createFromAsset(this.mContext.getAssets(), Fonts.ROBOTO_MEDIUM_ITALIC);
+        this.medium = Typeface.createFromAsset(this.mContext.getAssets(), Fonts.ROBOTO_MEDIUM);
+        this.pref = context.getApplicationContext().getSharedPreferences("MyPref", 0);
         this.savedSupplierItemBeanList = savedSupplierItemBeanList;
-
-        mItems = new ArrayList<Integer>(COUNT);
+        this.mItems = new ArrayList(COUNT);
         for (int i = 0; i < COUNT; i++) {
             addItem(i);
         }
@@ -123,14 +139,11 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
         holder.brandName.setTypeface(robotoLight);
 
         holder.title.setText(item.getItemName());
-
         try {
             holder.brandName.setText(item.getBrand().getBrandName());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         String quantity = item.getCount();
 
         if (quantity.equalsIgnoreCase("0")||quantity.equalsIgnoreCase("1")) {
@@ -141,9 +154,11 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
 
         String temp[] = item.getPrice().split("\\.");
         if (temp.length > 1) {
-            holder.price.setText(Html.fromHtml("<sup> &nbsp; $</sup><big>" + temp[0] + "</big><sup>" + temp[1] + "</sup>"));
+            holder.price.setText(temp[0]);
+            holder.textPriceDecimal.setText(temp[1]);
         } else {
-            holder.price.setText(Html.fromHtml("<sup> &nbsp; $</sup><big>" + temp[0] + "</big><sup>" + "0" + "</sup>"));
+            holder.price.setText(temp[0]);
+            holder.textPriceDecimal.setText("00");
         }
         final DatabaseHandler db = new DatabaseHandler(mContext);
         OrderBean orderBean = db.getOrder(item.getSupplierItemId());
@@ -164,12 +179,55 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
             holder.likeBtn.setBackgroundResource(R.drawable.unlike_icon);
         }
 
-        BrandBean brandBean = item.getBrand();
-        if (brandBean != null) {
+        holder.likeBtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                String userId = CustomSavedCardAdapter.this.pref.getString(Constants.USER_ID, null);
+                String supplierId = item.getSupplierItemId();
+                String url = "user/saved";
+                JSONObject params = new JSONObject();
+                try {
+                    params.put(Constants.USER_ID, userId);
+                    JSONArray supplierArray = new JSONArray();
+                    supplierArray.put(supplierId);
+                    params.put("supplier_item_id", supplierArray);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("params---", params.toString());
+                Volley.newRequestQueue(CustomSavedCardAdapter.this.mContext).add(new JsonObjectRequest(1, Constants.URL + url, params, new Listener<JSONObject>() {
+                    public void onResponse(JSONObject jsonObject) {
+                        Log.d("response", jsonObject.toString());
+                        try {
+                            String status = jsonObject.getString(AnalyticsEvents.PARAMETER_SHARE_DIALOG_CONTENT_STATUS);
+                            if (status.equalsIgnoreCase(Constants.SUCCESS)) {
+                                if (db.getLikeItem(item.getSupplierItemId()) == null) {
+                                    db.addLikeItem(item.getSupplierItemId());
+                                    holder.likeBtn.setBackgroundResource(R.drawable.like_icon);
+                                    return;
+                                }
+                                db.deleteLikeItem(item.getSupplierItemId());
+                                holder.likeBtn.setBackgroundResource(R.drawable.unlike_icon);
+                            } else if (!status.equalsIgnoreCase(Constants.ERROR)) {
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Global.dialog.dismiss();
+                        }
+                    }
+                }, new ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(Constants.ERROR, "Error: " + error.toString());
+                        Global.dialog.dismiss();
+                        if (!(error instanceof NoConnectionError)) {
+                        }
+                    }
+                }));
+            }
+        });
+        if (item.getBrand() != null) {
             String brand = item.getBrand().getBrandName();
             if (brand == null) {
                 holder.brandName.setVisibility(View.GONE);
-
             } else {
                 holder.brandName.setVisibility(View.VISIBLE);
                 holder.brandName.setText("(" + brand + ")");
@@ -177,116 +235,107 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
         } else {
             holder.brandName.setVisibility(View.GONE);
         }
-
-
         String onSale = item.getSale();
+        String[] temp1;
+        String priceTemp;
         if (onSale == null) {
             holder.price.setVisibility(View.GONE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setText(item.getOffer());
             holder.onSale.setVisibility(View.INVISIBLE);
-            String temp1[] = item.getPrice().split("\\.");
-            String priceTemp = item.getPrice();
-            if (item.getSubIsTaxApplicable().equalsIgnoreCase("true") || item.getIsTaxApplicable().equalsIgnoreCase("true")) {
-                String taxRate = pref.getString(Constants.APPLICABLE_TAX_RATE, null);
-                double temp2 = (Double.parseDouble(taxRate) * Double.parseDouble(priceTemp));
-                item.setTaxAmount(temp2);
-                // priceTemp = String.valueOf(String.format("%.2f",temp2));
+            temp1 = item.getPrice().split("\\.");
+            priceTemp = item.getPrice();
+            if (item.getSubIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE) || item.getIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE)) {
+                item.setTaxAmount(Double.parseDouble(this.pref.getString(Constants.APPLICABLE_TAX_RATE, null)) * Double.parseDouble(priceTemp));
             }
             item.setFinalItemUnitPrice(priceTemp);
             if (temp1.length > 1) {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
         } else if (onSale.equalsIgnoreCase("null")) {
             holder.price.setVisibility(View.GONE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
             holder.onSale.setText(item.getOffer());
             holder.onSale.setVisibility(View.INVISIBLE);
-            String temp1[] = item.getPrice().split("\\.");
-            String priceTemp = item.getPrice();
-            if (item.getSubIsTaxApplicable().equalsIgnoreCase("true") || item.getIsTaxApplicable().equalsIgnoreCase("true")) {
-                String taxRate = pref.getString(Constants.APPLICABLE_TAX_RATE, null);
-                double temp2 = (Double.parseDouble(taxRate) * Double.parseDouble(priceTemp));
-                item.setTaxAmount(temp2);
-                // priceTemp = String.valueOf(String.format("%.2f",temp2));
+            temp1 = item.getPrice().split("\\.");
+            priceTemp = item.getPrice();
+            if (item.getSubIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE) || item.getIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE)) {
+                item.setTaxAmount(Double.parseDouble(this.pref.getString(Constants.APPLICABLE_TAX_RATE, null)) * Double.parseDouble(priceTemp));
             }
             item.setFinalItemUnitPrice(priceTemp);
             if (temp1.length > 1) {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
         } else if (onSale.equalsIgnoreCase("no")) {
             holder.price.setVisibility(View.GONE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.GONE);
-            if (!item.getOffer().equalsIgnoreCase("null")) {
-                holder.onSale.setVisibility(View.VISIBLE);
-            } else {
+            if (item.getOffer().equalsIgnoreCase("null")) {
                 holder.onSale.setVisibility(View.INVISIBLE);
+            } else {
+                holder.onSale.setVisibility(View.VISIBLE);
             }
-
             holder.onSale.setText(item.getOffer());
-            String temp1[] = item.getPrice().split("\\.");
-            String priceTemp = item.getPrice();
-            if (item.getSubIsTaxApplicable().equalsIgnoreCase("true") || item.getIsTaxApplicable().equalsIgnoreCase("true")) {
-                String taxRate = pref.getString(Constants.APPLICABLE_TAX_RATE, null);
-                double temp2 = (Double.parseDouble(taxRate) * Double.parseDouble(priceTemp));
-                item.setTaxAmount(temp2);
-                // priceTemp = String.valueOf(String.format("%.2f",temp2));
+            temp1 = item.getPrice().split("\\.");
+            priceTemp = item.getPrice();
+            if (item.getSubIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE) || item.getIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE)) {
+                item.setTaxAmount(Double.parseDouble(this.pref.getString(Constants.APPLICABLE_TAX_RATE, null)) * Double.parseDouble(priceTemp));
             }
             item.setFinalItemUnitPrice(priceTemp);
             if (temp1.length > 1) {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText(temp[1]);
             } else {
-                holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                holder.discountedPrice.setText(temp[0]);
+                holder.textDiscountedPriceDecimal.setText("00");
             }
-
         } else if (onSale.equalsIgnoreCase("yes")) {
             holder.price.setVisibility(View.VISIBLE);
+            holder.text_price_dollor.setVisibility(View.GONE);
+            holder.textPriceDecimal.setVisibility(View.GONE);
             holder.lineImage.setVisibility(View.VISIBLE);
             holder.onSale.setVisibility(View.VISIBLE);
             holder.onSale.setText(item.getOffer());
             if (!item.getSalePrice().equalsIgnoreCase("null")) {
-                String temp1[] = item.getSalePrice().split("\\.");
-                String priceTemp = item.getSalePrice();
-                if (item.getSubIsTaxApplicable().equalsIgnoreCase("true") || item.getIsTaxApplicable().equalsIgnoreCase("true")) {
-                    String taxRate = pref.getString(Constants.APPLICABLE_TAX_RATE, null);
-                    double temp2 = (Double.parseDouble(taxRate) * Double.parseDouble(priceTemp));
-                    item.setTaxAmount(temp2);
-                    // priceTemp = String.valueOf(String.format("%.2f",temp2));
+                temp1 = item.getSalePrice().split("\\.");
+                priceTemp = item.getSalePrice();
+                if (item.getSubIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE) || item.getIsTaxApplicable().equalsIgnoreCase(ServerProtocol.DIALOG_RETURN_SCOPES_TRUE)) {
+                    item.setTaxAmount(Double.parseDouble(this.pref.getString(Constants.APPLICABLE_TAX_RATE, null)) * Double.parseDouble(priceTemp));
                 }
                 item.setFinalItemUnitPrice(priceTemp);
                 if (temp1.length > 1) {
-                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + temp1[1] + "</sup>"));
+                    holder.discountedPrice.setText(temp[0]);
+                    holder.textDiscountedPriceDecimal.setText(temp[1]);
                 } else {
-                    holder.discountedPrice.setText(Html.fromHtml("<sup>$</sup><big>" + temp1[0] + "</big><sup>" + "0" + "</sup>"));
+                    holder.discountedPrice.setText(temp[0]);
+                    holder.textDiscountedPriceDecimal.setText("00");
                 }
-
             }
         }
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
+        new Handler().post(new Runnable() {
             public void run() {
-                ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-                imageLoader.get(Constants.IMG_URL + item.getThumbnail(), ImageLoader.getImageListener(
-                        holder.itemImage, R.drawable.heartyy_placeholder, R.drawable.heartyy_placeholder));
-
-                Cache cache = AppController.getInstance().getRequestQueue().getCache();
-                Cache.Entry entry = cache.get(Constants.IMG_URL + item.getThumbnail());
+                AppController.getInstance().getImageLoader().get(Constants.IMG_URL + item.getThumbnail(), ImageLoader.getImageListener(holder.itemImage, R.drawable.heartyy_placeholder, R.drawable.heartyy_placeholder));
+                Entry entry = AppController.getInstance().getRequestQueue().getCache().get(Constants.IMG_URL + item.getThumbnail());
                 if (entry != null) {
                     try {
-                        String data = new String(entry.data, "UTF-8");
-                        // handle data, like converting it to xml, json, bitmap etc.,
+                        String str = new String(entry.data, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    // cached response doesn't exists. Make a network call here
                 }
-
             }
         });
 
@@ -297,7 +346,7 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
                 int max = Integer.parseInt(item.getMaxQuantity());
                 if(item.getMaxQuantity()==null){
                     item.setMaxQuantity("0");
-                }else if(item.getMaxQuantity().equalsIgnoreCase("null")){
+                } else if(item.getMaxQuantity().equalsIgnoreCase("null")){
                     item.setMaxQuantity("0");
                 }
                 if (Integer.parseInt(item.getMaxQuantity()) == 0 || Integer.parseInt(item.getMaxQuantity()) > 0) {
@@ -349,35 +398,28 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
                 }else{
                     showAlert(Constants.MAX_QUANTITY);
                 }
-
+                CustomSavedCardAdapter.this.showAlert(Constants.MAX_QUANTITY);
             }
         });
 
-        holder.plusBtn.setOnClickListener(new View.OnClickListener() {
+        holder.plusBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 int max = Integer.parseInt(item.getMaxQuantity());
-
-                DatabaseHandler db = new DatabaseHandler(mContext);
+                DatabaseHandler db = new DatabaseHandler(CustomSavedCardAdapter.this.mContext);
                 OrderBean updateOrderBean = db.getOrder(item.getSupplierItemId());
                 if (updateOrderBean != null) {
-                    int quantity = Integer.parseInt(updateOrderBean.getOrderQuantity());
-                    quantity++;
-                    if (max > 0 && quantity > max) {
-                        showAlert(Constants.MAX_QUANTITY);
-                    } else {
-                        int count = Integer.parseInt(holder.cartCount.getText().toString());
-                        count++;
-                        holder.cartCount.setText(String.valueOf(count));
-                        double unitPrice = Double.parseDouble(updateOrderBean.getUnitPrice());
-                        double finalPrice = unitPrice * quantity;
+                    int quantity = Integer.parseInt(updateOrderBean.getOrderQuantity()) + 1;
+                    if (max <= 0 || quantity <= max) {
+                        holder.cartCount.setText(String.valueOf(Integer.parseInt(holder.cartCount.getText().toString()) + 1));
+                        double finalPrice = Double.parseDouble(updateOrderBean.getUnitPrice()) * ((double) quantity);
                         updateOrderBean.setOrderQuantity(String.valueOf(quantity));
                         updateOrderBean.setFinalPrice(String.valueOf(finalPrice));
                         db.updateOrder(updateOrderBean);
+                    } else {
+                        CustomSavedCardAdapter.this.showAlert(Constants.MAX_QUANTITY);
                     }
-
-                    checkFreeDelivery();
-
+                    CustomSavedCardAdapter.this.checkFreeDelivery();
                 }
             }
         });
@@ -417,22 +459,6 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
                 checkFreeDelivery();
             }
         });
-       /* holder.cardView.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String topId = pref.getString(Constants.TOP_CATEGORY_ID, null);
-                String subId = pref.getString(Constants.SUB_CATEGORY_ID, null);
-
-                Global.subAisleItemBean = item;
-                Intent intent = new Intent(mContext, ItemDetailActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("name", item.getItemName());
-                intent.putExtra("supplierItemId", item.getSupplierItemId());
-                intent.putExtra("position",position);
-                mContext.startActivity(intent);
-            }
-
-        });*/
     }
 
     private void checkFreeDelivery() {
@@ -468,22 +494,17 @@ public class CustomSavedCardAdapter extends RecyclerView.Adapter<CustomSavedCard
     }
 
     private void showAlert(String msg) {
-        LayoutInflater layoutInflater = LayoutInflater
-                .from(activity);
-        View promptsView = layoutInflater.inflate(
-                R.layout.error_dialog, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                activity);
+        View promptsView = LayoutInflater.from(this.activity).inflate(R.layout.error_dialog, null);
+        Builder alertDialogBuilder = new Builder(this.activity);
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder.setCancelable(false);
         final AlertDialog dialog = alertDialogBuilder.create();
         TextView titleText = (TextView) promptsView.findViewById(R.id.text_title_msg);
         Button okBtn = (Button) promptsView.findViewById(R.id.button_ok);
-        titleText.setTypeface(regular);
-        okBtn.setTypeface(regular);
+        titleText.setTypeface(this.regular);
+        okBtn.setTypeface(this.regular);
         titleText.setText(msg);
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
+        okBtn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 dialog.dismiss();
             }

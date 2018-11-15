@@ -3,13 +3,12 @@ package com.heartyy.heartyyfresh;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,14 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.heartyy.heartyyfresh.adapter.CustomDateListAdapter;
-import com.heartyy.heartyyfresh.adapter.CustomDeliverySlotsListAdapter;
 import com.heartyy.heartyyfresh.adapter.CustomReturnPolicyListAdapter;
-import com.heartyy.heartyyfresh.bean.OperatingHourBean;
 import com.heartyy.heartyyfresh.bean.ReturnPolicyBean;
-import com.heartyy.heartyyfresh.bean.SuppliersBean;
-import com.heartyy.heartyyfresh.bean.TimeIntervalBean;
-import com.heartyy.heartyyfresh.database.DatabaseHandler;
 import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.helper.ConversionHelper;
 import com.heartyy.heartyyfresh.utils.Constants;
@@ -91,7 +84,7 @@ public class ReturnPolicyActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.d("response", jsonObject.toString());
-                        Global.dialog.dismiss();
+                       Global.hideProgress();
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
@@ -106,7 +99,7 @@ public class ReturnPolicyActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Global.dialog.dismiss();
+                           Global.hideProgress();
 
                         }
 
@@ -116,7 +109,7 @@ public class ReturnPolicyActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.toString());
-                Global.dialog.dismiss();
+               Global.hideProgress();
                 if (error instanceof NoConnectionError) {
                     showAlert(Constants.NO_INTERNET);
                 } else {

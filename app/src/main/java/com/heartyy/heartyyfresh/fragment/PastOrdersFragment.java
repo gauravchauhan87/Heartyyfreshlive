@@ -12,21 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.OrderDetailActivity;
-import com.heartyy.heartyyfresh.OrdersActivity;
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.adapter.CustomCurrentOrderListAdapter;
 import com.heartyy.heartyyfresh.adapter.CustomPastOrderListAdapter;
-import com.heartyy.heartyyfresh.bean.CurrentOrderBean;
-import com.heartyy.heartyyfresh.bean.CurrentStoresBean;
 import com.heartyy.heartyyfresh.bean.PastOrderBean;
-import com.heartyy.heartyyfresh.bean.PastStoresBean;
 import com.heartyy.heartyyfresh.global.Global;
-import com.heartyy.heartyyfresh.utils.AppController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

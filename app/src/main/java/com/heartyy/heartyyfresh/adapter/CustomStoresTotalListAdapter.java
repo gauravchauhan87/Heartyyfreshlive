@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.facebook.appevents.AppEventsConstants;
 import com.heartyy.heartyyfresh.R;
 import com.heartyy.heartyyfresh.bean.StoresTotalPriceBean;
 import com.heartyy.heartyyfresh.utils.Fonts;
+
 import java.util.List;
 
 public class CustomStoresTotalListAdapter extends BaseAdapter {

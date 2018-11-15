@@ -11,10 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.bean.PaymentCardBean;
-import com.heartyy.heartyyfresh.bean.SearchItemsBean;
 import com.heartyy.heartyyfresh.bean.SearchTagBean;
-import com.heartyy.heartyyfresh.global.Global;
 import com.heartyy.heartyyfresh.utils.Fonts;
 
 import java.util.ArrayList;

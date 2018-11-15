@@ -138,7 +138,8 @@ public class CustomStoreListAdapter extends BaseAdapter {
         if (time.length > 2) {
             storeDeliveryTimeText.setText(" " + time[1] + " " + time[2]);
         } else {
-            storeDeliveryTimeText.setText(" " + time[1]);
+            if (time.length > 1)
+                storeDeliveryTimeText.setText(" " + time[1]);
         }
 
         priceMarkup.setText(data.getPriceMarkup());
@@ -166,11 +167,11 @@ public class CustomStoreListAdapter extends BaseAdapter {
 
         }
 
-        if(data.getComingSoon().equalsIgnoreCase("YES")){
+        if (data.getComingSoon().equalsIgnoreCase("YES")) {
             estimateLayout.setVisibility(View.GONE);
             rowView.setBackgroundColor(Color.parseColor("#F2F2F2"));
             priceMarkup.setText(data.getComingSoonMessage());
-        }else{
+        } else {
             estimateLayout.setVisibility(View.VISIBLE);
         }
 
@@ -178,7 +179,7 @@ public class CustomStoreListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if(data.getEstimatedCostBreakDownBean()!=null) {
+                if (data.getEstimatedCostBreakDownBean() != null) {
 
                     Intent intent = new Intent(context, DeliveryEstimateActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -200,9 +201,9 @@ public class CustomStoreListAdapter extends BaseAdapter {
                     editor.putString(Constants.SUPPLIER_ID, data.getSupplierId());
                     editor.putString(Constants.SUPPLIER_NAME, data.getSupplierName());
                     editor.putString(Constants.APPLICABLE_TAX_RATE, data.getApplicableTaxRate());
-                    editor.commit();
+                    editor.apply();
                     context.startActivity(intent);
-                }else{
+                } else {
                     showAlert(Constants.SERVER_ERROR);
                 }
             }

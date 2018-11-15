@@ -1,14 +1,12 @@
 package com.heartyy.heartyyfresh.fragment;
 
-import android.annotation.SuppressLint;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.heartyy.heartyyfresh.R;
-import com.heartyy.heartyyfresh.utils.AppController;
 
 public class NutritionFragment extends Fragment {
     @Override

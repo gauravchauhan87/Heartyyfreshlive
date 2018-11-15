@@ -37,7 +37,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-
 import com.heartyy.heartyyfresh.R;
 
 import java.util.ArrayList;
