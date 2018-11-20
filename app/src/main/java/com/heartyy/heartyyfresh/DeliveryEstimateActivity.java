@@ -59,6 +59,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.heartyy.heartyyfresh.utils.Constants.API_KEY;
+
 public class DeliveryEstimateActivity extends AppCompatActivity implements OnMapReadyCallback {
     TextView txtFrom, txtShopName, txtTo, txtZip, txtDist, txtMiles, txtTime, txtMins, txtBreakdown,
             txtChooseStore, txtChangeAdd, txtFuel, txtLabor, txtConvenience, txtEstimate, txtFuelAmt,
@@ -536,7 +538,7 @@ public class DeliveryEstimateActivity extends AppCompatActivity implements OnMap
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + sensor;
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&key=" + API_KEY;
 
         // Output format
         String output = "json";
