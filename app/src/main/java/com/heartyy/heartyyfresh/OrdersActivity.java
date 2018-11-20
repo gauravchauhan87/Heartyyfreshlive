@@ -87,7 +87,7 @@ public class OrdersActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         if(bundle!=null){
             past = bundle.getString("past");
-            Log.d("is past",past);
+            Log.d("is past",""+past);
         }
 
         ViewGroup root = (ViewGroup) findViewById(R.id.orders_main);
@@ -119,7 +119,7 @@ public class OrdersActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.d("response", jsonObject.toString());
+                        Log.d("response", ""+jsonObject.toString());
                         try {
                             String status = jsonObject.getString("status");
                             if (status.equalsIgnoreCase(Constants.SUCCESS)) {
